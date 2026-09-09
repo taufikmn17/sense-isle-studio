@@ -31,13 +31,13 @@ export default function PortfolioPage() {
               Sense Isle Studio.
             </p>
 
-            {/* Filter Buttons dengan gaya monokrom futuristik & tidak bold */}
-            <div className="flex justify-center gap-4 mt-8">
+            {/* Filter Buttons: Menggunakan flex-wrap agar turun ke bawah secara rapi di layar kecil */}
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mt-8">
               {["all", "residential", "commercial"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab as any)}
-                  className={`px-6 py-2 text-xs uppercase tracking-[0.2em] transition-all border ${
+                  className={`px-4 sm:px-6 py-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] transition-all border ${
                     activeTab === tab
                       ? "bg-white border-white text-black font-light"
                       : "border-zinc-800 bg-black/40 backdrop-blur-md text-zinc-300 hover:border-zinc-400 hover:text-white font-light"
