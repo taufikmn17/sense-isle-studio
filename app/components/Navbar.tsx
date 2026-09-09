@@ -7,14 +7,14 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 bg-black border-b border-zinc-800 px-4 md:px-8 py-2 w-full">
-      <div className="flex items-center justify-between w-full">
-        {/* Logo */}
-        <div className="flex items-center h-8 md:h-10 w-auto">
+    <nav className="sticky top-0 z-50 bg-black border-b border-zinc-800 px-5 sm:px-6 md:px-8 py-3 w-full">
+      <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
+        {/* Logo - Dikecilkan sedikit dari sebelumnya */}
+        <div className="flex items-center h-8 sm:h-9 md:h-10 w-auto">
           <Image
             src="/images/sis_logo.jpg"
             alt="Sense Isle Studio Logo"
-            width={200}
+            width={180}
             height={60}
             priority
             className="h-full w-auto object-contain"
@@ -22,7 +22,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8 text-xs font-light tracking-[0.2em] uppercase text-zinc-300">
+        <div className="hidden lg:flex items-center gap-7 text-xs font-light tracking-[0.2em] uppercase text-zinc-300">
           <a href="/" className="hover:text-white transition-colors">
             Home
           </a>
@@ -46,10 +46,10 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile & Tablet Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-zinc-300 focus:outline-none"
+          className="lg:hidden text-zinc-300 focus:outline-none p-1.5"
           aria-label="Toggle Menu"
         >
           <svg
@@ -77,28 +77,56 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile & Tablet Dropdown Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-black border-b border-zinc-800 py-4 px-4 md:px-8 flex flex-col gap-4 text-xs font-light tracking-[0.2em] uppercase text-zinc-300">
-          <a href="/" className="hover:text-white transition-colors">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-black border-b border-zinc-800 py-5 px-5 sm:px-6 flex flex-col gap-4 text-xs font-light tracking-[0.2em] uppercase text-zinc-300 shadow-2xl">
+          <a
+            href="/"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-white transition-colors"
+          >
             Home
           </a>
-          <a href="/portfolio" className="hover:text-white transition-colors">
+          <a
+            href="/portfolio"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-white transition-colors"
+          >
             Portfolio
           </a>
-          <a href="#" className="hover:text-white transition-colors">
+          <a
+            href="#"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-white transition-colors"
+          >
             Reviews
           </a>
-          <a href="#" className="hover:text-white transition-colors">
+          <a
+            href="#"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-white transition-colors"
+          >
             Services
           </a>
-          <a href="#" className="hover:text-white transition-colors">
+          <a
+            href="#"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-white transition-colors"
+          >
             Blog
           </a>
-          <a href="#" className="hover:text-white transition-colors">
+          <a
+            href="#"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-white transition-colors"
+          >
             About Us
           </a>
-          <a href="#" className="hover:text-white transition-colors">
+          <a
+            href="#"
+            onClick={() => setIsOpen(false)}
+            className="hover:text-white transition-colors"
+          >
             Contact
           </a>
         </div>
