@@ -46,10 +46,11 @@ export default function HomePortfolio() {
                 src={project.image}
                 alt={project.title}
                 fill
-                className="object-cover transition-transform duration-700 md:group-hover:scale-110 opacity-90 md:opacity-75 md:group-hover:opacity-100"
+                className="object-cover transition-transform duration-700 md:group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 w-full p-6">
+              {/* Gradient hanya di bagian bawah (setengah ke bawah) dengan tinggi h-2/3 atau h-1/2 */}
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
                   {project.category}
                 </span>
@@ -84,10 +85,11 @@ export default function HomePortfolio() {
                 src={project.image}
                 alt={project.title}
                 fill
-                className="object-cover transition-transform duration-700 md:group-hover:scale-110 opacity-90 md:opacity-75 md:group-hover:opacity-100"
+                className="object-cover transition-transform duration-700 md:group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 w-full p-6">
+              {/* Gradient hanya di bagian bawah (setengah ke bawah) */}
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
                 <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
                   {project.category}
                 </span>
