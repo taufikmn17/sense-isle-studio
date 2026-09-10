@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "../components/Navbar";
 import { portfolioData } from "../data/portfolioData";
+import Statistik from "./statistik/statistik"; // Sesuaikan jalur impor jika diperlukan
 
 export default function PortfolioPage() {
   const [activeTab, setActiveTab] = useState<
@@ -18,29 +18,31 @@ export default function PortfolioPage() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <Navbar />
-
-      <main className="flex-1 py-16 px-4 md:px-8 w-full">
+      <main className="flex-1 py-16 px-4 md:px-8 w-full max-w-7xl mx-auto">
         <div className="w-full">
+          {/* Header Section */}
           <div className="text-center mb-12">
             <h1 className="text-3xl md:text-5xl font-light tracking-[0.25em] uppercase mb-4 text-white">
               Our Portfolio
             </h1>
-            <p className="text-zinc-300 text-sm md:text-base max-w-2xl mx-auto font-light tracking-[0.15em]">
+            <p className="text-zinc-300 text-sm md:text-base max-w-2xl mx-auto font-light tracking-[0.15em] mb-12">
               Complete collection of architecture and interior design works by
               Sense Isle Studio.
             </p>
 
-            {/* Filter Buttons: Menggunakan flex-wrap agar turun ke bawah secara rapi di layar kecil */}
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mt-8">
+            {/* Komponen Statistik Terpisah dengan Efek Hitung */}
+            <Statistik />
+
+            {/* Filter Buttons */}
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
               {["all", "residential", "commercial"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab as any)}
-                  className={`px-4 sm:px-6 py-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] transition-all border ${
+                  className={`px-4 sm:px-6 py-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] transition-all border rounded-lg ${
                     activeTab === tab
                       ? "bg-white border-white text-black font-light"
-                      : "border-zinc-800 bg-black/40 backdrop-blur-md text-zinc-300 hover:border-zinc-400 hover:text-white font-light"
+                      : "border-zinc-500 bg-black/40 backdrop-blur-md text-zinc-300 hover:border-white hover:text-white font-light"
                   }`}
                 >
                   {tab}
@@ -49,7 +51,7 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          {/* Grid Portofolio dengan gaya font tipis dan futuristik */}
+          {/* Grid Portofolio */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {filteredProjects.map((project) => (
               <Link

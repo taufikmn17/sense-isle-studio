@@ -20,7 +20,7 @@ export const portfolioData: PortfolioItem[] = [
     location: "Jakarta, Indonesia",
     year: "2025",
     description:
-      "A luxury modern tropical residence combining natural wood elements and exposed concrete structures[cite: 1].",
+      "A luxury modern tropical residence combining natural wood elements and exposed concrete structures.",
     purpose:
       "Delivering an eco-friendly private dwelling with optimal airflow and natural lighting.",
   },
@@ -33,7 +33,7 @@ export const portfolioData: PortfolioItem[] = [
     location: "Bali, Indonesia",
     year: "2024",
     description:
-      "An exclusive resort villa design blending harmoniously with the green landscape[cite: 1].",
+      "An exclusive resort villa design blending harmoniously with the green landscape.",
     purpose:
       "Creating a tranquil, private sanctuary fully integrated with tropical nature.",
   },
@@ -46,7 +46,7 @@ export const portfolioData: PortfolioItem[] = [
     location: "Lombok, Indonesia",
     year: "2025",
     description:
-      "A beachfront coastal home with large panoramic glass openings[cite: 1].",
+      "A beachfront coastal home with large panoramic glass openings.",
     purpose:
       "Maximizing visual connection to the open sea while providing resilience against the coastal climate.",
   },
@@ -59,7 +59,7 @@ export const portfolioData: PortfolioItem[] = [
     location: "Surabaya, Indonesia",
     year: "2023",
     description:
-      "A minimalist urban residential architectural masterpiece with modern geometric facade details[cite: 1].",
+      "A minimalist urban residential architectural masterpiece with modern geometric facade details.",
     purpose:
       "Showcasing elegant contemporary urban aesthetics and optimizing spatial function on a limited plot.",
   },
@@ -168,7 +168,7 @@ export const portfolioData: PortfolioItem[] = [
       "Showcasing bold architectural statements while delivering comfortable, acoustic-controlled living.",
   },
 
-  // --- COMMERCIAL (8 Items) ---
+  // --- COMMERCIAL (12 Items) ---
   {
     id: "krisna-retail",
     title: "KRISNA RETAIL",
@@ -178,7 +178,7 @@ export const portfolioData: PortfolioItem[] = [
     location: "Bali, Indonesia",
     year: "2025",
     description:
-      "A modern commercial shopping center with an artistic facade and natural lighting[cite: 1].",
+      "A modern commercial shopping center with an artistic facade and natural lighting.",
     purpose:
       "Providing a comfortable, dynamic shopping experience that attracts commercial visitors.",
   },
@@ -191,7 +191,7 @@ export const portfolioData: PortfolioItem[] = [
     location: "Bali, Indonesia",
     year: "2024",
     description:
-      "A large-scale iconic commercial lifestyle destination serving as a hub for tourist crowds[cite: 1].",
+      "A large-scale iconic commercial lifestyle destination serving as a hub for tourist crowds.",
     purpose:
       "Providing an integrated commercial public space supporting lifestyle and tourism activities.",
   },
@@ -204,7 +204,7 @@ export const portfolioData: PortfolioItem[] = [
     location: "Yogyakarta, Indonesia",
     year: "2024",
     description:
-      "An aesthetic art gallery and restaurant area featuring an organic curved roof[cite: 1].",
+      "An aesthetic art gallery and restaurant area featuring an organic curved roof.",
     purpose:
       "Combining art exhibition and culinary spaces within a warm and inspiring architectural atmosphere.",
   },
@@ -217,7 +217,7 @@ export const portfolioData: PortfolioItem[] = [
     location: "Jakarta, Indonesia",
     year: "2023",
     description:
-      "A skyscraper office building with futuristic workspace interiors[cite: 1].",
+      "A skyscraper office building with futuristic workspace interiors.",
     purpose:
       "Building a high-standard professional work environment that supports business efficiency and collaboration.",
   },
@@ -272,5 +272,57 @@ export const portfolioData: PortfolioItem[] = [
       "A sustainable corporate headquarters featuring smart energy-saving glass curtain facades.",
     purpose:
       "Achieving net-zero operational efficiency while projecting corporate prestige and authority.",
+  },
+  {
+    id: "vortex-mall",
+    title: "VORTEX MALL",
+    category: "commercial",
+    image:
+      "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?q=80&w=1000&auto=format&fit=crop",
+    location: "Tangerang, Indonesia",
+    year: "2025",
+    description:
+      "A next-generation retail and entertainment complex centered around an open-air amphitheater.",
+    purpose:
+      "Providing an immersive communal lifestyle destination that merges indoor retail with natural outdoor open spaces.",
+  },
+  {
+    id: "metro-square",
+    title: "METRO SQUARE",
+    category: "commercial",
+    image:
+      "https://images.unsplash.com/photo-1444723121867-7a241cacace9?q=80&w=1000&auto=format&fit=crop",
+    location: "Bekasi, Indonesia",
+    year: "2024",
+    description:
+      "A mixed-use commercial hub featuring streamlined retail podiums and dynamic architectural lighting.",
+    purpose:
+      "Maximizing commercial leasing yield while offering pedestrian-friendly zones for urban shoppers.",
+  },
+  {
+    id: "solana-cafe-space",
+    title: "SOLANA SPACE",
+    category: "commercial",
+    image:
+      "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1000&auto=format&fit=crop",
+    location: "Bali, Indonesia",
+    year: "2023",
+    description:
+      "A bohemian-industrial culinary compound featuring open bamboo structures and sunken dining pods.",
+    purpose:
+      "Creating an Instagram-worthy culinary destination optimized for tropical climate dining and social engagement.",
+  },
+  {
+    id: "pinnacle-suites",
+    title: "PINNACLE SUITES",
+    category: "commercial",
+    image:
+      "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1000&auto=format&fit=crop",
+    location: "Surabaya, Indonesia",
+    year: "2025",
+    description:
+      "A boutique business hotel tower integrating vertical sky gardens on every third guest floor.",
+    purpose:
+      "Redefining urban hospitality architecture by combining luxury business accommodation with biophilic design principles.",
   },
 ];

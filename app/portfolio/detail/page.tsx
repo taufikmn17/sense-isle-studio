@@ -5,7 +5,6 @@ import { portfolioData } from "../../data/portfolioData";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense, useRef } from "react";
-import Navbar from "../../components/Navbar";
 
 function DetailContent() {
   const searchParams = useSearchParams();
@@ -48,7 +47,6 @@ function DetailContent() {
   if (!project) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col">
-        <Navbar />
         <main className="flex-1 flex items-center justify-center px-4 md:px-8 py-20 text-center">
           <h1 className="text-2xl font-light tracking-[0.2em] uppercase mb-4 text-white">
             Proyek tidak ditemukan
@@ -66,8 +64,6 @@ function DetailContent() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <Navbar />
-
       {/* Padding container utama disamakan dengan navbar: px-4 md:px-8 */}
       <main className="flex-1 px-4 md:px-8 py-16 w-full">
         <div className="w-full">

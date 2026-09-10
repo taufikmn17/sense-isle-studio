@@ -104,7 +104,7 @@ export default function HomePortfolio() {
       <div className="text-center mt-12">
         <Link
           href="/portfolio"
-          className="inline-block px-8 py-4 border border-zinc-700 bg-black/40 backdrop-blur-md text-xs uppercase tracking-[0.2em] text-zinc-100 hover:border-white hover:text-white transition-all duration-300 font-light"
+          className="inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black text-white text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
         >
           View All Portfolio
         </Link>

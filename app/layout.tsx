@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Geist_Mono } from "next/font/google";
+import Navbar from "@/app/components/Navbar"; // Sesuaikan jalur foldernya jika berbeda
+import WhatsAppFloat from "@/app/components/WhatsAppFloat";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -27,7 +29,16 @@ export default function RootLayout({
       lang="en"
       className={`${montserrat.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-black text-white">
+        {/* Navbar tampil di semua halaman */}
+        <Navbar />
+
+        {/* Konten halaman yang sedang dibuka (Home, Portfolio, dll) */}
+        <main className="flex-grow">{children}</main>
+
+        {/* Tombol WhatsApp mengapung di semua halaman */}
+        <WhatsAppFloat />
+      </body>
     </html>
   );
 }
