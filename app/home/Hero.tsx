@@ -99,38 +99,38 @@ export default function Hero() {
       </div>
 
       {/* Konten Utama: Sisi Kiri (Judul) & Sisi Kanan (Kategori Vertikal) */}
-      <div className="relative z-30 w-full max-w-7xl mx-auto flex flex-row items-center justify-between gap-2 sm:gap-8 pt-12 pb-16">
+      <div className="relative z-30 w-full max-w-7xl mx-auto flex flex-row items-center justify-between gap-3 sm:gap-8 pt-12 pb-16">
         {/* Sisi Kiri: Judul dan Keterangan */}
-        <div className="flex flex-col items-start text-left max-w-xl transition-all duration-500 ease-in-out flex-1 min-w-0 pr-2">
-          <span className="text-[9px] sm:text-xs md:text-sm font-light tracking-[0.15em] sm:tracking-[0.25em] uppercase text-zinc-300 mb-1.5 sm:mb-3 drop-shadow truncate w-full">
+        <div className="flex flex-col items-start text-left max-w-xl transition-all duration-500 ease-in-out flex-1 min-w-0 pr-1 sm:pr-2">
+          <span className="text-[8px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.25em] uppercase text-zinc-300 mb-1 sm:mb-3 drop-shadow whitespace-normal">
             {currentSlide.category}
           </span>
-          <h1 className="text-xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.1em] sm:tracking-[0.15em] uppercase text-white drop-shadow-lg mb-2 sm:mb-4 break-words w-full">
+          <h1 className="text-lg sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.08em] sm:tracking-[0.15em] uppercase text-white drop-shadow-lg mb-1.5 sm:mb-4 break-words w-full">
             {currentSlide.title}
           </h1>
-          <p className="text-[10px] sm:text-xs md:text-sm font-light tracking-[0.12em] sm:tracking-[0.2em] text-zinc-300 uppercase mb-4 sm:mb-8 drop-shadow truncate w-full">
+          <p className="text-[9px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.2em] text-zinc-300 uppercase mb-3 sm:mb-8 drop-shadow whitespace-normal">
             {currentSlide.subtitle}
           </p>
           <a
             href={currentSlide.buttonLink}
-            className="px-4 py-2 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black text-white text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
+            className="px-3.5 py-1.5 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black text-white text-[9px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
           >
             {currentSlide.buttonText}
           </a>
         </div>
 
-        {/* Sisi Kanan: Kategori Vertikal dengan Lebar Sama & Teks Rata Kanan */}
-        <div className="flex flex-col items-end gap-1.5 sm:gap-3 shrink-0 w-[210px] sm:w-[280px]">
-          <div className="w-full py-1.5 sm:py-2.5 px-3 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[8px] sm:text-xs uppercase tracking-[0.08em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right whitespace-nowrap">
+        {/* Sisi Kanan: Kategori Vertikal (Tetap Muncul di Mobile dengan Ukuran Proporsional) */}
+        <div className="flex flex-col items-end gap-1 sm:gap-3 shrink-0 w-[140px] sm:w-[280px]">
+          <div className="w-full py-1 sm:py-2.5 px-2 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[7px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right truncate">
             Architecture Services
           </div>
-          <div className="w-full py-1.5 sm:py-2.5 px-3 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[8px] sm:text-xs uppercase tracking-[0.08em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right whitespace-nowrap">
+          <div className="w-full py-1 sm:py-2.5 px-2 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[7px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right truncate">
             Interior Design
           </div>
-          <div className="w-full py-1.5 sm:py-2.5 px-3 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[8px] sm:text-xs uppercase tracking-[0.08em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right whitespace-nowrap">
+          <div className="w-full py-1 sm:py-2.5 px-2 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[7px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right truncate">
             Home & Office Renovation
           </div>
-          <div className="w-full py-1.5 sm:py-2.5 px-3 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[8px] sm:text-xs uppercase tracking-[0.08em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right whitespace-nowrap">
+          <div className="w-full py-1 sm:py-2.5 px-2 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[7px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right truncate">
             Custom-Built Furniture
           </div>
         </div>
@@ -170,7 +170,7 @@ export default function Hero() {
                 className={`h-[2px] cursor-pointer transition-all duration-500 ${
                   currentIndex === index
                     ? "w-full bg-white"
-                    : "w-full bg-white/30"
+                    : "w-full bg-white/35"
                 }`}
               />
             ))}
