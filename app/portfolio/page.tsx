@@ -63,7 +63,7 @@ export default function PortfolioPage() {
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-75 group-hover:opacity-100"
+                  className="object-cover transition-transform duration-700 md:group-hover:scale-110 opacity-90 md:opacity-75 md:group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 w-full p-6">
