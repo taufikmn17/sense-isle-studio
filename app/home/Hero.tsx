@@ -75,7 +75,7 @@ export default function Hero() {
   const currentSlide = slides[currentIndex];
 
   return (
-    <header className="relative w-full h-[calc(100vh-theme(spacing.16))] min-h-[550px] flex flex-col justify-center px-3 sm:px-8 md:px-16 overflow-hidden">
+    <header className="relative w-full h-auto min-h-[650px] lg:min-h-[calc(100vh-theme(spacing.16))] flex flex-col justify-center px-4 sm:px-8 md:px-16 py-12 overflow-hidden">
       {/* Background Images Slider */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {slides.map((slide, index) => (
@@ -98,47 +98,57 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/20 z-20" />
       </div>
 
-      {/* Konten Utama: Sisi Kiri (Judul) & Sisi Kanan (Kategori Vertikal) */}
-      <div className="relative z-30 w-full max-w-7xl mx-auto flex flex-row items-center justify-between gap-3 sm:gap-8 pt-12 pb-16">
+      {/* Konten Utama */}
+      <div className="relative z-30 w-full max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-stretch justify-between gap-10 pt-6 pb-24">
         {/* Sisi Kiri: Judul dan Keterangan */}
-        <div className="flex flex-col items-start text-left max-w-xl transition-all duration-500 ease-in-out flex-1 min-w-0 pr-1 sm:pr-2">
-          <span className="text-[8px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.25em] uppercase text-zinc-300 mb-1 sm:mb-3 drop-shadow whitespace-normal">
-            {currentSlide.category}
-          </span>
-          <h1 className="text-lg sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-[0.08em] sm:tracking-[0.15em] uppercase text-white drop-shadow-lg mb-1.5 sm:mb-4 break-words w-full">
-            {currentSlide.title}
-          </h1>
-          <p className="text-[9px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.2em] text-zinc-300 uppercase mb-3 sm:mb-8 drop-shadow whitespace-normal">
-            {currentSlide.subtitle}
-          </p>
-          <a
-            href={currentSlide.buttonLink}
-            className="px-3.5 py-1.5 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black text-white text-[9px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
-          >
-            {currentSlide.buttonText}
-          </a>
+        <div className="flex flex-col justify-start lg:justify-between text-left max-w-2xl transition-all duration-500 ease-in-out w-full lg:flex-1 min-w-0 gap-6 lg:gap-0">
+          <div>
+            <span className="text-[10px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.25em] uppercase text-zinc-300 mb-2 sm:mb-3 drop-shadow whitespace-normal block">
+              {currentSlide.category}
+            </span>
+            {/* Ukuran font mobile dinaikkan dari text-xl ke text-2xl / text-3xl agar lebih proporsional */}
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-[0.05em] sm:tracking-[0.1em] uppercase text-white drop-shadow-lg mb-2 sm:mb-4 leading-tight w-full">
+              {currentSlide.title}
+            </h1>
+            <p className="text-[10px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.2em] text-zinc-300 uppercase drop-shadow whitespace-normal">
+              {currentSlide.subtitle}
+            </p>
+          </div>
+          <div>
+            <a
+              href={currentSlide.buttonLink}
+              className="inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black text-white text-[10px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
+            >
+              {currentSlide.buttonText}
+            </a>
+          </div>
         </div>
 
-        {/* Sisi Kanan: Kategori Vertikal (Tetap Muncul di Mobile dengan Ukuran Proporsional) */}
-        <div className="flex flex-col items-end gap-1 sm:gap-3 shrink-0 w-[140px] sm:w-[280px]">
-          <div className="w-full py-1 sm:py-2.5 px-2 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[7px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right truncate">
-            Architecture Services
-          </div>
-          <div className="w-full py-1 sm:py-2.5 px-2 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[7px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right truncate">
-            Interior Design
-          </div>
-          <div className="w-full py-1 sm:py-2.5 px-2 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[7px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right truncate">
-            Home & Office Renovation
-          </div>
-          <div className="w-full py-1 sm:py-2.5 px-2 sm:px-4 rounded-md sm:rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[7px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-right truncate">
-            Custom-Built Furniture
+        {/* Sisi Kanan: Judul Our Services & Kategori Vertikal */}
+        <div className="flex flex-col justify-start lg:justify-between items-start lg:items-end shrink-0 w-full lg:w-[280px] gap-3 lg:gap-0">
+          <h3 className="text-xs sm:text-sm md:text-base font-light uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white mb-2 lg:mb-1 text-left lg:text-right w-full">
+            Our Services
+          </h3>
+
+          <div className="flex flex-col w-full gap-2.5">
+            <div className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[10px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-left lg:text-right">
+              Architecture Services
+            </div>
+            <div className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[10px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-left lg:text-right">
+              Interior Design
+            </div>
+            <div className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[10px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-left lg:text-right">
+              Home & Office Renovation
+            </div>
+            <div className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[10px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-left lg:text-right">
+              Custom-Built Furniture
+            </div>
           </div>
         </div>
       </div>
 
       {/* Bagian Bawah Tengah: Tombol Geser Kiri, Indikator Progress, & Tombol Geser Kanan */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-4 sm:gap-6 text-white">
-        {/* Tombol Geser Kiri */}
         <button
           onClick={prevSlide}
           className="p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-zinc-800 transition"
@@ -159,7 +169,6 @@ export default function Hero() {
           </svg>
         </button>
 
-        {/* Indikator Angka & Progress Bar */}
         <div className="flex items-center gap-3 text-[10px] sm:text-xs tracking-widest">
           <span>{String(currentIndex + 1).padStart(2, "0")}</span>
           <div className="flex gap-1 w-24 sm:w-32">
@@ -178,7 +187,6 @@ export default function Hero() {
           <span>{String(slides.length).padStart(2, "0")}</span>
         </div>
 
-        {/* Tombol Geser Kanan */}
         <button
           onClick={nextSlide}
           className="p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-zinc-800 transition"

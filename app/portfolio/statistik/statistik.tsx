@@ -10,9 +10,8 @@ interface StatItem {
 
 const stats: StatItem[] = [
   { value: 450, suffix: "+", label: "Proyek" },
-  { value: 6, suffix: "", label: "Negara" },
   { value: 16, suffix: "+", label: "Tahun" },
-  { value: 4, suffix: "", label: "Penghargaan" },
+  { value: 100, suffix: "%", label: "SATISFIED CLIENT" },
 ];
 
 export default function Statistik() {
@@ -64,21 +63,15 @@ export default function Statistik() {
   return (
     <div
       ref={sectionRef}
-      className="grid grid-cols-2 md:grid-cols-4 gap-6 py-8 px-6 mb-12 rounded-xl border border-zinc-500 bg-zinc-950/60 backdrop-blur-md max-w-4xl mx-auto"
+      className="grid grid-cols-1 md:grid-cols-3 gap-6 py-8 px-6 mb-12 rounded-xl border border-zinc-500 bg-zinc-950/60 backdrop-blur-md max-w-4xl mx-auto"
     >
       {stats.map((stat, index) => (
         <div
           key={index}
           className={`flex flex-col items-center justify-center pb-6 md:pb-0 pt-2 md:pt-0 ${
-            // Item 0 (Proyek): Border bawah (mobile) & Border kanan (desktop)
-            index === 0
+            // Item 0 & 1: Border bawah di mobile, border kanan di desktop (kecuali item terakhir)
+            index < stats.length - 1
               ? "border-b border-zinc-500 md:border-b-0 md:border-r"
-              : // Item 1 (Negara): Border bawah (mobile) & Border kanan (desktop)
-              index === 1
-              ? "border-b border-zinc-500 md:border-b-0 md:border-r"
-              : // Item 2 (Tahun): Hanya border kanan di desktop (di mobile tidak ada bawah karena item 3 di sebelah kanannya)
-              index === 2
-              ? "md:border-r border-zinc-500"
               : ""
           }`}
         >
