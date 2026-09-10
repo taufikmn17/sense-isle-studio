@@ -95,7 +95,7 @@ export default function Hero() {
           </div>
         ))}
         {/* Overlay Gelap Tipis */}
-        <div className="absolute inset-0 bg-black/30 z-20" />
+        <div className="absolute inset-0 bg-black/20 z-20" />
       </div>
 
       {/* Konten Utama: Sisi Kiri (Judul) & Sisi Kanan (Kategori Vertikal) */}
