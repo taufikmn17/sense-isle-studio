@@ -9,9 +9,9 @@ interface StatItem {
 }
 
 const stats: StatItem[] = [
-  { value: 450, suffix: "+", label: "Proyek" },
-  { value: 16, suffix: "+", label: "Tahun" },
-  { value: 100, suffix: "%", label: "SATISFIED CLIENT" },
+  { value: 600, suffix: "+", label: "Proyek" },
+  { value: 26, suffix: "+", label: "Tahun" },
+  { value: 590, suffix: "+", label: "SATISFIED CLIENT" },
 ];
 
 export default function Statistik() {

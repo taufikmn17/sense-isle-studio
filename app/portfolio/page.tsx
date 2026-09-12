@@ -1,85 +1,48 @@
-"use client";
+import PortfolioClient from "./PortfolioClient";
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { portfolioData } from "../data/portfolioData";
-import Statistik from "./statistik/statistik"; // Sesuaikan jalur impor jika diperlukan
+interface PortfolioItem {
+  id: string | number;
+  title: string;
+  category: string;
+  image: string;
+  location: string;
+  year: string | number;
+  description: string;
+  purpose: string;
+}
 
-export default function PortfolioPage() {
-  const [activeTab, setActiveTab] = useState<
-    "all" | "residential" | "commercial"
-  >("all");
+// Fungsi Fetch data dengan ISR (revalidate setiap 60 detik)
+async function getPortfolioData(): Promise<PortfolioItem[]> {
+  const WEB_APP_URL = process.env.NEXT_PUBLIC_APPS_SCRIPT_URL;
 
-  const filteredProjects =
-    activeTab === "all"
-      ? portfolioData
-      : portfolioData.filter((item) => item.category === activeTab);
+  if (!WEB_APP_URL) {
+    console.error("URL Apps Script belum disetel di environment variable!");
+    return [];
+  }
+
+  try {
+    const res = await fetch(WEB_APP_URL, {
+      next: { revalidate: 60 }, // ISR: Update cache setiap 60 detik di background
+    });
+
+    if (!res.ok) {
+      throw new Error("Gagal mengambil data portfolio dari Google Sheets");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching portfolio:", error);
+    return [];
+  }
+}
+
+export default async function PortfolioPage() {
+  const portfolioData = await getPortfolioData();
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <main className="flex-1 py-16 px-4 md:px-8 w-full max-w-7xl mx-auto">
-        <div className="w-full">
-          {/* Header Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-5xl font-light tracking-[0.25em] uppercase mb-4 text-white">
-              Our Portfolio
-            </h1>
-            <p className="text-zinc-300 text-sm md:text-base max-w-2xl mx-auto font-light tracking-[0.15em] mb-12">
-              Complete collection of architecture and interior design works by
-              Sense Isle Studio.
-            </p>
-
-            {/* Komponen Statistik Terpisah dengan Efek Hitung */}
-            <Statistik />
-
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
-              {["all", "residential", "commercial"].map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab as any)}
-                  className={`px-4 sm:px-6 py-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] transition-all border rounded-lg ${
-                    activeTab === tab
-                      ? "bg-white border-white text-black font-light"
-                      : "border-zinc-500 bg-black/40 backdrop-blur-md text-zinc-300 hover:border-white hover:text-white font-light"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Grid Portofolio */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {filteredProjects.map((project) => (
-              <Link
-                key={project.id}
-                href={`/portfolio/detail?id=${project.id}`}
-                className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
-              >
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-700 md:group-hover:scale-110"
-                />
-                {/* Gradient hanya di bagian bawah (setengah ke bawah) */}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                  <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
-                    {project.category}
-                  </span>
-                  <h3 className="text-base md:text-lg font-light tracking-[0.15em] text-white">
-                    {project.title}
-                  </h3>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </main>
+      {/* Mengoper data hasil Server-Side/ISR ke Client Component untuk interaksi filter */}
+      <PortfolioClient data={portfolioData} />
     </div>
   );
 }
