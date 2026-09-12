@@ -16,7 +16,7 @@ interface PortfolioItem {
 }
 
 async function getPortfolioDetail(id: string): Promise<PortfolioItem | null> {
-  const WEB_APP_URL = process.env.NEXT_PUBLIC_APPS_SCRIPT_URL;
+  const WEB_APP_URL = process.env.APPS_SCRIPT_URL;
 
   if (!WEB_APP_URL) {
     console.error("URL Apps Script belum disetel di environment variable!");

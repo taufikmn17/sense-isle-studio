@@ -13,7 +13,7 @@ interface PortfolioItem {
 
 // Fungsi Fetch data dengan ISR (revalidate setiap 60 detik)
 async function getPortfolioData(): Promise<PortfolioItem[]> {
-  const WEB_APP_URL = process.env.NEXT_PUBLIC_APPS_SCRIPT_URL;
+  const WEB_APP_URL = process.env.APPS_SCRIPT_URL;
 
   if (!WEB_APP_URL) {
     console.error("URL Apps Script belum disetel di environment variable!");
