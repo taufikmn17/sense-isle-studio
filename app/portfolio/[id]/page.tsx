@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { notFound } from "next/navigation";
-import ImageGallery from "./ImageGallery"; // Komponen interaktif untuk galeri
+import ImageGallery from "./ImageGallery";
 
 interface PortfolioItem {
   id: string | number;
@@ -53,7 +52,25 @@ export default async function PortfolioDetailServer({ params }: PageProps) {
   const project = await getPortfolioDetail(resolvedParams.id);
 
   if (!project) {
-    notFound();
+    return (
+      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center px-4">
+        <div className="text-center py-20">
+          <p className="text-zinc-400 text-sm tracking-[0.15em] uppercase font-light mb-4">
+            Failed to load portfolio detail.
+          </p>
+          <a
+            href=""
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.reload();
+            }}
+            className="inline-block px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black transition-colors"
+          >
+            Reload Page
+          </a>
+        </div>
+      </div>
+    );
   }
 
   const projectImages = [project.image, project.image2, project.image3].filter(

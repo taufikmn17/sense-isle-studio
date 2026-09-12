@@ -195,6 +195,23 @@ export default async function HomePortfolio() {
         </div>
       )}
 
+      {/* Jika semua kategori kosong (gagal load / belum ada data) */}
+      {residentialProjects.length === 0 &&
+        commercialProjects.length === 0 &&
+        hospitalityProjects.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-zinc-400 text-sm tracking-[0.15em] uppercase font-light mb-4">
+              Failed to load.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black transition-colors"
+            >
+              Reload Page
+            </button>
+          </div>
+        )}
+
       {/* Tombol View All di Tengah Bawah */}
       <div className="text-center mt-12">
         <Link

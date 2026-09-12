@@ -92,31 +92,45 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
         </div>
 
         {/* Grid Portofolio (Urut dari terbaru) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {filteredProjects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/portfolio/${project.id}`} // <--- Ubah bagian ini agar sesuai dengan rute dinamis [id]
-              className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
+        {filteredProjects.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {filteredProjects.map((project) => (
+              <Link
+                key={project.id}
+                href={`/portfolio/${project.id}`}
+                className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
+              >
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-700 md:group-hover:scale-110"
+                />
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-full p-6 z-10">
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
+                    {project.category}
+                  </span>
+                  <h3 className="text-base md:text-lg font-light tracking-[0.15em] text-white">
+                    {project.title}
+                  </h3>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <p className="text-zinc-400 text-sm tracking-[0.15em] uppercase font-light mb-4">
+              Failed to load.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black transition-colors"
             >
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover transition-transform duration-700 md:group-hover:scale-110"
-              />
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
-                  {project.category}
-                </span>
-                <h3 className="text-base md:text-lg font-light tracking-[0.15em] text-white">
-                  {project.title}
-                </h3>
-              </div>
-            </Link>
-          ))}
-        </div>
+              Reload Page
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );
