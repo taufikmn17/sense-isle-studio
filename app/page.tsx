@@ -1,5 +1,5 @@
 import Hero from "@/app/home/Hero";
-import Portofolio from "@/app/home/Portfolio";
+import Portofolio from "@/app/home/HomePortfolio";
 
 export default function Home() {
   return (
