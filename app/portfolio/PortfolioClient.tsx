@@ -4,20 +4,16 @@ import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Statistik from "./statistik/statistik";
-
-interface PortfolioItem {
-  id: string | number;
-  title: string;
-  category: string;
-  image: string;
-  location: string;
-  year: string | number;
-  description: string;
-  purpose: string;
-}
+import { PortfolioItem } from "@/services/portfolioService"; // <-- Import tipe data dari service
 
 interface PortfolioClientProps {
   data: PortfolioItem[];
+}
+
+const FALLBACK_IMAGE = "/images/portfolio-placeholder.jpg";
+
+function safeImageSrc(item: PortfolioItem): string {
+  return item.image && item.image.length > 0 ? item.image : FALLBACK_IMAGE;
 }
 
 export default function PortfolioClient({ data }: PortfolioClientProps) {
@@ -26,16 +22,13 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
   // 1. Urutkan data secara otomatis dari yang terbaru (ID terbesar / Tahun terbaru)
   const sortedData = useMemo(() => {
     return [...data].sort((a, b) => {
-      // Mengurutkan berdasarkan ID secara descending (terbaru/besar di atas)
-      // Jika ID Anda berupa angka atau string angka (misal: 6, 5, 1)
       const idA = Number(a.id) || 0;
       const idB = Number(b.id) || 0;
 
       if (idA !== idB) {
-        return idB - idA; // Descending (terbesar/terbaru di atas)
+        return idB - idA;
       }
 
-      // Cadangan: Jika ID sama, urutkan berdasarkan tahun terbaru
       return Number(b.year || 0) - Number(a.year || 0);
     });
   }, [data]);
@@ -96,13 +89,13 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {filteredProjects.map((project) => (
               <Link
-                key={project.id}
-                href={`/portfolio/${project.id}`}
+                key={String(project.id)}
+                href={`/portfolio/${encodeURIComponent(String(project.id))}`}
                 className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
               >
                 <Image
-                  src={project.image}
-                  alt={project.title}
+                  src={safeImageSrc(project)}
+                  alt={project.title || "Portfolio project"}
                   fill
                   className="object-cover transition-transform duration-700 md:group-hover:scale-110"
                 />

@@ -1,45 +1,5 @@
-import Image from "next/image";
 import ImageGallery from "./ImageGallery";
-
-interface PortfolioItem {
-  id: string | number;
-  title: string;
-  category: string;
-  image: string;
-  image2?: string;
-  image3?: string;
-  location: string;
-  year: string | number;
-  description: string;
-  purpose: string;
-}
-
-async function getPortfolioDetail(id: string): Promise<PortfolioItem | null> {
-  const WEB_APP_URL = process.env.APPS_SCRIPT_URL;
-
-  if (!WEB_APP_URL) {
-    console.error("URL Apps Script belum disetel di environment variable!");
-    return null;
-  }
-
-  try {
-    const res = await fetch(WEB_APP_URL, {
-      next: { revalidate: 60 },
-    });
-
-    if (!res.ok) {
-      throw new Error("Gagal mengambil data portfolio dari Google Sheets");
-    }
-
-    const data: PortfolioItem[] = await res.json();
-    const found = data.find((item) => String(item.id) === String(id));
-
-    return found || null;
-  } catch (error) {
-    console.error("Error fetching portfolio detail:", error);
-    return null;
-  }
-}
+import { getPortfolioById } from "@/services/portfolioService"; // <-- Import dari service
 
 interface PageProps {
   params: Promise<{
@@ -49,7 +9,11 @@ interface PageProps {
 
 export default async function PortfolioDetailServer({ params }: PageProps) {
   const resolvedParams = await params;
-  const project = await getPortfolioDetail(resolvedParams.id);
+  // Langsung panggil fungsi dari service untuk mencari data berdasarkan ID.
+  // `getPortfolioById` sudah bekerja di atas data yang telah divalidasi skema
+  // (lihat portfolioService.ts), jadi seluruh field di bawah ini dijamin
+  // bertipe string sesuai PortfolioItemSchema.
+  const project = await getPortfolioById(resolvedParams.id);
 
   if (!project) {
     return (
@@ -59,7 +23,7 @@ export default async function PortfolioDetailServer({ params }: PageProps) {
             Failed to load portfolio detail.
           </p>
           <a
-            href=""
+            href="#"
             onClick={(e) => {
               e.preventDefault();
               window.location.reload();
@@ -132,7 +96,7 @@ export default async function PortfolioDetailServer({ params }: PageProps) {
               Project Overview
             </h3>
             <div className="font-light tracking-[0.05em] text-zinc-300 space-y-4 text-justify">
-              {project.description ? (
+              {project.description && project.description.trim() !== "" ? (
                 project.description
                   .split(/\r?\n+/)
                   .map((paragraph, index) =>

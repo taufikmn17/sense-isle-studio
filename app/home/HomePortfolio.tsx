@@ -1,44 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  getPortfolioData,
+  PortfolioItem,
+} from "../../services/portfolioService"; // <-- Import dari service
 
-interface PortfolioItem {
-  id: string | number;
-  title: string;
-  category: string;
-  image: string;
-  location: string;
-  year: string | number;
-  description: string;
-  purpose: string;
-}
+// Fallback lokal (statis, aman) jika suatu item lolos validasi tapi
+// field image kosong/tidak diisi di sheet - mencegah <Image> menerima
+// src kosong yang bisa memicu error render.
+const FALLBACK_IMAGE = "/images/portfolio-placeholder.jpg";
 
-// Fungsi fetch data dengan ISR (revalidate setiap 60 detik)
-async function getPortfolioData(): Promise<PortfolioItem[]> {
-  const WEB_APP_URL = process.env.APPS_SCRIPT_URL;
-
-  if (!WEB_APP_URL) {
-    console.error("URL Apps Script belum disetel di environment variable!");
-    return [];
-  }
-
-  try {
-    const res = await fetch(WEB_APP_URL, {
-      next: { revalidate: 60 },
-    });
-
-    if (!res.ok) {
-      throw new Error("Gagal mengambil data portfolio dari Google Sheets");
-    }
-
-    return await res.json();
-  } catch (error) {
-    console.error("Error fetching home portfolio:", error);
-    return [];
-  }
+function safeImageSrc(item: PortfolioItem): string {
+  return item.image && item.image.length > 0 ? item.image : FALLBACK_IMAGE;
 }
 
 export default async function HomePortfolio() {
-  const data = await getPortfolioData();
+  const data = await getPortfolioData(); // <-- Sudah divalidasi skema di service layer
 
   // Urutkan dari yang terbaru (ID terbesar / Tahun terbaru)
   const sortedData = [...data].sort((a, b) => {
@@ -90,13 +67,13 @@ export default async function HomePortfolio() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {residentialProjects.map((project) => (
               <Link
-                key={project.id}
-                href={`/portfolio/${project.id}`}
+                key={String(project.id)}
+                href={`/portfolio/${encodeURIComponent(String(project.id))}`}
                 className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
               >
                 <Image
-                  src={project.image}
-                  alt={project.title}
+                  src={safeImageSrc(project)}
+                  alt={project.title || "Portfolio project"}
                   fill
                   className="object-cover transition-transform duration-700 md:group-hover:scale-110"
                 />
@@ -130,13 +107,13 @@ export default async function HomePortfolio() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {commercialProjects.map((project) => (
               <Link
-                key={project.id}
-                href={`/portfolio/${project.id}`}
+                key={String(project.id)}
+                href={`/portfolio/${encodeURIComponent(String(project.id))}`}
                 className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
               >
                 <Image
-                  src={project.image}
-                  alt={project.title}
+                  src={safeImageSrc(project)}
+                  alt={project.title || "Portfolio project"}
                   fill
                   className="object-cover transition-transform duration-700 md:group-hover:scale-110"
                 />
@@ -170,13 +147,13 @@ export default async function HomePortfolio() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {hospitalityProjects.map((project) => (
               <Link
-                key={project.id}
-                href={`/portfolio/${project.id}`}
+                key={String(project.id)}
+                href={`/portfolio/${encodeURIComponent(String(project.id))}`}
                 className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
               >
                 <Image
-                  src={project.image}
-                  alt={project.title}
+                  src={safeImageSrc(project)}
+                  alt={project.title || "Portfolio project"}
                   fill
                   className="object-cover transition-transform duration-700 md:group-hover:scale-110"
                 />
@@ -203,12 +180,13 @@ export default async function HomePortfolio() {
             <p className="text-zinc-400 text-sm tracking-[0.15em] uppercase font-light mb-4">
               Failed to load.
             </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black transition-colors"
+            {/* Reload lewat link biasa (tanpa inline onClick di server component) */}
+            <Link
+              href="/"
+              className="inline-block px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black transition-colors"
             >
               Reload Page
-            </button>
+            </Link>
           </div>
         )}
 
