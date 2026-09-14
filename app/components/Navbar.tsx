@@ -57,7 +57,7 @@ export default function Navbar() {
             Home
           </a>
           <a
-            href="#"
+            href="/reviews"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             Reviews
@@ -131,7 +131,7 @@ export default function Navbar() {
               Home
             </a>
             <a
-              href="#"
+              href="/reviews"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >
