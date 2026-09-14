@@ -67,7 +67,7 @@ export default function ReviewsPage() {
       <section className="relative w-full min-h-[85vh] py-16 px-4 md:px-12 flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <Image
-          src="/images/reviews.webp"
+          src="/images/reviewss.png"
           alt="Reviews Background"
           fill
           className="object-cover"
