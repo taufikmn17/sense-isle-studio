@@ -12,31 +12,30 @@ interface ReviewItem {
 const reviewsData: ReviewItem[] = [
   {
     id: "1",
-    name: "Mr. Alexander Vance",
+    name: "Ebnu Sudarso",
     role: "Private Residence Owner",
     comment:
-      "Sense Isle Studio transformed our vision into an architectural masterpiece. Their attention to detail and spatial design exceeded all our expectations.",
+      "Worked with Sense Isle on a partial home renovation. Responsive throughout, incorporated our feedback without it getting lost between revisions, and delivered a design that felt genuinely considered rather than templated. What stood out most was how seriously they worked within a fixed budget — not by cutting corners or simplifying the brief, but by being smart about where it counted. The result doesn't look like a compromise. Highly recommend.",
   },
   {
     id: "2",
-    name: "Mrs. Clara Santoso",
-    role: "Commercial Property Developer",
+    name: "Handriono Kwa",
+    role: "Private Residence Owner",
     comment:
-      "An exceptional team with high professionalism. They successfully delivered our modern commercial project on schedule and with stunning aesthetics.",
+      "Banyak memberi ide ide, mampu memahami keinginan pemesan, tetapi tetap memberi pandangan keahlian arsitektur sehingga menghasillan output yang excellent.",
   },
   {
     id: "3",
-    name: "Mr. David Wijaya",
-    role: "Luxury Villa Client",
-    comment:
-      "Working with Sense Isle Studio was a seamless experience. They balance elegance and functionality perfectly in every corner of our home.",
+    name: "Andree Limardinata",
+    role: "Private Residence Owner",
+    comment: "Professional, collaborative, timely and excellent result.",
   },
   {
     id: "4",
-    name: "Ms. Sarah Jenkins",
-    role: "Interior Design Client",
+    name: "Verdo Reginald",
+    role: "Private Residence Owner",
     comment:
-      "Their minimalist yet luxurious design approach completely redefined our living space. Highly recommended for anyone seeking top-tier architectural design.",
+      "Bagus, desain yang beragam, terutama desain minimalis dan mewah yang menarik.",
   },
 ];
 
