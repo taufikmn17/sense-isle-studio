@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const slides = [
   {
@@ -51,6 +52,13 @@ const slides = [
   },
 ];
 
+const servicesList = [
+  "Architecture Services",
+  "Interior Design",
+  "Home & Office Renovation",
+  "Custom-Built Furniture",
+];
+
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -75,7 +83,7 @@ export default function Hero() {
   const currentSlide = slides[currentIndex];
 
   return (
-    <header className="relative w-full h-auto min-h-[650px] lg:min-h-[calc(100vh-theme(spacing.16))] flex flex-col justify-center px-4 sm:px-8 md:px-16 py-12 overflow-hidden">
+    <header className="relative w-full h-auto min-h-[650px] lg:min-h-[calc(100vh-theme(spacing.16))] flex flex-col justify-center py-12 overflow-hidden">
       {/* Background Images Slider */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {slides.map((slide, index) => (
@@ -99,14 +107,13 @@ export default function Hero() {
       </div>
 
       {/* Konten Utama */}
-      <div className="relative z-30 w-full max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-stretch justify-between gap-10 pt-6 pb-24">
+      <div className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row lg:items-stretch justify-between gap-10 pt-6 pb-24">
         {/* Sisi Kiri: Judul dan Keterangan */}
         <div className="flex flex-col justify-start lg:justify-between text-left max-w-2xl transition-all duration-500 ease-in-out w-full lg:flex-1 min-w-0 gap-6 lg:gap-0">
           <div>
             <span className="text-[10px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.25em] uppercase text-zinc-300 mb-2 sm:mb-3 drop-shadow whitespace-normal block">
               {currentSlide.category}
             </span>
-            {/* Ukuran font mobile dinaikkan dari text-xl ke text-2xl / text-3xl agar lebih proporsional */}
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-[0.05em] sm:tracking-[0.1em] uppercase text-white drop-shadow-lg mb-2 sm:mb-4 leading-tight w-full">
               {currentSlide.title}
             </h1>
@@ -115,12 +122,12 @@ export default function Hero() {
             </p>
           </div>
           <div>
-            <a
+            <Link
               href={currentSlide.buttonLink}
-              className="inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black text-white text-[10px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
+              className="inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black active:bg-white active:text-black text-white text-[10px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
             >
               {currentSlide.buttonText}
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -131,18 +138,15 @@ export default function Hero() {
           </h3>
 
           <div className="flex flex-col w-full gap-2.5">
-            <div className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[10px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-left lg:text-right">
-              Architecture Services
-            </div>
-            <div className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[10px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-left lg:text-right">
-              Interior Design
-            </div>
-            <div className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[10px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-left lg:text-right">
-              Home & Office Renovation
-            </div>
-            <div className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-zinc-500 bg-black/40 backdrop-blur-md text-[10px] sm:text-xs uppercase tracking-[0.05em] sm:tracking-[0.15em] text-zinc-300 hover:border-white hover:text-white transition cursor-pointer font-light text-left lg:text-right">
-              Custom-Built Furniture
-            </div>
+            {servicesList.map((service, idx) => (
+              <Link
+                key={idx}
+                href="/ourServices"
+                className="w-fit lg:w-full py-2.5 sm:py-3 px-4 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black active:bg-white active:text-black text-white text-[10px] sm:text-xs uppercase tracking-[0.12em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 font-light text-left lg:text-right block"
+              >
+                {service}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
@@ -151,7 +155,7 @@ export default function Hero() {
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-4 sm:gap-6 text-white">
         <button
           onClick={prevSlide}
-          className="p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-zinc-800 transition"
+          className="p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/70 active:bg-black/70 text-white backdrop-blur-md border border-zinc-800 transition"
           aria-label="Previous Slide"
         >
           <svg
@@ -189,7 +193,7 @@ export default function Hero() {
 
         <button
           onClick={nextSlide}
-          className="p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/70 text-white backdrop-blur-md border border-zinc-800 transition"
+          className="p-2 sm:p-2.5 rounded-full bg-black/40 hover:bg-black/70 active:bg-black/70 text-white backdrop-blur-md border border-zinc-800 transition"
           aria-label="Next Slide"
         >
           <svg

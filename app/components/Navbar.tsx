@@ -31,13 +31,14 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 bg-[#f6f6f6] border-b border-zinc-300 px-3 sm:px-6 md:px-8 py-2 sm:py-3 w-full transition-transform duration-300 ${
+      className={`sticky top-0 z-50 bg-[#f6f6f6] border-b border-zinc-300 w-full transition-transform duration-300 ${
         showNavbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="flex items-center justify-between w-full max-w-7xl mx-auto relative">
+      {/* Container utama disamakan dengan lebar dan padding standar konten di bawahnya */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 sm:h-20 w-full relative">
         {/* Logo */}
-        <div className="flex items-center h-11 sm:h-12 md:h-14 w-auto z-10 shrink-0 -my-1">
+        <div className="flex items-center h-10 sm:h-12 w-auto z-10 shrink-0">
           <Image
             src="/images/sis_logo.webp"
             alt="Sense Isle Studio Logo"
@@ -48,7 +49,7 @@ export default function Navbar() {
           />
         </div>
 
-        {/* Desktop Menu - Teks hitam pekat dengan efek hover garis bawah minimalis khas arsitektur */}
+        {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-medium tracking-[0.15em] uppercase text-zinc-900 whitespace-nowrap">
           <a
             href="/"
@@ -63,7 +64,7 @@ export default function Navbar() {
             Reviews
           </a>
           <a
-            href="#"
+            href="/ourServices"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             Services
@@ -121,8 +122,8 @@ export default function Navbar() {
 
       {/* Mobile & Tablet Dropdown Menu */}
       {isOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-[#f6f6f6] border-b border-zinc-300 shadow-xl text-center">
-          <div className="flex flex-col text-xs font-medium tracking-[0.2em] uppercase text-zinc-900 divide-y divide-zinc-200">
+        <div className="lg:hidden border-t border-zinc-200 bg-[#f6f6f6] shadow-xl text-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col text-xs font-medium tracking-[0.2em] uppercase text-zinc-900 divide-y divide-zinc-200">
             <a
               href="/"
               onClick={() => setIsOpen(false)}
@@ -138,7 +139,7 @@ export default function Navbar() {
               Reviews
             </a>
             <a
-              href="#"
+              href="/ourServices"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >

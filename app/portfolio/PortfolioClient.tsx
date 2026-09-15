@@ -52,8 +52,8 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
         );
 
   return (
-    <main className="flex-1 py-16 px-4 md:px-8 w-full max-w-7xl mx-auto">
-      <div className="w-full">
+    <main className="w-full text-white min-h-screen py-16">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-5xl font-light tracking-[0.25em] uppercase mb-4 text-white">

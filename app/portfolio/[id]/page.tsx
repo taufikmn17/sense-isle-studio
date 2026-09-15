@@ -9,10 +9,6 @@ interface PageProps {
 
 export default async function PortfolioDetailServer({ params }: PageProps) {
   const resolvedParams = await params;
-  // Langsung panggil fungsi dari service untuk mencari data berdasarkan ID.
-  // `getPortfolioById` sudah bekerja di atas data yang telah divalidasi skema
-  // (lihat portfolioService.ts), jadi seluruh field di bawah ini dijamin
-  // bertipe string sesuai PortfolioItemSchema.
   const project = await getPortfolioById(resolvedParams.id);
 
   if (!project) {
@@ -43,8 +39,8 @@ export default async function PortfolioDetailServer({ params }: PageProps) {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <main className="flex-1 px-4 md:px-8 py-16 w-full">
-        <div className="w-full">
+      <main className="flex-1 py-16 w-full">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Kategori */}
           <div className="mb-2">
             <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block">
@@ -91,7 +87,7 @@ export default async function PortfolioDetailServer({ params }: PageProps) {
           <ImageGallery images={projectImages} title={project.title} />
 
           {/* Deskripsi / Project Overview */}
-          <div className="space-y-4 text-zinc-300 leading-relaxed w-full">
+          <div className="space-y-4 text-zinc-300 leading-relaxed w-full mt-10">
             <h3 className="text-xl font-light text-white uppercase tracking-[0.2em]">
               Project Overview
             </h3>
