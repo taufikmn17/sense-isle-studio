@@ -76,7 +76,7 @@ export default async function HomePortfolio() {
                     src={safeImageSrc(project)}
                     alt={project.title || "Portfolio project"}
                     fill
-                    className="object-cover transition-transform duration-700 md:group-hover:scale-110"
+                    className="object-cover transition-transform duration-700 md:group-hover:scale-110 group-active:scale-110"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-10">
@@ -116,7 +116,7 @@ export default async function HomePortfolio() {
                     src={safeImageSrc(project)}
                     alt={project.title || "Portfolio project"}
                     fill
-                    className="object-cover transition-transform duration-700 md:group-hover:scale-110"
+                    className="object-cover transition-transform duration-700 md:group-hover:scale-110 group-active:scale-110"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-10">
@@ -150,13 +150,13 @@ export default async function HomePortfolio() {
                 <Link
                   key={String(project.id)}
                   href={`/portfolio/${encodeURIComponent(String(project.id))}`}
-                  className="group, relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
+                  className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
                 >
                   <Image
                     src={safeImageSrc(project)}
                     alt={project.title || "Portfolio project"}
                     fill
-                    className="object-cover transition-transform duration-700 md:group-hover:scale-110"
+                    className="object-cover transition-transform duration-700 md:group-hover:scale-110 group-active:scale-110"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-10">
@@ -184,7 +184,7 @@ export default async function HomePortfolio() {
               {/* Reload lewat link biasa (tanpa inline onClick di server component) */}
               <Link
                 href="/"
-                className="inline-block px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black transition-colors"
+                className="inline-block px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black active:bg-white active:text-black transition-colors"
               >
                 Reload Page
               </Link>
@@ -195,7 +195,7 @@ export default async function HomePortfolio() {
         <div className="text-center mt-12">
           <Link
             href="/portfolio"
-            className="inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black text-white text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
+            className="inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-lg border border-white/40 bg-black/20 hover:bg-white hover:text-black active:bg-white active:text-black text-white text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] backdrop-blur-md transition-all duration-300 whitespace-nowrap"
           >
             View All Portfolio
           </Link>

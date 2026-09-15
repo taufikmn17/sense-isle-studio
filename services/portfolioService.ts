@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { unstable_cache } from "next/cache";
 
 // =====================================================================
 // SCHEMA VALIDASI (mitigasi: Insecure Deserialization, Type Confusion,
@@ -49,24 +50,36 @@ function sanitizeForLog(value: unknown): string {
     .slice(0, 100);
 }
 
-const FETCH_TIMEOUT_MS = 8000;
+const FETCH_TIMEOUT_MS = 12000; // dinaikkan dari 8000 - Apps Script kadang cold start
+const MAX_RETRIES = 2; // total percobaan = 1 awal + 2 retry = 3x
+const RETRY_DELAY_MS = 700;
 
-export async function getPortfolioData(): Promise<PortfolioItem[]> {
-  const WEB_APP_URL = process.env.APPS_SCRIPT_URL;
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
-  if (!WEB_APP_URL) {
-    // Tidak menyebut nama env var / detail konfigurasi secara eksplisit
-    // di log produksi, cukup penanda internal.
-    safeLog("Data source URL is not configured");
-    return [];
-  }
+// =====================================================================
+// FALLBACK MEMORY CACHE
+// Menyimpan data valid TERAKHIR yang berhasil didapat, dalam variabel
+// module-level. Ini bertahan selama instance server function masih "warm"
+// (tidak reset tiap request, tapi bisa reset saat cold start baru di Vercel).
+// Tujuannya: kalau semua percobaan fetch gagal, kita tampilkan data lama
+// yang masih valid daripada array kosong / UI "Failed to load".
+// =====================================================================
+let lastGoodData: PortfolioItem[] | null = null;
 
+// =====================================================================
+// Satu kali percobaan fetch + validasi. TIDAK pakai Next fetch-cache
+// (cache: "no-store") supaya setiap retry benar-benar hit jaringan,
+// bukan kena cache dari percobaan sebelumnya.
+// =====================================================================
+async function fetchOnce(url: string): Promise<PortfolioItem[] | null> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
   try {
-    const res = await fetch(WEB_APP_URL, {
-      next: { revalidate: 60 },
+    const res = await fetch(url, {
+      cache: "no-store",
       headers: {
         Accept: "application/json",
       },
@@ -75,26 +88,24 @@ export async function getPortfolioData(): Promise<PortfolioItem[]> {
 
     if (!res.ok) {
       safeLog("Data source returned non-OK status", { status: res.status });
-      return [];
+      return null;
     }
 
     const contentType = res.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
       safeLog("Data source returned unexpected content-type");
-      return [];
+      return null;
     }
 
     const rawData = await res.json();
 
-    // Validasi skema penuh - menolak seluruh payload jika struktur tidak
-    // sesuai, daripada mencoba "menebak" bentuk data yang tidak dipercaya.
     const parsed = PortfolioArraySchema.safeParse(rawData);
 
     if (!parsed.success) {
       safeLog("Data source payload failed schema validation", {
         issueCount: parsed.error.issues.length,
       });
-      return [];
+      return null;
     }
 
     return parsed.data;
@@ -104,11 +115,71 @@ export async function getPortfolioData(): Promise<PortfolioItem[]> {
     } else {
       safeLog("Failed to fetch portfolio data");
     }
-    // Tidak pernah melempar error.message mentah ke pemanggil -
-    // cukup kembalikan array kosong agar UI menampilkan fallback generik.
-    return [];
+    return null;
   } finally {
     clearTimeout(timeoutId);
+  }
+}
+
+// =====================================================================
+// Fetch dengan retry. Mencoba beberapa kali sebelum benar-benar menyerah -
+// mengatasi kegagalan sesaat (cold start Apps Script, limit eksekusi
+// simultan, dsb) yang sifatnya sementara.
+// =====================================================================
+async function fetchWithRetry(url: string): Promise<PortfolioItem[] | null> {
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const result = await fetchOnce(url);
+    if (result !== null) {
+      return result;
+    }
+    if (attempt < MAX_RETRIES) {
+      await delay(RETRY_DELAY_MS * (attempt + 1)); // backoff bertahap
+    }
+  }
+  return null;
+}
+
+// =====================================================================
+// Fungsi inti yang di-cache oleh Next.js (unstable_cache) - BUKAN fetch
+// mentahnya. Ini memastikan yang tersimpan di cache bersama (dipakai semua
+// user) adalah HASIL YANG SUDAH TERVALIDASI, bukan respons mentah yang bisa
+// jadi HTML error ber-status 200 dari Apps Script.
+// =====================================================================
+const getCachedPortfolioData = unstable_cache(
+  async (url: string): Promise<PortfolioItem[]> => {
+    const data = await fetchWithRetry(url);
+
+    if (data !== null) {
+      lastGoodData = data; // simpan sebagai fallback untuk kegagalan berikutnya
+      return data;
+    }
+
+    // Semua percobaan gagal - pakai data valid terakhir kalau ada,
+    // daripada langsung mengembalikan array kosong ke semua user.
+    if (lastGoodData !== null) {
+      safeLog("Using last known good data after all retries failed");
+      return lastGoodData;
+    }
+
+    return [];
+  },
+  ["portfolio-data"],
+  { revalidate: 1800 } // 30 menit - portofolio tidak sering di-update
+);
+
+export async function getPortfolioData(): Promise<PortfolioItem[]> {
+  const WEB_APP_URL = process.env.APPS_SCRIPT_URL;
+
+  if (!WEB_APP_URL) {
+    safeLog("Data source URL is not configured");
+    return lastGoodData ?? [];
+  }
+
+  try {
+    return await getCachedPortfolioData(WEB_APP_URL);
+  } catch (error) {
+    safeLog("Unexpected error while retrieving cached portfolio data");
+    return lastGoodData ?? [];
   }
 }
 
