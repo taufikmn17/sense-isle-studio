@@ -161,10 +161,20 @@ const getCachedPortfolioData = unstable_cache(
       return lastGoodData;
     }
 
-    return [];
+    // PENTING: tidak ada fallback sama sekali (misal baru cold start dan
+    // Apps Script juga lagi bermasalah). Lempar error di sini, JANGAN
+    // "return []" - kalau return [], unstable_cache akan menyimpan array
+    // kosong itu sebagai "hasil sukses" selama 30 menit penuh. Dengan
+    // melempar error, Next.js TIDAK menyimpan hasil ini ke cache, sehingga
+    // request berikutnya akan langsung mencoba fetch ulang dari awal,
+    // bukan menunggu jadwal revalidate berikutnya.
+    throw new Error("Portfolio data unavailable and no fallback exists");
   },
   ["portfolio-data"],
-  { revalidate: 1800 } // 30 menit - portofolio tidak sering di-update
+  {
+    revalidate: 3600, // 1 jam - ini cuma JARING PENGAMAN kalau on-demand revalidation gagal terpicu
+    tags: ["portfolio"], // dipakai revalidateTag() di /api/revalidate untuk update instan
+  }
 );
 
 export async function getPortfolioData(): Promise<PortfolioItem[]> {
