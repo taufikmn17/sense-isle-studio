@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Statistik from "./statistik/statistik";
 import { PortfolioItem } from "@/services/portfolioService"; // <-- Import tipe data dari service
 
@@ -17,11 +17,10 @@ function safeImageSrc(item: PortfolioItem): string {
 }
 
 export default function PortfolioClient({ data }: PortfolioClientProps) {
-  const router = useRouter();
   const [activeTab, setActiveTab] = useState<string>("all");
 
-  // State untuk melacak ID item yang sedang disentuh/diklik pertama kali di mobile
-  const [touchedId, setTouchedId] = useState<string | null>(null);
+  // State untuk melacak ID item yang sedang diklik/disentuh guna memicu efek getar
+  const [clickedId, setClickedId] = useState<string | null>(null);
 
   // 1. Urutkan data secara otomatis dari yang terbaru (ID terbesar / Tahun terbaru)
   const sortedData = useMemo(() => {
@@ -33,7 +32,7 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
         return idB - idA;
       }
 
-      return Number(b.year || 0) - Number(b.year || 0); // Diperbaiki dari b.year - b.year menjadi b.year - a.year
+      return Number(b.year || 0) - Number(a.year || 0);
     });
   }, [data]);
 
@@ -55,28 +54,51 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
           (item) => item.category?.toLowerCase().trim() === activeTab
         );
 
-  // Handler logika klik ganda khusus mobile / perangkat sentuh
-  const handleCardClick = (projectId: string, e: React.MouseEvent) => {
-    // Cek apakah perangkat mendukung hover (biasanya desktop) atau tidak (mobile/touch)
+  // Handler saat card diklik untuk memberikan efek getar singkat sebelum berpindah halaman
+  const handleCardClick = (
+    projectId: string,
+    e: React.MouseEvent<HTMLAnchorElement>
+  ) => {
     const isTouchDevice = window.matchMedia("(hover: none)").matches;
 
     if (isTouchDevice) {
-      if (touchedId !== projectId) {
-        // Ketukan pertama: cegah navigasi, aktifkan state zoom/hover card
-        e.preventDefault();
-        setTouchedId(projectId);
-      } else {
-        // Ketukan kedua pada item yang sama: arahkan ke halaman detail
-        router.push(`/portfolio/${encodeURIComponent(projectId)}`);
-      }
-    } else {
-      // Jika di desktop (ada kursor), langsung navigasi normal
-      router.push(`/portfolio/${encodeURIComponent(projectId)}`);
+      e.preventDefault(); // Tahan navigasi sebentar untuk animasi getar
+      setClickedId(projectId);
+
+      // Berpindah halaman setelah animasi getar selesai (misal 300ms)
+      setTimeout(() => {
+        window.location.href = `/portfolio/${encodeURIComponent(projectId)}`;
+      }, 300);
     }
+    // Untuk desktop, biarkan <Link> bernavigasi secara natural dengan efek hover CSS biasa
   };
 
   return (
     <main className="w-full text-white min-h-screen py-16">
+      {/* Tambahkan keyframes CSS kustom untuk animasi getar di dalam tag style */}
+      <style jsx global>{`
+        @keyframes shake {
+          0% {
+            transform: translateX(0);
+          }
+          25% {
+            transform: translateX(-4px) rotate(-1deg);
+          }
+          50% {
+            transform: translateX(4px) rotate(1deg);
+          }
+          75% {
+            transform: translateX(-3px) rotate(-0.5deg);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+        .animate-shake {
+          animation: shake 0.3s ease-in-out;
+        }
+      `}</style>
+
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -95,10 +117,7 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
             {categories.map((tab) => (
               <button
                 key={tab}
-                onClick={() => {
-                  setActiveTab(tab);
-                  setTouchedId(null); // Reset pilihan card saat ganti tab
-                }}
+                onClick={() => setActiveTab(tab)}
                 className={`px-4 sm:px-6 py-2 text-[11px] sm:text-xs uppercase tracking-[0.2em] transition-all border rounded-lg ${
                   activeTab === tab
                     ? "bg-white border-white text-black font-light"
@@ -116,21 +135,22 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {filteredProjects.map((project) => {
               const projectIdStr = String(project.id);
-              const isTouched = touchedId === projectIdStr;
+              const isClicked = clickedId === projectIdStr;
 
               return (
-                <div
+                <Link
                   key={projectIdStr}
+                  href={`/portfolio/${encodeURIComponent(projectIdStr)}`}
                   onClick={(e) => handleCardClick(projectIdStr, e)}
-                  className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5] cursor-pointer"
+                  className={`group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5] transition-transform ${
+                    isClicked ? "animate-shake scale-105 border-white" : ""
+                  }`}
                 >
                   <Image
                     src={safeImageSrc(project)}
                     alt={project.title || "Portfolio project"}
                     fill
-                    className={`object-cover transition-transform duration-700 md:group-hover:scale-110 ${
-                      isTouched ? "scale-110" : "scale-100"
-                    }`}
+                    className="object-cover transition-transform duration-700 md:group-hover:scale-110 group-active:scale-110"
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-10">
@@ -141,7 +161,7 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
                       {project.title}
                     </h3>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
