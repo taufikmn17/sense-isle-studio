@@ -10,11 +10,13 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Jika menu mobile sedang terbuka, jangan ubah status tampil navbar/tutup menu
+      if (isOpen) return;
+
       const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY && currentScrollY > 50) {
         setShowNavbar(false);
-        setIsOpen(false);
       } else {
         setShowNavbar(true);
       }
@@ -27,7 +29,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY]);
+  }, [lastScrollY, isOpen]); // Tambahkan isOpen ke dalam dependency array
 
   return (
     <nav
