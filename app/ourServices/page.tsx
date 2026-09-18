@@ -31,7 +31,7 @@ const servicesData: ServiceItem[] = [
       "Construction Supervision & Review",
     ],
     icon: <Compass size={26} strokeWidth={1} />,
-    image: "/images/hero1.webp",
+    image: "/images/services1.webp",
   },
   {
     id: "02",
@@ -48,7 +48,7 @@ const servicesData: ServiceItem[] = [
       "Furniture & Decor Procurement",
     ],
     icon: <Armchair size={26} strokeWidth={1} />,
-    image: "/images/hero2.webp",
+    image: "/images/services2.webp",
   },
   {
     id: "03",
@@ -63,7 +63,7 @@ const servicesData: ServiceItem[] = [
       "Quality Control & Budget Management",
     ],
     icon: <Wrench size={26} strokeWidth={1} />,
-    image: "/images/hero3.webp",
+    image: "/images/services3.webp",
   },
   {
     id: "04",
@@ -78,7 +78,7 @@ const servicesData: ServiceItem[] = [
       "On-site Installation",
     ],
     icon: <Hammer size={26} strokeWidth={1} />,
-    image: "/images/hero4.webp",
+    image: "/images/services4.webp",
   },
 ];
 

@@ -62,18 +62,18 @@ export default function ReviewsPage() {
 
   return (
     <main className="w-full text-white min-h-screen">
-      {/* Header Section - Padding diubah dari py-16 menjadi py-10 agar lebih pendek */}
-      <div className="w-full bg-black py-10">
+      {/* Header Section */}
+      <div className="w-full bg-black py-16">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
-          <span className="text-[11px] md:text-xs uppercase tracking-[0.3em] text-zinc-400 font-light block mb-2">
+          <span className="text-[11px] md:text-xs uppercase tracking-[0.3em] text-zinc-400 font-light block mb-3">
             TESTIMONIAL
           </span>
 
-          <h1 className="text-3xl md:text-5xl font-semibold tracking-[0.15em] text-white mb-2">
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-[0.15em] text-white mb-4">
             What They Say?
           </h1>
 
-          <p className="text-zinc-400 text-xs md:text-sm font-light tracking-[0.1em] max-w-xl">
+          <p className="text-zinc-400 text-sm md:text-base font-light tracking-[0.1em] max-w-xl">
             Discover what our valued clients say about their journey and
             collaboration with Sense Isle Studio.
           </p>
