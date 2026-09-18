@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { Compass, Armchair, Wrench, Hammer, ArrowUpRight } from "lucide-react";
 
 interface ServiceItem {
@@ -11,6 +12,7 @@ interface ServiceItem {
   description: string;
   features: string[];
   icon: React.ReactNode;
+  image: string;
 }
 
 const servicesData: ServiceItem[] = [
@@ -25,8 +27,11 @@ const servicesData: ServiceItem[] = [
       "3D Modeling & Visualization",
       "Detailed Engineering Design (DAD/DED)",
       "Regulatory & Permit Consultation",
+      "Site Analysis & Feasibility Study",
+      "Construction Supervision & Review",
     ],
     icon: <Compass size={26} strokeWidth={1} />,
+    image: "/images/hero1.webp",
   },
   {
     id: "02",
@@ -39,8 +44,11 @@ const servicesData: ServiceItem[] = [
       "Lighting & Material Selection",
       "Space Planning & Layout",
       "Custom Interior Styling",
+      "3D Realistic Interior Rendering",
+      "Furniture & Decor Procurement",
     ],
     icon: <Armchair size={26} strokeWidth={1} />,
+    image: "/images/hero2.webp",
   },
   {
     id: "03",
@@ -55,6 +63,7 @@ const servicesData: ServiceItem[] = [
       "Quality Control & Budget Management",
     ],
     icon: <Wrench size={26} strokeWidth={1} />,
+    image: "/images/hero3.webp",
   },
   {
     id: "04",
@@ -69,6 +78,7 @@ const servicesData: ServiceItem[] = [
       "On-site Installation",
     ],
     icon: <Hammer size={26} strokeWidth={1} />,
+    image: "/images/hero4.webp",
   },
 ];
 
@@ -121,73 +131,78 @@ export default function ServicesPage() {
                     toggleActive(service.id);
                   }
                 }}
-                className={`group relative border-b border-white/10 py-10 md:py-14 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-start transition-all duration-500 cursor-pointer select-none ${
-                  isActive ? "pl-4 md:pl-8" : "pl-0"
-                }`}
+                className="group relative border-b border-white/10 grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 cursor-pointer select-none overflow-hidden"
               >
-                {/* Kolom nomor + icon */}
-                <div className="md:col-span-2 flex md:flex-col items-center md:items-start justify-between md:justify-start gap-4">
-                  <span
-                    className={`text-5xl md:text-6xl font-extralight tracking-widest transition-colors duration-500 ${
-                      isActive ? "text-white" : "text-white/60"
-                    }`}
-                  >
-                    {service.id}
-                  </span>
-                  <div className="text-white transition-colors duration-500">
-                    {service.icon}
+                {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title di atasnya */}
+                <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/50 transition-opacity duration-500 group-hover:bg-black/40" />
+
+                  <div className="relative z-10 flex items-start justify-between">
+                    <span className="text-5xl md:text-6xl font-extralight tracking-widest text-white/90">
+                      {service.id}
+                    </span>
+                    <div className="text-white">{service.icon}</div>
+                  </div>
+
+                  <div className="relative z-10 mt-12">
+                    <span className="block text-[10px] uppercase tracking-[0.25em] text-white/80 font-light mb-2">
+                      {service.subtitle}
+                    </span>
+                    <h2 className="text-2xl md:text-4xl font-light tracking-[0.05em] text-white leading-snug">
+                      {service.title}
+                    </h2>
                   </div>
                 </div>
 
-                {/* Kolom judul + subtitle */}
-                <div className="md:col-span-4">
-                  <span className="block text-[10px] uppercase tracking-[0.25em] text-white/80 font-light mb-2">
-                    {service.subtitle}
-                  </span>
-                  <h2 className="text-2xl md:text-3xl font-light tracking-[0.05em] text-white leading-snug">
-                    {service.title}
-                  </h2>
-                </div>
+                {/* Sisi Kanan: Deskripsi, Fitur, dan Tombol Teks "Explore Service" */}
+                <div className="lg:col-span-6 bg-zinc-900 p-8 md:p-12 flex flex-col justify-between">
+                  <div>
+                    <p className="text-sm md:text-base font-light leading-relaxed text-zinc-300 mb-6">
+                      {service.description}
+                    </p>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-8">
+                      {service.features.map((feature, i) => (
+                        <li
+                          key={i}
+                          className="text-xs font-light text-zinc-300 flex items-center gap-2"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-white shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-                {/* Kolom deskripsi + fitur */}
-                <div className="md:col-span-5">
-                  <p className="text-sm md:text-base font-light leading-relaxed text-white mb-5">
-                    {service.description}
-                  </p>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-                    {service.features.map((feature, i) => (
-                      <li
-                        key={i}
-                        className={`text-xs font-light transition-colors duration-500 flex items-center gap-2 ${
-                          isActive ? "text-white" : "text-white/80"
-                        }`}
-                      >
-                        <span className="w-1 h-1 rounded-full bg-white shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Kolom arrow */}
-                <div className="md:col-span-1 flex md:justify-end">
-                  <a
-                    href="#contact"
-                    aria-label={`Consult ${service.title}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className={`inline-flex items-center justify-center w-10 h-10 rounded-full border text-white transition-all duration-500 ${
-                      isActive
-                        ? "border-white rotate-45"
-                        : "border-white/40 rotate-0"
-                    }`}
-                  >
-                    <ArrowUpRight size={16} strokeWidth={1.25} />
-                  </a>
+                  <div className="flex justify-end pt-4">
+                    <a
+                      href="#contact"
+                      aria-label={`Explore ${service.title}`}
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-white relative py-2 group/btn"
+                    >
+                      <span className="transition-transform duration-300 group-hover/btn:-translate-y-0.5">
+                        Explore Service
+                      </span>
+                      <ArrowUpRight
+                        size={16}
+                        strokeWidth={1.5}
+                        className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
+                      />
+                      <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white/40 group-hover/btn:bg-white transition-colors duration-300" />
+                      <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-white transition-all duration-300 group-hover/btn:w-full" />
+                    </a>
+                  </div>
                 </div>
 
                 {/* Garis aksen kiri saat aktif */}
                 <span
-                  className={`absolute left-0 top-0 h-full w-[2px] bg-white origin-top transition-transform duration-500 ${
+                  className={`absolute left-0 top-0 h-full w-[2px] bg-white origin-top transition-transform duration-500 z-20 ${
                     isActive ? "scale-y-100" : "scale-y-0"
                   }`}
                 />
