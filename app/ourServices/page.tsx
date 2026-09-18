@@ -91,18 +91,18 @@ export default function ServicesPage() {
 
   return (
     <main className="w-full text-white min-h-screen">
-      {/* Header Section */}
-      <div className="w-full bg-black py-16">
+      {/* Header Section dengan padding lebih pendek */}
+      <div className="w-full bg-black py-10">
         <div className="text-left w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-[11px] md:text-xs uppercase tracking-[0.3em] text-zinc-400 font-light block mb-3">
+          <span className="text-[11px] md:text-xs uppercase tracking-[0.3em] text-zinc-400 font-light block mb-2">
             WHAT WE OFFER
           </span>
 
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-[0.15em] text-white mb-4">
+          <h1 className="text-3xl md:text-5xl font-semibold tracking-[0.15em] text-white mb-2">
             Our Services
           </h1>
 
-          <p className="text-zinc-400 text-sm md:text-base font-light tracking-[0.1em] max-w-xl">
+          <p className="text-zinc-400 text-xs md:text-sm font-light tracking-[0.1em] max-w-xl">
             Delivering bespoke architectural, interior, and craftsmanship
             solutions tailored to elevate your living and working spaces.
           </p>
@@ -133,15 +133,26 @@ export default function ServicesPage() {
                 }}
                 className="group relative border-b border-white/10 grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 cursor-pointer select-none overflow-hidden"
               >
-                {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title di atasnya */}
+                {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title */}
                 <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden">
+                  {/* Background Image - ikut melakukan zoom saat aktif (mobile/desktop) */}
                   <Image
                     src={service.image}
                     alt={service.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className={`object-cover transition-transform duration-700 ${
+                      isActive ? "scale-105" : "group-hover:scale-105"
+                    }`}
                   />
-                  <div className="absolute inset-0 bg-black/50 transition-opacity duration-500 group-hover:bg-black/40" />
+
+                  {/* Dark Gradient Overlay - Menjadi lebih transparan (cerah) saat aktif di mobile atau hover di desktop */}
+                  <div
+                    className={`absolute inset-0 transition-opacity duration-500 ${
+                      isActive
+                        ? "bg-black/30"
+                        : "bg-black/50 group-hover:bg-black/30"
+                    }`}
+                  />
 
                   <div className="relative z-10 flex items-start justify-between">
                     <span className="text-5xl md:text-6xl font-extralight tracking-widest text-white/90">
@@ -160,7 +171,7 @@ export default function ServicesPage() {
                   </div>
                 </div>
 
-                {/* Sisi Kanan: Deskripsi, Fitur, dan Tombol Teks "Explore Service" */}
+                {/* Sisi Kanan: Deskripsi, Fitur, dan Tombol Teks */}
                 <div className="lg:col-span-6 bg-zinc-900 p-8 md:p-12 flex flex-col justify-between">
                   <div>
                     <p className="text-sm md:text-base font-light leading-relaxed text-zinc-300 mb-6">
