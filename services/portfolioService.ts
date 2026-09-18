@@ -9,11 +9,32 @@ const PortfolioItemSchema = z.object({
   id: z.union([z.string(), z.number()]),
   title: z.string().max(200).default(""),
   category: z.string().max(100).default(""),
-  // Hanya izinkan URL https - mencegah javascript:, data:, dan skema berbahaya
-  // lain masuk ke next/image (mitigasi SSRF via Image Optimizer)
-  image: z.string().url().startsWith("https://"),
-  image2: z.string().url().startsWith("https://").optional().or(z.literal("")),
-  image3: z.string().url().startsWith("https://").optional().or(z.literal("")),
+
+  // Gambar utama: Boleh kosong ("") atau harus berupa URL https yang valid
+  image: z
+    .string()
+    .url()
+    .startsWith("https://")
+    .optional()
+    .or(z.literal(""))
+    .default(""),
+
+  // Gambar opsional lainnya
+  image2: z
+    .string()
+    .url()
+    .startsWith("https://")
+    .optional()
+    .or(z.literal(""))
+    .default(""),
+  image3: z
+    .string()
+    .url()
+    .startsWith("https://")
+    .optional()
+    .or(z.literal(""))
+    .default(""),
+
   location: z.string().max(200).default(""),
   year: z.union([z.string(), z.number()]),
   description: z.string().max(5000).default(""),

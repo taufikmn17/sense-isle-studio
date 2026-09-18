@@ -10,7 +10,8 @@ interface PortfolioClientProps {
   data: PortfolioItem[];
 }
 
-const FALLBACK_IMAGE = "/images/portfolio-placeholder.jpg";
+const FALLBACK_IMAGE =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'><rect width='100%' height='100%' fill='%2318181b'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='sans-serif' font-size='20' letter-spacing='4'>SENSE ISLE</text></svg>";
 
 function safeImageSrc(item: PortfolioItem): string {
   return item.image && item.image.length > 0 ? item.image : FALLBACK_IMAGE;
@@ -18,9 +19,6 @@ function safeImageSrc(item: PortfolioItem): string {
 
 export default function PortfolioClient({ data }: PortfolioClientProps) {
   const [activeTab, setActiveTab] = useState<string>("all");
-
-  // State untuk melacak ID item yang sedang diklik/disentuh guna memicu efek getar
-  const [clickedId, setClickedId] = useState<string | null>(null);
 
   // 1. Urutkan data secara otomatis dari yang terbaru (ID terbesar / Tahun terbaru)
   const sortedData = useMemo(() => {
@@ -54,51 +52,8 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
           (item) => item.category?.toLowerCase().trim() === activeTab
         );
 
-  // Handler saat card diklik untuk memberikan efek getar singkat sebelum berpindah halaman
-  const handleCardClick = (
-    projectId: string,
-    e: React.MouseEvent<HTMLAnchorElement>
-  ) => {
-    const isTouchDevice = window.matchMedia("(hover: none)").matches;
-
-    if (isTouchDevice) {
-      e.preventDefault(); // Tahan navigasi sebentar untuk animasi getar
-      setClickedId(projectId);
-
-      // Berpindah halaman setelah animasi getar selesai (misal 300ms)
-      setTimeout(() => {
-        window.location.href = `/portfolio/${encodeURIComponent(projectId)}`;
-      }, 300);
-    }
-    // Untuk desktop, biarkan <Link> bernavigasi secara natural dengan efek hover CSS biasa
-  };
-
   return (
     <main className="w-full text-white min-h-screen py-16">
-      {/* Tambahkan keyframes CSS kustom untuk animasi getar di dalam tag style */}
-      <style jsx global>{`
-        @keyframes shake {
-          0% {
-            transform: translateX(0);
-          }
-          25% {
-            transform: translateX(-4px) rotate(-1deg);
-          }
-          50% {
-            transform: translateX(4px) rotate(1deg);
-          }
-          75% {
-            transform: translateX(-3px) rotate(-0.5deg);
-          }
-          100% {
-            transform: translateX(0);
-          }
-        }
-        .animate-shake {
-          animation: shake 0.3s ease-in-out;
-        }
-      `}</style>
-
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -135,16 +90,12 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {filteredProjects.map((project) => {
               const projectIdStr = String(project.id);
-              const isClicked = clickedId === projectIdStr;
 
               return (
                 <Link
                   key={projectIdStr}
                   href={`/portfolio/${encodeURIComponent(projectIdStr)}`}
-                  onClick={(e) => handleCardClick(projectIdStr, e)}
-                  className={`group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5] transition-transform ${
-                    isClicked ? "animate-shake scale-105 border-white" : ""
-                  }`}
+                  className="group relative block overflow-hidden bg-zinc-900 border border-zinc-800 aspect-[4/5]"
                 >
                   <Image
                     src={safeImageSrc(project)}
