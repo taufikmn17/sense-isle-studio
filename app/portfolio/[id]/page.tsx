@@ -9,7 +9,7 @@ interface PageProps {
 
 // Fallback image SVG bertema dark mode minimalis
 const FALLBACK_IMAGE =
-  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'><rect width='100%' height='100%' fill='%2318181b'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='sans-serif' font-size='20' letter-spacing='4'>SENSE ISLE</text></svg>";
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'><rect width='100%' height='100%' fill='%2318181b'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='sans-serif' font-size='20' letter-spacing='4'>SENSE ISLE STUDIO</text></svg>";
 
 export default async function PortfolioDetailServer({ params }: PageProps) {
   const resolvedParams = await params;
