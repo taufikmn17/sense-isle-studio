@@ -10,29 +10,29 @@ const PortfolioItemSchema = z.object({
   title: z.string().max(200).default(""),
   category: z.string().max(100).default(""),
 
-  // Gambar utama: Boleh kosong ("") atau harus berupa URL https yang valid
+  // Jika input berupa teks random / bukan https yang valid, ubah otomatis menjadi string kosong ("")
   image: z
-    .string()
-    .url()
-    .startsWith("https://")
-    .optional()
-    .or(z.literal(""))
+    .any()
+    .transform((val) => {
+      const str = String(val || "").trim();
+      return str.startsWith("https://") ? str : "";
+    })
     .default(""),
 
-  // Gambar opsional lainnya
   image2: z
-    .string()
-    .url()
-    .startsWith("https://")
-    .optional()
-    .or(z.literal(""))
+    .any()
+    .transform((val) => {
+      const str = String(val || "").trim();
+      return str.startsWith("https://") ? str : "";
+    })
     .default(""),
+
   image3: z
-    .string()
-    .url()
-    .startsWith("https://")
-    .optional()
-    .or(z.literal(""))
+    .any()
+    .transform((val) => {
+      const str = String(val || "").trim();
+      return str.startsWith("https://") ? str : "";
+    })
     .default(""),
 
   location: z.string().max(200).default(""),
