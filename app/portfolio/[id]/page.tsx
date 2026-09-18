@@ -7,6 +7,10 @@ interface PageProps {
   }>;
 }
 
+// Fallback image SVG bertema dark mode minimalis
+const FALLBACK_IMAGE =
+  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'><rect width='100%' height='100%' fill='%2318181b'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='sans-serif' font-size='20' letter-spacing='4'>SENSE ISLE STUDIO</text></svg>";
+
 export default async function PortfolioDetailServer({ params }: PageProps) {
   const resolvedParams = await params;
   const project = await getPortfolioById(resolvedParams.id);
@@ -33,9 +37,22 @@ export default async function PortfolioDetailServer({ params }: PageProps) {
     );
   }
 
-  const projectImages = [project.image, project.image2, project.image3].filter(
-    (img): img is string => Boolean(img)
+  // Mengambil semua gambar, jika kosong atau tidak ada isinya, gunakan FALLBACK_IMAGE.
+  // Anda juga bisa mengatur apakah image2 dan image3 wajib ditampilkan atau hanya yang terisi saja.
+  // Kode di bawah ini memastikan minimal ada 1 gambar (jika utama kosong, pakai fallback).
+  const rawImages = [project.image, project.image2, project.image3];
+
+  // Opsi A: Jika ingin membersihkan slot yang kosong sama sekali (tidak dirender jika kosong)
+  // const projectImages = rawImages.filter((img): img is string => Boolean(img && img.trim() !== ""));
+  // if (projectImages.length === 0) projectImages.push(FALLBACK_IMAGE);
+
+  // Opsi B (Direkomendasikan agar slot gambar konsisten):
+  // Jika gambar utama ada, tampilkan. Jika slot 2/3 kosong, pakai fallback atau abaikan.
+  // Mari kita gunakan pendekatan menyaring yang kosong, tapi pastikan minimal ada 1 gambar:
+  const validImages = rawImages.filter((img): img is string =>
+    Boolean(img && img.trim() !== "")
   );
+  const projectImages = validImages.length > 0 ? validImages : [FALLBACK_IMAGE];
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
