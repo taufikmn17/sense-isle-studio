@@ -91,18 +91,18 @@ export default function ServicesPage() {
 
   return (
     <main className="w-full text-white min-h-screen">
-      {/* Header Section dengan padding lebih pendek */}
-      <div className="w-full bg-black py-10">
-        <div className="text-left w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-[11px] md:text-xs uppercase tracking-[0.3em] text-zinc-400 font-light block mb-2">
+      {/* Header Section */}
+      <div className="w-full bg-black py-16">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
+          <span className="text-[11px] md:text-xs uppercase tracking-[0.3em] text-zinc-400 font-light block mb-3">
             WHAT WE OFFER
           </span>
 
-          <h1 className="text-3xl md:text-5xl font-semibold tracking-[0.15em] text-white mb-2">
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-[0.15em] text-white mb-4">
             Our Services
           </h1>
 
-          <p className="text-zinc-400 text-xs md:text-sm font-light tracking-[0.1em] max-w-xl">
+          <p className="text-zinc-400 text-sm md:text-base font-light tracking-[0.1em] max-w-xl">
             Delivering bespoke architectural, interior, and craftsmanship
             solutions tailored to elevate your living and working spaces.
           </p>
