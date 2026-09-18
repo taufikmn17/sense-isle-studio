@@ -69,7 +69,7 @@ export default function ReviewsPage() {
             TESTIMONIAL
           </span>
 
-          <h1 className="text-4xl md:text-6xl font-light tracking-[0.15em] text-white mb-4">
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-[0.15em] text-white mb-4">
             What They Say?
           </h1>
 

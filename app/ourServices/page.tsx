@@ -88,7 +88,7 @@ export default function ServicesPage() {
             WHAT WE OFFER
           </span>
 
-          <h1 className="text-4xl md:text-6xl font-light tracking-[0.15em] text-white mb-4">
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-[0.15em] text-white mb-4">
             Our Services
           </h1>
 
