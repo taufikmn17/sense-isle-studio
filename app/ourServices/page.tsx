@@ -1,12 +1,13 @@
-// app/ourServices/page.tsx
 "use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Compass, Armchair, Wrench, Hammer, ArrowUpRight } from "lucide-react";
 
 interface ServiceItem {
   id: string;
+  slug: string; // Ditambahkan untuk path tujuan link
   title: string;
   subtitle: string;
   description: string;
@@ -18,6 +19,7 @@ interface ServiceItem {
 const servicesData: ServiceItem[] = [
   {
     id: "01",
+    slug: "architecture-services",
     title: "ARCHITECTURE SERVICES",
     subtitle: "Conceptual & Technical Design",
     description:
@@ -35,6 +37,7 @@ const servicesData: ServiceItem[] = [
   },
   {
     id: "02",
+    slug: "interior-design",
     title: "INTERIOR DESIGN",
     subtitle: "Spatial & Atmosphere Curating",
     description:
@@ -52,6 +55,7 @@ const servicesData: ServiceItem[] = [
   },
   {
     id: "03",
+    slug: "home-office-renovation",
     title: "HOME & OFFICE RENOVATION",
     subtitle: "Transformative Reconstruction",
     description:
@@ -67,6 +71,7 @@ const servicesData: ServiceItem[] = [
   },
   {
     id: "04",
+    slug: "custom-built-furniture",
     title: "CUSTOM-BUILT FURNITURE",
     subtitle: "Tailored Craftsmanship",
     description:
@@ -84,10 +89,6 @@ const servicesData: ServiceItem[] = [
 
 export default function ServicesPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
-
-  const toggleActive = (id: string) => {
-    setActiveId((prev) => (prev === id ? null : id));
-  };
 
   return (
     <main className="w-full text-white min-h-screen">
@@ -116,26 +117,16 @@ export default function ServicesPage() {
             const isActive = activeId === service.id;
 
             return (
-              <div
+              <Link
                 key={service.id}
-                role="button"
-                tabIndex={0}
-                onClick={() => toggleActive(service.id)}
+                href={`/ourServices/${service.slug}`} // Sesuaikan tujuan rute halaman detail layanan Anda (atau ubah ke #contact jika ingin langsung ke kontak)
                 onMouseEnter={() => setActiveId(service.id)}
-                onMouseLeave={() =>
-                  setActiveId((prev) => (prev === service.id ? null : prev))
-                }
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    toggleActive(service.id);
-                  }
-                }}
-                className="group relative border-b border-white/10 grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 cursor-pointer select-none overflow-hidden"
+                onMouseLeave={() => setActiveId(null)}
+                className="group relative border-b border-white/10 grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 cursor-pointer select-none overflow-hidden block"
               >
                 {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title */}
                 <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden">
-                  {/* Background Image - ikut melakukan zoom saat aktif (mobile/desktop) */}
+                  {/* Background Image - ikut melakukan zoom saat aktif/hover */}
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -145,7 +136,7 @@ export default function ServicesPage() {
                     }`}
                   />
 
-                  {/* Dark Gradient Overlay - Menjadi lebih transparan (cerah) saat aktif di mobile atau hover di desktop */}
+                  {/* Dark Gradient Overlay */}
                   <div
                     className={`absolute inset-0 transition-opacity duration-500 ${
                       isActive
@@ -191,12 +182,7 @@ export default function ServicesPage() {
                   </div>
 
                   <div className="flex justify-end pt-4">
-                    <a
-                      href="#contact"
-                      aria-label={`Explore ${service.title}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-white relative py-2 group/btn"
-                    >
+                    <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-white relative py-2 group/btn">
                       <span className="transition-transform duration-300 group-hover/btn:-translate-y-0.5">
                         Explore Service
                       </span>
@@ -207,17 +193,17 @@ export default function ServicesPage() {
                       />
                       <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white/40 group-hover/btn:bg-white transition-colors duration-300" />
                       <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-white transition-all duration-300 group-hover/btn:w-full" />
-                    </a>
+                    </span>
                   </div>
                 </div>
 
-                {/* Garis aksen kiri saat aktif */}
+                {/* Garis aksen kiri saat aktif/hover */}
                 <span
                   className={`absolute left-0 top-0 h-full w-[2px] bg-white origin-top transition-transform duration-500 z-20 ${
                     isActive ? "scale-y-100" : "scale-y-0"
                   }`}
                 />
-              </div>
+              </Link>
             );
           })}
         </div>
