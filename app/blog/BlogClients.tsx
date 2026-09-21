@@ -12,8 +12,6 @@ interface BlogPost {
   excerpt: string;
   category: string;
   date: string;
-  author: string;
-  authorAvatar: string;
   image: string;
   featured?: boolean;
 }
@@ -27,8 +25,6 @@ const blogPosts: BlogPost[] = [
       "Exploring how sustainable materials, brutalist concrete accents, and fluid spatial zoning are redefining modern minimalist structures.",
     category: "Architecture",
     date: "March 24, 2026",
-    author: "Alexander Vance",
-    authorAvatar: "/images/services1.webp",
     image: "/images/services1.webp",
     featured: true,
   },
@@ -40,8 +36,6 @@ const blogPosts: BlogPost[] = [
       "Why lighting is the most crucial element in monochrome spaces, shifting moods from stark and industrial to intimate and organic.",
     category: "Interior Design",
     date: "March 18, 2026",
-    author: "Elena Rostova",
-    authorAvatar: "/images/services2.webp",
     image: "/images/services2.webp",
   },
   {
@@ -53,8 +47,6 @@ const blogPosts: BlogPost[] = [
       "Practical spatial techniques for small-footprint residences, utilizing custom built-ins and hidden storage systems.",
     category: "Renovation",
     date: "March 10, 2026",
-    author: "Marcus Thorne",
-    authorAvatar: "/images/services3.webp",
     image: "/images/services3.webp",
   },
   {
@@ -65,15 +57,17 @@ const blogPosts: BlogPost[] = [
       "An inside look into our workshop process and the meticulous selection of high-grade raw materials for custom joinery.",
     category: "Craftsmanship",
     date: "February 28, 2026",
-    author: "Julian Kade",
-    authorAvatar: "/images/services4.webp",
     image: "/images/services4.webp",
   },
 ];
 
 export default function BlogClients() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const toggleActive = (id: string) => {
+    setActiveId((prev) => (prev === id ? null : id));
+  };
 
   // Logika Filter Pencarian
   const filteredPosts = blogPosts.filter((post) => {
@@ -81,20 +75,20 @@ export default function BlogClients() {
     return (
       post.title.toLowerCase().includes(query) ||
       post.excerpt.toLowerCase().includes(query) ||
-      post.category.toLowerCase().includes(query) ||
-      post.author.toLowerCase().includes(query)
+      post.category.toLowerCase().includes(query)
     );
   });
 
   const featuredPost = blogPosts.find((post) => post.featured) || blogPosts[0];
 
-  // Jika sedang mencari, tampilkan semua hasil yang cocok di grid. Jika tidak, pisahkan featured post.
   const isSearching = searchQuery.trim().length > 0;
   const displayPosts = isSearching
     ? filteredPosts
     : filteredPosts.filter((post) => post.id !== featuredPost.id);
   const showFeatured =
     !isSearching && filteredPosts.some((p) => p.id === featuredPost.id);
+
+  const isFeaturedActive = activeId === featuredPost.id;
 
   return (
     <main className="w-full text-white min-h-screen bg-black">
@@ -140,7 +134,7 @@ export default function BlogClients() {
         </div>
       </div>
 
-      {/* Featured Article Section (Hanya tampil jika tidak sedang melakukan pencarian) */}
+      {/* Featured Article Section */}
       {showFeatured && (
         <section className="w-full bg-zinc-900 border-b border-white/10">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -150,14 +144,21 @@ export default function BlogClients() {
 
             <Link
               href={`/blog/${featuredPost.slug}`}
-              className="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center cursor-pointer"
+              onClick={() => toggleActive(featuredPost.id)}
+              onMouseEnter={() => setActiveId(featuredPost.id)}
+              onMouseLeave={() =>
+                setActiveId((prev) => (prev === featuredPost.id ? null : prev))
+              }
+              className="group relative bg-zinc-900 border border-white/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center cursor-pointer select-none overflow-hidden p-6 md:p-8 block"
             >
               <div className="lg:col-span-7 relative h-[320px] md:h-[450px] overflow-hidden rounded-sm">
                 <Image
                   src={featuredPost.image}
                   alt={featuredPost.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  className={`object-cover transition-transform duration-700 ${
+                    isFeaturedActive ? "scale-105" : "group-hover:scale-105"
+                  }`}
                 />
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500" />
               </div>
@@ -182,21 +183,7 @@ export default function BlogClients() {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                  <div className="flex items-center gap-3">
-                    <div className="relative w-8 h-8 rounded-full overflow-hidden bg-zinc-800 border border-white/20">
-                      <Image
-                        src={featuredPost.authorAvatar}
-                        alt={featuredPost.author}
-                        fill
-                        className="object-cover grayscale"
-                      />
-                    </div>
-                    <span className="text-xs font-medium text-white tracking-wide">
-                      {featuredPost.author}
-                    </span>
-                  </div>
-
+                <div className="flex items-center justify-end pt-4 border-t border-white/10">
                   <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-white relative py-2 group/btn">
                     <span className="transition-transform duration-300 group-hover/btn:-translate-y-0.5">
                       Read Article
@@ -206,9 +193,18 @@ export default function BlogClients() {
                       strokeWidth={1.5}
                       className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
                     />
+                    <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white/40 group-hover/btn:bg-white transition-colors duration-300" />
+                    <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-white transition-all duration-300 group-hover/btn:w-full" />
                   </div>
                 </div>
               </div>
+
+              {/* Garis aksen kiri saat aktif/hover */}
+              <span
+                className={`absolute left-0 top-0 h-full w-[2px] bg-white origin-top transition-transform duration-500 z-20 ${
+                  isFeaturedActive ? "scale-y-100" : "scale-y-0"
+                }`}
+              />
             </Link>
           </div>
         </section>
@@ -243,14 +239,17 @@ export default function BlogClients() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {displayPosts.map((post) => {
-                const isHovered = hoveredId === post.id;
+                const isActive = activeId === post.id;
 
                 return (
                   <Link
                     key={post.id}
                     href={`/blog/${post.slug}`}
-                    onMouseEnter={() => setHoveredId(post.id)}
-                    onMouseLeave={() => setHoveredId(null)}
+                    onClick={() => toggleActive(post.id)}
+                    onMouseEnter={() => setActiveId(post.id)}
+                    onMouseLeave={() =>
+                      setActiveId((prev) => (prev === post.id ? null : prev))
+                    }
                     className="group relative bg-zinc-900 border border-white/10 flex flex-col justify-between overflow-hidden transition-all duration-500"
                   >
                     <div className="relative h-60 w-full overflow-hidden">
@@ -259,7 +258,7 @@ export default function BlogClients() {
                         alt={post.title}
                         fill
                         className={`object-cover transition-transform duration-700 ${
-                          isHovered ? "scale-105" : "group-hover:scale-105"
+                          isActive ? "scale-105" : "group-hover:scale-105"
                         }`}
                       />
                       <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500" />
@@ -284,31 +283,25 @@ export default function BlogClients() {
                         </p>
                       </div>
 
-                      <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                        <div className="flex items-center gap-2.5">
-                          <div className="relative w-7 h-7 rounded-full overflow-hidden bg-zinc-800 border border-white/20">
-                            <Image
-                              src={post.authorAvatar}
-                              alt={post.author}
-                              fill
-                              className="object-cover grayscale"
-                            />
-                          </div>
-                          <span className="text-[11px] font-light text-zinc-300">
-                            {post.author}
+                      <div className="pt-4 border-t border-white/10 flex items-center justify-end">
+                        <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-white relative py-2 group/btn">
+                          <span className="transition-transform duration-300 group-hover/btn:-translate-y-0.5">
+                            Read Article
                           </span>
-                        </div>
-
-                        <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.15em] font-medium text-white group-hover:translate-x-1 transition-transform duration-300">
-                          <span>Read Article</span>
-                          <ArrowUpRight size={14} strokeWidth={1.5} />
+                          <ArrowUpRight
+                            size={16}
+                            strokeWidth={1.5}
+                            className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
+                          />
+                          <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white/40 group-hover/btn:bg-white transition-colors duration-300" />
+                          <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-white transition-all duration-300 group-hover/btn:w-full" />
                         </div>
                       </div>
                     </div>
 
                     <span
                       className={`absolute left-0 top-0 h-full w-[2px] bg-white origin-top transition-transform duration-500 z-20 ${
-                        isHovered ? "scale-y-100" : "scale-y-0"
+                        isActive ? "scale-y-100" : "scale-y-0"
                       }`}
                     />
                   </Link>
