@@ -66,14 +66,6 @@ export default async function BlogDetailPage({ params }: PageProps) {
     <div className="min-h-screen bg-black text-white flex flex-col">
       <main className="flex-1 py-16 w-full">
         <article className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Kembali */}
-          <Link
-            href="/blog"
-            className="inline-block mb-8 text-xs uppercase tracking-[0.2em] text-zinc-400 font-light hover:text-white transition-colors"
-          >
-            Back to Blog
-          </Link>
-
           {/* Kategori & tanggal */}
           <div className="flex items-center gap-4 mb-3">
             <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light">

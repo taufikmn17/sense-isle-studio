@@ -3,7 +3,7 @@ import BlogClients from "./BlogClients";
 import { getBlogData } from "@/services/blogService";
 
 export const metadata: Metadata = {
-  title: "Blog | Sense Isle Studio",
+  title: "Sense Isle Studio - Blog",
   description:
     "Articles and insights on architecture and interior design from Sense Isle Studio.",
 };
