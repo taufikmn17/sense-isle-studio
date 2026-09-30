@@ -35,14 +35,25 @@ export default function BlogClients({ data }: BlogClientsProps) {
     setActiveId((prev) => (prev === id ? null : id));
   };
 
-  // Urutkan dari yang terbaru (tanggal), lalu id terbesar
+  // 1. FEATURED: Paksa ambil ID 1 (toleransi tipe data string/number)
+  const featuredPost: BlogPost | undefined = useMemo(() => {
+    return data.find(
+      (post) => Number(post.id) === 1 || String(post.id).trim() === "1"
+    );
+  }, [data]);
+
+  const featuredId = featuredPost ? String(featuredPost.id) : null;
+
+  // 2. SORTING: Urutkan data untuk grid di bawah (kecualikan ID 1 agar tidak duplikat)
   const sortedPosts = useMemo(() => {
-    return [...data].sort((a, b) => {
-      const dateA = parseBlogDate(a.date)?.getTime() ?? 0;
-      const dateB = parseBlogDate(b.date)?.getTime() ?? 0;
-      if (dateA !== dateB) return dateB - dateA;
-      return (Number(b.id) || 0) - (Number(a.id) || 0);
-    });
+    return [...data]
+      .filter((post) => Number(post.id) !== 1 && String(post.id).trim() !== "1")
+      .sort((a, b) => {
+        const dateA = parseBlogDate(a.date)?.getTime() ?? 0;
+        const dateB = parseBlogDate(b.date)?.getTime() ?? 0;
+        if (dateA !== dateB) return dateB - dateA;
+        return (Number(b.id) || 0) - (Number(a.id) || 0);
+      });
   }, [data]);
 
   // Logika filter pencarian (judul, isi, kategori)
@@ -57,19 +68,16 @@ export default function BlogClients({ data }: BlogClientsProps) {
     );
   }, [sortedPosts, searchQuery]);
 
-  // Featured = artikel terbaru (sheet tidak punya kolom featured)
-  const featuredPost: BlogPost | undefined = sortedPosts[0];
-  const featuredId = featuredPost ? String(featuredPost.id) : null;
-
   const isSearching = searchQuery.trim().length > 0;
-  const displayPosts = isSearching
-    ? filteredPosts
-    : filteredPosts.filter((post) => String(post.id) !== featuredId);
+
+  // Jika sedang mencari, gunakan hasil filter. Jika tidak, tampilkan sortedPosts biasa.
+  const displayPosts = filteredPosts;
+
   const showFeatured = !isSearching && !!featuredPost;
   const isFeaturedActive = featuredId !== null && activeId === featuredId;
 
   // Belum ada data sama sekali (sheet kosong / gagal dimuat)
-  const hasNoData = sortedPosts.length === 0;
+  const hasNoData = data.length === 0;
 
   return (
     <main className="w-full text-white min-h-screen bg-black">
@@ -134,7 +142,7 @@ export default function BlogClients({ data }: BlogClientsProps) {
         </section>
       )}
 
-      {/* Featured Article Section */}
+      {/* Featured Article Section (ID 1) */}
       {showFeatured && featuredPost && (
         <section className="w-full bg-zinc-900 border-b border-white/10">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -214,8 +222,7 @@ export default function BlogClients({ data }: BlogClientsProps) {
         </section>
       )}
 
-      {/* Grid Card List Section
-          Disembunyikan kalau hanya ada 1 artikel (sudah tampil sebagai featured) */}
+      {/* Grid Card List Section (Urut Terbaru, Kecuali ID 1) */}
       {!hasNoData && !(showFeatured && displayPosts.length === 0) && (
         <section className="w-full bg-black py-16">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
