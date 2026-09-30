@@ -2,24 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
 
 // =====================================================================
-// Endpoint ini dipanggil oleh Apps Script setiap kali sheet PORTFOLIO
-// selesai diedit, supaya cache di Next.js langsung diperbarui tanpa
-// perlu menunggu jadwal revalidate (1 jam).
-//
-// Dilindungi secret token (bukan lewat login) karena yang manggil adalah
-// server-to-server (Apps Script -> Next.js), bukan browser user biasa.
+// Dipanggil Apps Script setiap kali sheet PORTFOLIO atau BLOG diedit.
+// Parameter ?tag= menentukan cache mana yang diperbarui.
+// Tanpa parameter tag -> default "portfolio" (kompatibel dengan trigger lama).
 // =====================================================================
+
+// Whitelist: hanya tag ini yang boleh di-revalidate lewat endpoint ini
+const ALLOWED_TAGS = ["portfolio", "blog"] as const;
+type AllowedTag = (typeof ALLOWED_TAGS)[number];
 
 export async function POST(request: NextRequest) {
   const secret = request.nextUrl.searchParams.get("secret");
-
-  // Bandingkan dengan secret yang disimpan di Environment Variables Vercel.
-  // JANGAN pernah hardcode secret di kode - selalu dari process.env.
   const expectedSecret = process.env.REVALIDATE_SECRET;
 
   if (!expectedSecret) {
-    // Endpoint ini sengaja dimatikan kalau secret belum di-setup di Vercel,
-    // supaya tidak ada endpoint revalidate publik tanpa proteksi.
     return NextResponse.json(
       { revalidated: false, message: "Revalidate endpoint not configured" },
       { status: 500 }
@@ -33,15 +29,22 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const tagParam = request.nextUrl.searchParams.get("tag") ?? "portfolio";
+
+  if (!(ALLOWED_TAGS as readonly string[]).includes(tagParam)) {
+    return NextResponse.json(
+      { revalidated: false, message: "Invalid tag" },
+      { status: 400 }
+    );
+  }
+
+  const tag = tagParam as AllowedTag;
+
   try {
-    // Catatan: beberapa versi Next.js (terutama canary/experimental)
-    // punya definisi tipe revalidateTag yang meminta argumen kedua
-    // ("profile") untuk fitur cache eksperimental. Secara runtime,
-    // memanggilnya dengan 1 argumen tetap valid dan berfungsi normal -
-    // ini cuma menghindari TypeScript build error karena mismatch tipe.
-    (revalidateTag as (tag: string) => void)("portfolio");
-    return NextResponse.json({ revalidated: true, now: Date.now() });
-  } catch (error) {
+    // Cast 1 argumen: menghindari mismatch tipe di versi Next.js tertentu
+    (revalidateTag as (tag: string) => void)(tag);
+    return NextResponse.json({ revalidated: true, tag, now: Date.now() });
+  } catch {
     return NextResponse.json(
       { revalidated: false, message: "Failed to revalidate" },
       { status: 500 }
@@ -49,8 +52,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Tolak method selain POST supaya endpoint ini tidak bisa dipicu cuma
-// dengan buka URL-nya di browser (GET).
 export async function GET() {
   return NextResponse.json(
     { revalidated: false, message: "Method not allowed" },
