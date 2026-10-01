@@ -110,103 +110,107 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      {/* Bagian Bawah: Editorial Rows */}
-      <section className="w-full bg-zinc-900 border-t border-white/10 py-8 md:py-12">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 md:space-y-12">
-          {servicesData.map((service) => {
-            const isActive = activeId === service.id;
+      {/* Bagian Bawah: Editorial Rows (Mepet Tanpa Jarak Antar Kartu) */}
+      <section className="w-full bg-zinc-900 border-t border-white/10">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="space-y-0">
+            {servicesData.map((service, index) => {
+              const isActive = activeId === service.id;
 
-            return (
-              <Link
-                key={service.id}
-                href={`/ourServices/${service.slug}`}
-                onMouseEnter={() => setActiveId(service.id)}
-                onMouseLeave={() => setActiveId(null)}
-                className="group relative border border-white/10 rounded-none grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 cursor-pointer select-none overflow-hidden block bg-zinc-900/50 shadow-xl"
-              >
-                {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title */}
-                <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden rounded-none">
-                  {/* Background Image - ikut melakukan zoom saat aktif/hover */}
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className={`object-cover transition-transform duration-700 ${
-                      isActive ? "scale-105" : "group-hover:scale-105"
-                    }`}
-                  />
+              return (
+                <Link
+                  key={service.id}
+                  href={`/ourServices/${service.slug}`}
+                  onMouseEnter={() => setActiveId(service.id)}
+                  onMouseLeave={() => setActiveId(null)}
+                  className={`group relative border-x border-b border-white/15 ${
+                    index === 0 ? "border-t border-white/15" : ""
+                  } rounded-none grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 cursor-pointer select-none overflow-hidden block bg-zinc-900/50 shadow-xl`}
+                >
+                  {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title */}
+                  <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden rounded-none">
+                    {/* Background Image - ikut melakukan zoom saat aktif/hover */}
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className={`object-cover transition-transform duration-700 ${
+                        isActive ? "scale-105" : "group-hover:scale-105"
+                      }`}
+                    />
 
-                  {/* Dark Gradient Overlay */}
-                  <div
-                    className={`absolute inset-0 transition-opacity duration-500 ${
-                      isActive
-                        ? "bg-black/30"
-                        : "bg-black/50 group-hover:bg-black/30"
-                    }`}
-                  />
+                    {/* Dark Gradient Overlay */}
+                    <div
+                      className={`absolute inset-0 transition-opacity duration-500 ${
+                        isActive
+                          ? "bg-black/30"
+                          : "bg-black/50 group-hover:bg-black/30"
+                      }`}
+                    />
 
-                  <div className="relative z-10 flex items-start justify-between">
-                    <span className="text-5xl md:text-6xl font-extralight tracking-widest text-white/90">
-                      {service.id}
-                    </span>
-                    <div className="text-white">{service.icon}</div>
-                  </div>
-
-                  <div className="relative z-10 mt-12">
-                    <span className="block text-[10px] uppercase tracking-[0.25em] text-white/80 font-light mb-2">
-                      {service.subtitle}
-                    </span>
-                    <h2 className="text-2xl md:text-4xl font-light tracking-[0.05em] text-white leading-snug">
-                      {service.title}
-                    </h2>
-                  </div>
-                </div>
-
-                {/* Sisi Kanan: Deskripsi, Fitur, dan Tombol Teks */}
-                <div className="lg:col-span-6 bg-zinc-900 p-8 md:p-12 flex flex-col justify-between rounded-none">
-                  <div>
-                    <p className="text-sm md:text-base font-light leading-relaxed text-zinc-300 mb-6">
-                      {service.description}
-                    </p>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-8">
-                      {service.features.map((feature, i) => (
-                        <li
-                          key={i}
-                          className="text-xs font-light text-zinc-300 flex items-center gap-2"
-                        >
-                          {/* Titik list diubah menjadi kotak tajam (rounded-none) */}
-                          <span className="w-1 h-1 bg-white shrink-0 rounded-none" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex justify-end pt-4">
-                    <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-white relative py-2 group/btn">
-                      <span className="transition-transform duration-300 group-hover/btn:-translate-y-0.5">
-                        Explore Service
+                    <div className="relative z-10 flex items-start justify-between">
+                      <span className="text-5xl md:text-6xl font-extralight tracking-widest text-white/90">
+                        {service.id}
                       </span>
-                      <ArrowUpRight
-                        size={16}
-                        strokeWidth={1.5}
-                        className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
-                      />
-                      <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white/40 group-hover/btn:bg-white transition-colors duration-300" />
-                      <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-white transition-all duration-300 group-hover/btn:w-full" />
-                    </span>
-                  </div>
-                </div>
+                      <div className="text-white">{service.icon}</div>
+                    </div>
 
-                {/* Garis aksen kiri saat aktif/hover */}
-                <span
-                  className={`absolute left-0 top-0 h-full w-[2px] bg-white origin-top transition-transform duration-500 z-20 ${
-                    isActive ? "scale-y-100" : "scale-y-0"
-                  }`}
-                />
-              </Link>
-            );
-          })}
+                    <div className="relative z-10 mt-12">
+                      <span className="block text-[10px] uppercase tracking-[0.25em] text-white/80 font-light mb-2">
+                        {service.subtitle}
+                      </span>
+                      <h2 className="text-2xl md:text-4xl font-light tracking-[0.05em] text-white leading-snug">
+                        {service.title}
+                      </h2>
+                    </div>
+                  </div>
+
+                  {/* Sisi Kanan: Deskripsi, Fitur, dan Tombol Teks */}
+                  <div className="lg:col-span-6 bg-zinc-900 p-8 md:p-12 flex flex-col justify-between rounded-none">
+                    <div>
+                      <p className="text-sm md:text-base font-light leading-relaxed text-zinc-300 mb-6">
+                        {service.description}
+                      </p>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 mb-8">
+                        {service.features.map((feature, i) => (
+                          <li
+                            key={i}
+                            className="text-xs font-light text-zinc-300 flex items-center gap-2"
+                          >
+                            {/* Titik list diubah menjadi kotak tajam (rounded-none) */}
+                            <span className="w-1 h-1 bg-white shrink-0 rounded-none" />
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="flex justify-end pt-4">
+                      <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-white relative py-2 group/btn">
+                        <span className="transition-transform duration-300 group-hover/btn:-translate-y-0.5">
+                          Explore Service
+                        </span>
+                        <ArrowUpRight
+                          size={16}
+                          strokeWidth={1.5}
+                          className="transition-transform duration-300 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5"
+                        />
+                        <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white/40 group-hover/btn:bg-white transition-colors duration-300" />
+                        <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-white transition-all duration-300 group-hover/btn:w-full" />
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Garis aksen kiri saat aktif/hover */}
+                  <span
+                    className={`absolute left-0 top-0 h-full w-[2px] bg-white origin-top transition-transform duration-500 z-20 ${
+                      isActive ? "scale-y-100" : "scale-y-0"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </section>
     </main>
