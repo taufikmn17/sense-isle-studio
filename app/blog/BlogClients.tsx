@@ -186,7 +186,8 @@ export default function BlogClients({ data }: BlogClientsProps) {
                     </span>
                   </div>
 
-                  <h2 className="text-2xl md:text-4xl font-light tracking-[0.05em] text-white leading-snug mb-4 group-hover:text-zinc-200 transition-colors">
+                  {/* Efek hover warna teks dihilangkan, tetap menggunakan text-white */}
+                  <h2 className="text-2xl md:text-4xl font-light tracking-[0.05em] text-white leading-snug mb-4">
                     {featuredPost.title}
                   </h2>
 
@@ -289,7 +290,8 @@ export default function BlogClients({ data }: BlogClientsProps) {
                             <span>{formatBlogDate(post.date)}</span>
                           </div>
 
-                          <h4 className="text-xl font-light tracking-[0.05em] text-white leading-snug mb-3 group-hover:text-zinc-300 transition-colors">
+                          {/* Efek hover warna teks dihilangkan, tetap menggunakan text-white */}
+                          <h4 className="text-xl font-light tracking-[0.05em] text-white leading-snug mb-3">
                             {post.title}
                           </h4>
 

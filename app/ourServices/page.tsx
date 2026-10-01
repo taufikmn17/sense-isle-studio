@@ -7,7 +7,7 @@ import { Compass, Armchair, Wrench, Hammer, ArrowUpRight } from "lucide-react";
 
 interface ServiceItem {
   id: string;
-  slug: string;
+  slug: string; // Ditambahkan untuk path tujuan link
   title: string;
   subtitle: string;
   description: string;
@@ -126,7 +126,7 @@ export default function ServicesPage() {
               >
                 {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title */}
                 <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden rounded-none">
-                  {/* Background Image */}
+                  {/* Background Image - ikut melakukan zoom saat aktif/hover */}
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -174,7 +174,8 @@ export default function ServicesPage() {
                           key={i}
                           className="text-xs font-light text-zinc-300 flex items-center gap-2"
                         >
-                          <span className="w-1 h-1 bg-white shrink-0" />
+                          {/* Titik list diubah menjadi kotak tajam (rounded-none) */}
+                          <span className="w-1 h-1 bg-white shrink-0 rounded-none" />
                           {feature}
                         </li>
                       ))}
