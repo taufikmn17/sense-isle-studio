@@ -12,6 +12,7 @@ import {
   Hammer,
   ClipboardCheck,
   ArrowRight,
+  Compass,
 } from "lucide-react";
 import Statistik from "../portfolio/statistik/statistik";
 
@@ -59,7 +60,7 @@ const coreValues: IconItem[] = [
     subtitle: "Form Meets Function",
     description:
       "We believe spaces should breathe, function intuitively, and evoke a profound sense of comfort and personal connection for those within them.",
-    icon: <Target size={24} strokeWidth={1} />,
+    icon: <Compass size={24} strokeWidth={1} />,
   },
   {
     id: "03",
