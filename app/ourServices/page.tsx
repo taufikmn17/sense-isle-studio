@@ -7,7 +7,7 @@ import { Compass, Armchair, Wrench, Hammer, ArrowUpRight } from "lucide-react";
 
 interface ServiceItem {
   id: string;
-  slug: string; // Ditambahkan untuk path tujuan link
+  slug: string;
   title: string;
   subtitle: string;
   description: string;
@@ -111,22 +111,22 @@ export default function ServicesPage() {
       </div>
 
       {/* Bagian Bawah: Editorial Rows */}
-      <section className="w-full bg-zinc-900 border-t border-white/10">
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="w-full bg-zinc-900 border-t border-white/10 py-8 md:py-12">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 md:space-y-12">
           {servicesData.map((service) => {
             const isActive = activeId === service.id;
 
             return (
               <Link
                 key={service.id}
-                href={`/ourServices/${service.slug}`} // Sesuaikan tujuan rute halaman detail layanan Anda (atau ubah ke #contact jika ingin langsung ke kontak)
+                href={`/ourServices/${service.slug}`}
                 onMouseEnter={() => setActiveId(service.id)}
                 onMouseLeave={() => setActiveId(null)}
-                className="group relative border-b border-white/10 grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 cursor-pointer select-none overflow-hidden block"
+                className="group relative border border-white/10 rounded-none grid grid-cols-1 lg:grid-cols-12 items-stretch transition-all duration-500 cursor-pointer select-none overflow-hidden block bg-zinc-900/50 shadow-xl"
               >
                 {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title */}
-                <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden">
-                  {/* Background Image - ikut melakukan zoom saat aktif/hover */}
+                <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden rounded-none">
+                  {/* Background Image */}
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -163,7 +163,7 @@ export default function ServicesPage() {
                 </div>
 
                 {/* Sisi Kanan: Deskripsi, Fitur, dan Tombol Teks */}
-                <div className="lg:col-span-6 bg-zinc-900 p-8 md:p-12 flex flex-col justify-between">
+                <div className="lg:col-span-6 bg-zinc-900 p-8 md:p-12 flex flex-col justify-between rounded-none">
                   <div>
                     <p className="text-sm md:text-base font-light leading-relaxed text-zinc-300 mb-6">
                       {service.description}
@@ -174,7 +174,7 @@ export default function ServicesPage() {
                           key={i}
                           className="text-xs font-light text-zinc-300 flex items-center gap-2"
                         >
-                          <span className="w-1 h-1 rounded-full bg-white shrink-0" />
+                          <span className="w-1 h-1 bg-white shrink-0" />
                           {feature}
                         </li>
                       ))}
