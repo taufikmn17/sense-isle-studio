@@ -17,23 +17,6 @@ import {
 import Statistik from "../portfolio/statistik/statistik";
 
 /* -------------------------------------------------------------------------- */
-/*  SEO                                                                       */
-/*  Halaman ini sekarang Server Component, jadi metadata bisa dipakai.        */
-/* -------------------------------------------------------------------------- */
-export const metadata: Metadata = {
-  title: "About Us | Architecture, Interior & Craftsmanship Studio",
-  description:
-    "Meet our multidisciplinary studio: architecture, interior curation, and bespoke craftsmanship delivered with precision, transparency, and enduring character.",
-  openGraph: {
-    title: "About Us | Architecture, Interior & Craftsmanship Studio",
-    description:
-      "A multidisciplinary studio shaping spaces with enduring character.",
-    type: "website",
-    images: ["/images/services1.webp"],
-  },
-};
-
-/* -------------------------------------------------------------------------- */
 /*  DATA  (GANTI isi di bawah ini dengan data asli studio Anda)               */
 /* -------------------------------------------------------------------------- */
 
