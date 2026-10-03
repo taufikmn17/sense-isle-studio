@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Statistik from "./statistik/statistik";
-import { PortfolioItem } from "@/services/portfolioService"; // <-- Import tipe data dari service
+import { PortfolioItem } from "@/services/portfolioService";
 
 interface PortfolioClientProps {
   data: PortfolioItem[];

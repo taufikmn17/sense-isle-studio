@@ -10,7 +10,6 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Jika menu mobile sedang terbuka, jangan ubah status tampil navbar/tutup menu
       if (isOpen) return;
 
       const currentScrollY = window.scrollY;
@@ -29,7 +28,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [lastScrollY, isOpen]); // Tambahkan isOpen ke dalam dependency array
+  }, [lastScrollY, isOpen]);
 
   return (
     <nav
@@ -84,7 +83,7 @@ export default function Navbar() {
             About Us
           </a>
           <a
-            href="#"
+            href="/contact"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             Contact
@@ -162,7 +161,7 @@ export default function Navbar() {
               About Us
             </a>
             <a
-              href="#"
+              href="/contact"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >

@@ -1,4 +1,4 @@
-import BlogClients from "./BlogClients";
+import BlogClients from "./BlogClient";
 import { getBlogData } from "@/services/blogService";
 
 export default async function BlogPage() {
@@ -6,7 +6,6 @@ export default async function BlogPage() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Data dari Server-Side/ISR dioper ke Client Component untuk filter kategori */}
       <BlogClients data={posts} />
     </div>
   );

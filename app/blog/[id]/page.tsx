@@ -45,8 +45,6 @@ export default async function BlogDetailPage({ params }: PageProps) {
   const { id } = await params;
   const post = await getBlogById(id);
 
-  // notFound() menampilkan halaman 404 bawaan Next.js
-  // (aman di Server Component, tidak butuh onClick seperti tombol reload)
   if (!post) {
     notFound();
   }
@@ -54,8 +52,6 @@ export default async function BlogDetailPage({ params }: PageProps) {
   const imageSrc =
     post.image && post.image.trim() !== "" ? post.image : FALLBACK_IMAGE;
 
-  // Pecah description menjadi paragraf berdasarkan baris kosong (Ctrl+Enter 2x).
-  // Baris tunggal tetap dipertahankan sebagai pindah baris lewat whitespace-pre-line.
   const paragraphs = (post.description ?? "")
     .replace(/\r\n?/g, "\n")
     .split(/\n\s*\n/)

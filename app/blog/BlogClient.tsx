@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useTransition } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Calendar, Search, Tag, X } from "lucide-react";
@@ -21,8 +21,8 @@ function safeImageSrc(post: BlogPost): string {
   return post.image && post.image.length > 0 ? post.image : FALLBACK_IMAGE;
 }
 
-// Ringkasan untuk kartu, diambil dari kolom description di sheet
 function makeExcerpt(text: string, max = 160): string {
+  if (!text) return "";
   const clean = text.replace(/\s+/g, " ").trim();
   return clean.length > max ? clean.slice(0, max).trimEnd() + "..." : clean;
 }
@@ -30,13 +30,15 @@ function makeExcerpt(text: string, max = 160): string {
 export default function BlogClients({ data }: BlogClientsProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [, startTransition] = useTransition(); // Mencegah UI freeze saat filter data besar
 
   const toggleActive = (id: string) => {
     setActiveId((prev) => (prev === id ? null : id));
   };
 
-  // 1. FEATURED: Paksa ambil ID 1 (toleransi tipe data string/number)
+  // 1. FEATURED: Ambil ID 1 secara aman
   const featuredPost: BlogPost | undefined = useMemo(() => {
+    if (!Array.isArray(data)) return undefined;
     return data.find(
       (post) => Number(post.id) === 1 || String(post.id).trim() === "1"
     );
@@ -44,8 +46,9 @@ export default function BlogClients({ data }: BlogClientsProps) {
 
   const featuredId = featuredPost ? String(featuredPost.id) : null;
 
-  // 2. SORTING: Urutkan data untuk grid di bawah (kecualikan ID 1 agar tidak duplikat)
+  // 2. SORTING: Urutkan data untuk grid di bawah (kecuali ID 1)
   const sortedPosts = useMemo(() => {
+    if (!Array.isArray(data)) return [];
     return [...data]
       .filter((post) => Number(post.id) !== 1 && String(post.id).trim() !== "1")
       .sort((a, b) => {
@@ -56,33 +59,45 @@ export default function BlogClients({ data }: BlogClientsProps) {
       });
   }, [data]);
 
-  // Logika filter pencarian (judul, isi, kategori)
+  // Logika filter pencarian yang aman (menggunakan sanitasi string dasar)
   const filteredPosts = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
     if (!query) return sortedPosts;
-    return sortedPosts.filter(
-      (post) =>
-        post.title.toLowerCase().includes(query) ||
-        post.description.toLowerCase().includes(query) ||
-        post.category.toLowerCase().includes(query)
-    );
+
+    return sortedPosts.filter((post) => {
+      const title = (post.title || "").toLowerCase();
+      const description = (post.description || "").toLowerCase();
+      const category = (post.category || "").toLowerCase();
+
+      return (
+        title.includes(query) ||
+        description.includes(query) ||
+        category.includes(query)
+      );
+    });
   }, [sortedPosts, searchQuery]);
 
   const isSearching = searchQuery.trim().length > 0;
-
-  // Jika sedang mencari, gunakan hasil filter. Jika tidak, tampilkan sortedPosts biasa.
   const displayPosts = filteredPosts;
-
   const showFeatured = !isSearching && !!featuredPost;
   const isFeaturedActive = featuredId !== null && activeId === featuredId;
+  const hasNoData = !data || data.length === 0;
 
-  // Belum ada data sama sekali (sheet kosong / gagal dimuat)
-  const hasNoData = data.length === 0;
+  // Handler input dengan transisi non-blocking UI
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Sanitasi panjang input maksimal untuk menghindari spam karakter berlebih
+    if (value.length <= 100) {
+      startTransition(() => {
+        setSearchQuery(value);
+      });
+    }
+  };
 
   return (
     <main className="w-full text-white min-h-screen bg-black">
       {/* Header Section */}
-      <div className="w-full bg-black py-16 border-b border-white/15">
+      <div className="w-full bg-black py-16">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
             <div>
@@ -98,7 +113,7 @@ export default function BlogClients({ data }: BlogClientsProps) {
               </p>
             </div>
 
-            {/* Kotak Input Pencarian */}
+            {/* Kotak Input Pencarian yang Dioptimalkan */}
             <div className="relative w-full md:w-80">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-zinc-400">
                 <Search size={16} strokeWidth={1.5} />
@@ -106,9 +121,10 @@ export default function BlogClients({ data }: BlogClientsProps) {
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="Search articles, topics..."
                 aria-label="Search articles"
+                maxLength={100}
                 className="w-full bg-zinc-900 border border-white/15 rounded-none py-3 pl-10 pr-10 text-xs md:text-sm text-white placeholder-zinc-500 font-light tracking-wider focus:outline-none focus:border-white transition-colors"
               />
               {searchQuery && (
@@ -125,7 +141,7 @@ export default function BlogClients({ data }: BlogClientsProps) {
         </div>
       </div>
 
-      {/* Kondisi data kosong / gagal dimuat */}
+      {/* Bagian rendering konten tetap aman seperti sebelumnya... */}
       {hasNoData && (
         <section className="w-full bg-black py-20">
           <div className="text-center">
@@ -142,9 +158,9 @@ export default function BlogClients({ data }: BlogClientsProps) {
         </section>
       )}
 
-      {/* Featured Article Section (ID 1) */}
+      {/* Featured Article Section */}
       {showFeatured && featuredPost && (
-        <section className="w-full bg-zinc-900 border-b border-white/10">
+        <section className="w-full bg-zinc-900 border-t border-white/10">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
             <span className="text-[10px] uppercase tracking-[0.25em] text-zinc-400 font-light block mb-6">
               FEATURED ARTICLE
@@ -186,7 +202,6 @@ export default function BlogClients({ data }: BlogClientsProps) {
                     </span>
                   </div>
 
-                  {/* Efek hover warna teks dihilangkan, tetap menggunakan text-white */}
                   <h2 className="text-2xl md:text-4xl font-light tracking-[0.05em] text-white leading-snug mb-4">
                     {featuredPost.title}
                   </h2>
@@ -212,7 +227,6 @@ export default function BlogClients({ data }: BlogClientsProps) {
                 </div>
               </div>
 
-              {/* Garis aksen kiri saat aktif/hover */}
               <span
                 className={`absolute left-0 top-0 h-full w-[2px] bg-white origin-top transition-transform duration-500 z-20 ${
                   isFeaturedActive ? "scale-y-100" : "scale-y-0"
@@ -223,7 +237,7 @@ export default function BlogClients({ data }: BlogClientsProps) {
         </section>
       )}
 
-      {/* Grid Card List Section (Urut Terbaru, Kecuali ID 1) */}
+      {/* Grid Card List Section */}
       {!hasNoData && !(showFeatured && displayPosts.length === 0) && (
         <section className="w-full bg-black py-16">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -290,7 +304,6 @@ export default function BlogClients({ data }: BlogClientsProps) {
                             <span>{formatBlogDate(post.date)}</span>
                           </div>
 
-                          {/* Efek hover warna teks dihilangkan, tetap menggunakan text-white */}
                           <h4 className="text-xl font-light tracking-[0.05em] text-white leading-snug mb-3">
                             {post.title}
                           </h4>

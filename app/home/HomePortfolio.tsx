@@ -3,11 +3,8 @@ import Link from "next/link";
 import {
   getPortfolioData,
   PortfolioItem,
-} from "../../services/portfolioService"; // <-- Import dari service
+} from "../../services/portfolioService";
 
-// Fallback lokal (statis, aman) jika suatu item lolos validasi tapi
-// field image kosong/tidak diisi di sheet - mencegah <Image> menerima
-// src kosong yang bisa memicu error render.
 const FALLBACK_IMAGE =
   "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='800' height='1000' viewBox='0 0 800 1000'><rect width='100%' height='100%' fill='%2318181b'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%2371717a' font-family='sans-serif' font-size='20' letter-spacing='4'>SENSE ISLE STUDIO</text></svg>";
 
@@ -16,7 +13,7 @@ function safeImageSrc(item: PortfolioItem): string {
 }
 
 export default async function HomePortfolio() {
-  const data = await getPortfolioData(); // <-- Sudah divalidasi skema di service layer
+  const data = await getPortfolioData();
 
   // Urutkan dari yang terbaru (ID terbesar / Tahun terbaru)
   const sortedData = [...data].sort((a, b) => {
@@ -182,7 +179,6 @@ export default async function HomePortfolio() {
               <p className="text-zinc-400 text-sm tracking-[0.15em] uppercase font-light mb-4">
                 Failed to load.
               </p>
-              {/* Reload lewat link biasa (tanpa inline onClick di server component) */}
               <Link
                 href="/"
                 className="inline-block px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black active:bg-white active:text-black transition-colors"
@@ -192,7 +188,6 @@ export default async function HomePortfolio() {
             </div>
           )}
 
-        {/* Tombol View All di Tengah Bawah */}
         <div className="text-center mt-12">
           <Link
             href="/portfolio"

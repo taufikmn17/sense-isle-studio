@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Geist_Mono } from "next/font/google";
-import Navbar from "@/app/components/Navbar"; // Sesuaikan jalur foldernya jika berbeda
+import Navbar from "@/app/components/Navbar";
+import Footer from "@/app/components/Footer"; // 1. Impor komponen Footer
 import WhatsAppFloat from "@/app/components/WhatsAppFloat";
 import "./globals.css";
 
@@ -34,8 +35,11 @@ export default function RootLayout({
         {/* Navbar tampil di semua halaman */}
         <Navbar />
 
-        {/* Konten halaman yang sedang dibuka (Home, Portfolio, dll) */}
+        {/* Konten halaman akan mengisi ruang kosong, mendorong footer ke bawah */}
         <main className="flex-grow">{children}</main>
+
+        {/* 2. Footer dipasang di sini agar selalu tampil di bagian paling bawah */}
+        <Footer />
 
         {/* Tombol WhatsApp mengapung di semua halaman */}
         <WhatsAppFloat />
