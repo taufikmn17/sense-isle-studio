@@ -108,9 +108,9 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
                     <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
                       {project.category}
                     </span>
-                    <h3 className="text-base md:text-lg font-light tracking-[0.15em] text-white">
+                    <h4 className="text-base md:text-lg font-light uppercase tracking-[0.15em] text-white">
                       {project.title}
-                    </h3>
+                    </h4>
                   </div>
                 </Link>
               );
