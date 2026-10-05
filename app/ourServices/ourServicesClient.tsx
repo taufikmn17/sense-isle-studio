@@ -110,7 +110,7 @@ export default function ServicesClient() {
         </div>
       </div>
 
-      {/* Bagian Bawah: Editorial Rows (Mepet Tanpa Jarak Antar Kartu) */}
+      {/* Bagian Bawah: Editorial Rows */}
       <section className="w-full bg-zinc-900 border-t border-white/10">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="space-y-0">
@@ -129,7 +129,7 @@ export default function ServicesClient() {
                 >
                   {/* Sisi Kiri: Background Image dengan Nomor, Icon, Subtitle, dan Title */}
                   <div className="lg:col-span-6 relative min-h-[320px] p-8 md:p-12 flex flex-col justify-between overflow-hidden rounded-none">
-                    {/* Background Image - ikut melakukan zoom saat aktif/hover */}
+                    {/* Background Image - tetap melakukan zoom saat aktif/hover */}
                     <Image
                       src={service.image}
                       alt={service.title}
@@ -139,14 +139,8 @@ export default function ServicesClient() {
                       }`}
                     />
 
-                    {/* Dark Gradient Overlay */}
-                    <div
-                      className={`absolute inset-0 transition-opacity duration-500 ${
-                        isActive
-                          ? "bg-black/30"
-                          : "bg-black/50 group-hover:bg-black/30"
-                      }`}
-                    />
+                    {/* Dark Gradient Overlay (Diubah menjadi konstan tanpa efek hover gelap) */}
+                    <div className="absolute inset-0 bg-black/20" />
 
                     <div className="relative z-10 flex items-start justify-between">
                       <span className="text-5xl md:text-6xl font-extralight tracking-widest text-white/90">
@@ -177,7 +171,6 @@ export default function ServicesClient() {
                             key={i}
                             className="text-xs font-light text-zinc-300 flex items-center gap-2"
                           >
-                            {/* Titik list diubah menjadi kotak tajam (rounded-none) */}
                             <span className="w-1 h-1 bg-white shrink-0 rounded-none" />
                             {feature}
                           </li>

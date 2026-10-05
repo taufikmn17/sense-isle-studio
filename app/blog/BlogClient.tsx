@@ -30,13 +30,12 @@ function makeExcerpt(text: string, max = 160): string {
 export default function BlogClients({ data }: BlogClientsProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [, startTransition] = useTransition(); // Mencegah UI freeze saat filter data besar
+  const [, startTransition] = useTransition();
 
   const toggleActive = (id: string) => {
     setActiveId((prev) => (prev === id ? null : id));
   };
 
-  // 1. FEATURED: Ambil ID 1 secara aman
   const featuredPost: BlogPost | undefined = useMemo(() => {
     if (!Array.isArray(data)) return undefined;
     return data.find(
@@ -46,7 +45,6 @@ export default function BlogClients({ data }: BlogClientsProps) {
 
   const featuredId = featuredPost ? String(featuredPost.id) : null;
 
-  // 2. SORTING: Urutkan data untuk grid di bawah (kecuali ID 1)
   const sortedPosts = useMemo(() => {
     if (!Array.isArray(data)) return [];
     return [...data]
@@ -59,7 +57,6 @@ export default function BlogClients({ data }: BlogClientsProps) {
       });
   }, [data]);
 
-  // Logika filter pencarian yang aman (menggunakan sanitasi string dasar)
   const filteredPosts = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
     if (!query) return sortedPosts;
@@ -83,10 +80,8 @@ export default function BlogClients({ data }: BlogClientsProps) {
   const isFeaturedActive = featuredId !== null && activeId === featuredId;
   const hasNoData = !data || data.length === 0;
 
-  // Handler input dengan transisi non-blocking UI
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Sanitasi panjang input maksimal untuk menghindari spam karakter berlebih
     if (value.length <= 100) {
       startTransition(() => {
         setSearchQuery(value);
@@ -113,7 +108,7 @@ export default function BlogClients({ data }: BlogClientsProps) {
               </p>
             </div>
 
-            {/* Kotak Input Pencarian yang Dioptimalkan */}
+            {/* Kotak Input Pencarian */}
             <div className="relative w-full md:w-80">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-zinc-400">
                 <Search size={16} strokeWidth={1.5} />
@@ -141,7 +136,6 @@ export default function BlogClients({ data }: BlogClientsProps) {
         </div>
       </div>
 
-      {/* Bagian rendering konten tetap aman seperti sebelumnya... */}
       {hasNoData && (
         <section className="w-full bg-black py-20">
           <div className="text-center">
@@ -188,7 +182,8 @@ export default function BlogClients({ data }: BlogClientsProps) {
                     isFeaturedActive ? "scale-105" : "group-hover:scale-105"
                   }`}
                 />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500" />
+                {/* Overlay dikunci tetap bg-black/20 tanpa efek hover */}
+                <div className="absolute inset-0 bg-black/20" />
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
@@ -291,7 +286,8 @@ export default function BlogClients({ data }: BlogClientsProps) {
                             isActive ? "scale-105" : "group-hover:scale-105"
                           }`}
                         />
-                        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-colors duration-500" />
+                        {/* Overlay dikunci tetap bg-black/20 tanpa efek hover */}
+                        <div className="absolute inset-0 bg-black/20" />
                         <span className="absolute top-4 left-4 z-10 text-[10px] uppercase tracking-[0.2em] bg-black/60 backdrop-blur-md px-2.5 py-1 text-white border border-white/10">
                           {post.category}
                         </span>
