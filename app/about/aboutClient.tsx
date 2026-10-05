@@ -193,30 +193,31 @@ export default function AboutClient() {
             </h2>
           </div>
 
-          <div className="max-w-xl mx-auto">
-            <div className="bg-black/40 border border-white/15 p-8 md:p-10 flex flex-col justify-between rounded-none shadow-xl transition-all duration-300 hover:border-white/40">
+          {/* Diperbesar menjadi max-w-3xl agar kotaknya lebih lebar proporsional */}
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-black/40 border border-white/15 p-10 md:p-14 flex flex-col justify-between rounded-none shadow-xl transition-all duration-300 hover:border-white/40">
               <div>
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-zinc-900 border border-white/15 flex items-center justify-center text-white shrink-0">
-                    <MapPin size={24} strokeWidth={1} />
+                <div className="flex items-center gap-5 mb-8">
+                  <div className="w-14 h-14 rounded-full bg-zinc-900 border border-white/15 flex items-center justify-center text-white shrink-0">
+                    <MapPin size={28} strokeWidth={1} />
                   </div>
                   <div>
-                    <h3 className="text-base font-medium tracking-[0.08em] text-white">
+                    <h3 className="text-lg md:text-xl font-medium tracking-[0.08em] text-white">
                       SURABAYA
                     </h3>
-                    <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-400 font-light block">
+                    <span className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-light block mt-0.5">
                       Headquarters
                     </span>
                   </div>
                 </div>
 
-                <p className="text-sm font-light text-zinc-300 leading-relaxed">
+                <p className="text-base md:text-lg font-light text-zinc-300 leading-relaxed">
                   Jl. Manyar Tirtoyoso Utara III No.6, Klampis Ngasem, Kec.
                   Sukolilo, Surabaya, Jawa Timur 60117
                 </p>
               </div>
 
-              <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between">
+              <div className="mt-10 pt-5 border-t border-white/10 flex items-center justify-between">
                 <span className="text-xs uppercase tracking-[0.2em] text-zinc-500 font-light">
                   Primary Studio
                 </span>

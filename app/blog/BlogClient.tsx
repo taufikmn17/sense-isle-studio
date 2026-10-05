@@ -108,8 +108,8 @@ export default function BlogClients({ data }: BlogClientsProps) {
                 Our Blog
               </h1>
               <p className="text-zinc-400 text-sm md:text-base font-light tracking-[0.1em] max-w-xl">
-                Thoughts, design philosophies, technical breakdowns, and
-                behind-the-scenes stories from our studio.
+                Explorations in architecture, interior philosophy, creative
+                processes, and stories shaping our design journal.
               </p>
             </div>
 
