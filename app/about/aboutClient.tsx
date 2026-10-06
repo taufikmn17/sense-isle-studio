@@ -17,14 +17,14 @@ interface ValueItem {
 const leadershipData = {
   sectionSubtitle: "LEADERSHIP",
   sectionTitle: "Our Founder",
-  image: "/images/services1.webp",
+  image: "/images/about2.webp",
   founder: {
     role: "FOUNDER & PRINCIPAL",
-    name: "Abcde, M.Arch., IAI.",
+    name: "Stanley Prayogo, S.T",
     title: "Chief Executive Officer & Principal Architect",
     paragraphs: [
-      "Founded Aethelgard Studio in 2014 and serves as CEO. After completing his Master of Architecture degree abroad, he spent years refining his expertise at prominent contemporary design firms before establishing an independent practice focused on avant-garde spatial geometries.",
-      "Under his creative direction, the studio has evolved from a boutique design collective into an internationally recognized firm with over 40 multidisciplinary professionals delivering landmark residential and commercial projects across the region.",
+      "Founded Sense Isle Studio in 2016 and currently serves as its CEO. With extensive experience in architecture and interior design, along with an educational background at Petra Christian University, he has continued to develop his expertise and design perspective through years of professional experience before establishing an independent practice focused on exploring space, function, and architectural character.",
+      "Under his creative direction, Sense Isle Studio has continued to grow through hundreds of completed architecture and interior design projects. Each project has contributed to a more refined design approach, responding to the needs of each client while creating spaces with a strong sense of character and function. With this experience, he leads Sense Isle Studio in delivering a diverse range of residential, commercial, and hospitality projects, with a design approach centered on detail, quality, and relevance.",
     ],
   },
   quote:
@@ -74,29 +74,33 @@ export default function AboutClient() {
               </h2>
 
               <p className="text-sm md:text-base font-light text-zinc-300 leading-relaxed">
-                Over a decade of progressive design practice across luxury
-                residential, high-end hospitality, and urban commercial spaces.
-                Every engagement follows an exhaustive workflow from initial
-                site mapping to final construction administration.
+                We are an architecture and interior design studio based in
+                Surabaya, Indonesia. We like to call ourselves “Dream Makers”,
+                as we believe every dream home deserves to be thoughtfully
+                designed and brought to life.
               </p>
 
               <p className="text-sm md:text-base font-light text-zinc-300 leading-relaxed">
-                Our methodology treats each architectural creation as an
-                interconnected ecosystem—balancing structural integrity,
-                acoustic comfort, environmental responsiveness, and aesthetic
-                purity.
+                Established in 2010, Sense Isle Studio has grown into an
+                architecture and interior design practice with experience across
+                a wide range of design and build projects. Over the years, we
+                have worked on residential, commercial, hospitality, and other
+                architectural and interior projects throughout East Java and
+                across Indonesia.
               </p>
 
               <p className="text-sm md:text-base font-light text-zinc-300 leading-relaxed">
-                Founded in 2014, **Aethelgard Studio** has grown from a local
-                creative atelier into a premier practice with project footprints
-                spanning metropolitan hubs and coastal destinations worldwide.
+                In every project, we bring our values and design philosophy into
+                every detail of our work. For us, success is achieved when our
+                clients achieve their goals. We strive to understand their
+                needs, translate their ideas into meaningful spaces, and create
+                designs that are functional, considered, and built to last.
               </p>
             </div>
 
             <div className="lg:col-span-6 relative h-[380px] md:h-[500px] border border-white/15 overflow-hidden">
               <Image
-                src="/images/services1.webp"
+                src="/images/about1.webp"
                 alt="Studio Atmosphere"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -125,19 +129,10 @@ export default function AboutClient() {
                 </div>
 
                 <h3 className="text-2xl md:text-3xl font-light tracking-[0.02em] text-white leading-snug mb-8">
-                  &quot;To redefine contemporary architecture through
-                  sustainable elegance and timeless spatial storytelling on a
-                  global scale.&quot;
+                  &quot;To become a trusted architecture and interior design
+                  studio that transforms our clients’ aspirations into
+                  meaningful, functional, and enduring spaces.&quot;
                 </h3>
-              </div>
-
-              <div>
-                <div className="w-12 h-[1px] bg-white/40 mb-6"></div>
-                <p className="text-sm md:text-base font-light text-zinc-300 leading-relaxed">
-                  Establishing a new benchmark for modern contextual design
-                  where structural innovation meets environmental empathy,
-                  leaving a lasting legacy for generations.
-                </p>
               </div>
             </div>
 
@@ -151,18 +146,10 @@ export default function AboutClient() {
                 </div>
 
                 <h3 className="text-2xl md:text-3xl font-light tracking-[0.02em] text-white leading-snug mb-8">
-                  &quot;Translating human aspirations into breathtaking physical
-                  realities through meticulous execution.&quot;
+                  &quot;Create thoughtful architecture and interior solutions
+                  that balance functionality, aesthetics, and the character of
+                  each client.&quot;
                 </h3>
-              </div>
-
-              <div>
-                <div className="w-12 h-[1px] bg-white/40 mb-6"></div>
-                <p className="text-sm md:text-base font-light text-zinc-300 leading-relaxed">
-                  Delivering uncompromised quality across every project
-                  phase—from conceptualization and engineering to material
-                  procurement and master builder handover.
-                </p>
               </div>
             </div>
           </div>
@@ -305,7 +292,7 @@ export default function AboutClient() {
       {/* 6. Parallax / Fixed Background Section */}
       <section
         className="relative w-full h-[60vh] sm:h-[70vh] md:h-[85vh] overflow-hidden bg-fixed bg-center bg-cover"
-        style={{ backgroundImage: "url('/images/services1.webp')" }}
+        style={{ backgroundImage: "url('/images/about3.webp')" }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
 

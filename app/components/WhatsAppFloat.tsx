@@ -1,8 +1,7 @@
 import Link from "next/link";
 
 export default function WhatsAppFloat() {
-  const whatsappUrl =
-    "https://wa.me/628970587487?text=Halo,%20saya%20tertarik%20dengan%20jasa%20interior%20Anda";
+  const whatsappUrl = "https://wa.me/628970587487";
 
   return (
     <Link

@@ -60,7 +60,7 @@ export default function ContactClient() {
                   </div>
                 </div>
 
-                {/* Email (Clickable) */}
+                {/* Email (Standard mailto) */}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full bg-zinc-900 border border-white/15 flex items-center justify-center text-white shrink-0 mt-1">
                     <Mail size={18} strokeWidth={1.5} />
@@ -70,10 +70,10 @@ export default function ContactClient() {
                       Direct Email
                     </h3>
                     <a
-                      href="mailto:inquiry@aethelgardstudio.com"
+                      href="mailto:sensestudio.id@gmail.com"
                       className="text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 block"
                     >
-                      inquiry@aethelgardstudio.com
+                      sensestudio.id@gmail.com
                     </a>
                   </div>
                 </div>
@@ -88,7 +88,7 @@ export default function ContactClient() {
                       Phone Line / WhatsApp
                     </h3>
                     <a
-                      href="https://wa.me/628970587487?text=Halo,%20saya%20tertarik%20dengan%20jasa%20interior%20Anda"
+                      href="https://wa.me/628970587487"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 block"
@@ -105,8 +105,9 @@ export default function ContactClient() {
                   Operating Hours
                 </h3>
                 <p className="text-sm font-light text-zinc-300">
-                  Monday – Friday: 09:00 AM – 06:00 PM (WIB) <br />
-                  Saturday – Sunday: By Appointment Only
+                  Monday – Friday: 09:00 AM – 05:00 PM (WIB) <br />
+                  Saturday: 09:00 AM – 04:00 PM (WIB) <br />
+                  Sunday: Closed / By Appointment
                 </p>
               </div>
             </div>

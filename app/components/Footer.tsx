@@ -121,7 +121,7 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col space-y-3 text-sm font-light text-zinc-300">
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/senseislestudio/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-between group py-1 hover:text-white transition-colors"
@@ -139,7 +139,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://threads.net"
+                href="https://www.threads.com/@senseislestudio"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-between group py-1 hover:text-white transition-colors"

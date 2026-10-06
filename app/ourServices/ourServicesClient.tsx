@@ -25,12 +25,11 @@ const servicesData: ServiceItem[] = [
     description:
       "We design building structures that blend modern aesthetics, precise spatial functionality, and harmony with the surrounding environment.",
     features: [
-      "Master Planning & Concept Design",
-      "3D Modeling & Visualization",
-      "Detailed Engineering Design (DAD/DED)",
-      "Regulatory & Permit Consultation",
-      "Site Analysis & Feasibility Study",
-      "Construction Supervision & Review",
+      "Survey & Design Concept",
+      "3D Modeling & Rendering",
+      "Architectural Working Drawings",
+      "Exterior & Landscape Details",
+      "Additional Services",
     ],
     icon: <Compass size={26} strokeWidth={1} />,
     image: "/images/services1.webp",
@@ -43,12 +42,12 @@ const servicesData: ServiceItem[] = [
     description:
       "Creating characterful, warm, and personal interiors. Every material, lighting, and layout element is curated for maximum comfort.",
     features: [
-      "Residential & Commercial Interior",
-      "Lighting & Material Selection",
-      "Space Planning & Layout",
-      "Custom Interior Styling",
-      "3D Realistic Interior Rendering",
-      "Furniture & Decor Procurement",
+      "Interior Survey & Concept",
+      "3D Modeling & Rendering",
+      "Interior Working Drawings",
+      "Interior Details & Finishing",
+      "Furniture & Material Specification",
+      "BOQ & Design Supervision",
     ],
     icon: <Armchair size={26} strokeWidth={1} />,
     image: "/images/services2.webp",
@@ -61,10 +60,10 @@ const servicesData: ServiceItem[] = [
     description:
       "Comprehensive or partial renovation solutions for your home or workspace, executed with discipline according to budget and timeline.",
     features: [
-      "Partial & Full-House Renovation",
-      "Office Space Makeover",
-      "Structural & M&E Upgrades",
-      "Quality Control & Budget Management",
+      "Consultation & Survey",
+      "Requirement Analysis & Renovation Details",
+      "BOQ Preparation",
+      "Renovation Execution Supervision",
     ],
     icon: <Wrench size={26} strokeWidth={1} />,
     image: "/images/services3.webp",
@@ -77,10 +76,10 @@ const servicesData: ServiceItem[] = [
     description:
       "Bespoke custom furniture tailored precisely to your dimensions, preferred materials, and design style to stand out from mass-produced items.",
     features: [
-      "Built-in Wardrobes & Kitchen Sets",
-      "Custom Tables, Credenzas & Sofas",
-      "High-grade Material & Finishing",
-      "On-site Installation",
+      "Custom Furniture Design",
+      "In-House CNC Production",
+      "Edge Banding & Finishing",
+      "Quality Control & Delivery",
     ],
     icon: <Hammer size={26} strokeWidth={1} />,
     image: "/images/services4.webp",
@@ -139,7 +138,7 @@ export default function ServicesClient() {
                       }`}
                     />
 
-                    {/* Dark Gradient Overlay (Diubah menjadi konstan tanpa efek hover gelap) */}
+                    {/* Dark Gradient Overlay */}
                     <div className="absolute inset-0 bg-black/20" />
 
                     <div className="relative z-10 flex items-start justify-between">
