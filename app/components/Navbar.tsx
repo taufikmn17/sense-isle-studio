@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link"; // ✅ Tambahkan import ini
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,58 +37,63 @@ export default function Navbar() {
         showNavbar ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      {/* Container utama disamakan dengan lebar dan padding standar konten di bawahnya */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 sm:h-20 w-full relative">
         {/* Logo */}
         <div className="flex items-center h-10 sm:h-12 w-auto z-10 shrink-0">
-          <Image
-            src="/images/sis_logo.webp"
-            alt="Sense Isle Studio Logo"
-            width={220}
-            height={80}
-            priority
-            className="h-full w-auto object-contain"
-          />
+          <Link
+            href="/"
+            aria-label="Sense Isle Studio Home"
+            className="flex items-center h-full w-auto"
+          >
+            <Image
+              src="/images/sis_logo.webp"
+              alt="Sense Isle Studio Logo"
+              width={220}
+              height={80}
+              priority
+              className="h-full w-auto object-contain"
+            />
+          </Link>
         </div>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-medium tracking-[0.15em] uppercase text-zinc-900 whitespace-nowrap">
-          <a
+          <Link
             href="/"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             Home
-          </a>
-          <a
+          </Link>
+          <Link
             href="/reviews"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             Reviews
-          </a>
-          <a
+          </Link>
+          <Link
             href="/ourServices"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             Services
-          </a>
-          <a
+          </Link>
+          <Link
             href="/blog"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             Blog
-          </a>
-          <a
+          </Link>
+          <Link
             href="/about"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             About Us
-          </a>
-          <a
+          </Link>
+          <Link
             href="/contact"
             className="relative py-1 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-zinc-900 hover:after:w-full after:transition-all after:duration-300"
           >
             Contact
-          </a>
+          </Link>
         </div>
 
         {/* Mobile & Tablet Menu Button */}
@@ -125,48 +131,48 @@ export default function Navbar() {
       {isOpen && (
         <div className="lg:hidden border-t border-zinc-200 bg-[#f6f6f6] shadow-xl text-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col text-xs font-medium tracking-[0.2em] uppercase text-zinc-900 divide-y divide-zinc-200">
-            <a
+            <Link
               href="/"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >
               Home
-            </a>
-            <a
+            </Link>
+            <Link
               href="/reviews"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >
               Reviews
-            </a>
-            <a
+            </Link>
+            <Link
               href="/ourServices"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >
               Services
-            </a>
-            <a
+            </Link>
+            <Link
               href="/blog"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >
               Blog
-            </a>
-            <a
+            </Link>
+            <Link
               href="/about"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >
               About Us
-            </a>
-            <a
+            </Link>
+            <Link
               href="/contact"
               onClick={() => setIsOpen(false)}
               className="py-4 hover:bg-zinc-200/50 transition-colors"
             >
               Contact
-            </a>
+            </Link>
           </div>
         </div>
       )}

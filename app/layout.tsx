@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Geist_Mono } from "next/font/google";
 import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer"; // 1. Impor komponen Footer
+import Footer from "@/app/components/Footer";
 import WhatsAppFloat from "@/app/components/WhatsAppFloat";
 import "./globals.css";
 
@@ -16,9 +16,40 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sense Isle Studio - Interior & Architecture",
+  metadataBase: new URL("https://sensestudio.co.id"),
+
+  // Template: nama studio di DEPAN, judul halaman di BELAKANG
+  title: {
+    default: "Sense Isle Studio - Interior & Architecture",
+    template: "Sense Isle Studio - %s",
+  },
   description:
-    "Sense Isle Studio is an interior and architecture studio creating sophisticated, timeless spaces through thoughtful design, refined details, and a strong sense of place.",
+    "Sense Isle Studio is an interior and architecture studio creating sophisticated, timeless spaces. Our services include Architecture Services, Interior Design, Home & Office Renovation, and Custom-Built Furniture.",
+  keywords: [
+    "Sense Isle Studio",
+    "Sense Isle",
+    "Web Sense Isle",
+    "Sense Isle Interior",
+    "Sense Isle Architecture",
+    "Architecture Services",
+    "Interior Design",
+    "Home Renovation",
+    "Office Renovation",
+    "Custom-Built Furniture",
+    "Interior and Architecture Studio",
+  ],
+  alternates: {
+    canonical: "https://sensestudio.co.id",
+  },
+  openGraph: {
+    title: "Sense Isle Studio - Interior & Architecture",
+    description:
+      "Sophisticated, timeless spaces through thoughtful design. Architecture, Interior Design, Renovation, and Custom Furniture.",
+    url: "https://sensestudio.co.id",
+    siteName: "Sense Isle Studio",
+    locale: "en_US",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -32,16 +63,9 @@ export default function RootLayout({
       className={`${montserrat.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-black text-white">
-        {/* Navbar tampil di semua halaman */}
         <Navbar />
-
-        {/* Konten halaman akan mengisi ruang kosong, mendorong footer ke bawah */}
         <main className="flex-grow">{children}</main>
-
-        {/* 2. Footer dipasang di sini agar selalu tampil di bagian paling bawah */}
         <Footer />
-
-        {/* Tombol WhatsApp mengapung di semua halaman */}
         <WhatsAppFloat />
       </body>
     </html>
