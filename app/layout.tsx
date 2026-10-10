@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sensestudio.co.id"),
+  metadataBase: new URL("https://www.sensestudio.co.id"),
 
   // Template: nama studio di DEPAN, judul halaman di BELAKANG
   title: {
@@ -39,13 +39,13 @@ export const metadata: Metadata = {
     "Interior and Architecture Studio",
   ],
   alternates: {
-    canonical: "https://sensestudio.co.id",
+    canonical: "https://www.sensestudio.co.id",
   },
   openGraph: {
     title: "Sense Isle Studio - Interior & Architecture",
     description:
       "Sophisticated, timeless spaces through thoughtful design. Architecture, Interior Design, Renovation, and Custom Furniture.",
-    url: "https://sensestudio.co.id",
+    url: "https://www.sensestudio.co.id",
     siteName: "Sense Isle Studio",
     locale: "en_US",
     type: "website",

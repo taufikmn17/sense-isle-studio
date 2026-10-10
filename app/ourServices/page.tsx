@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     "Sense Isle Studio",
   ],
   alternates: {
-    canonical: "https://sensestudio.co.id/ourServices",
+    canonical: "https://www.sensestudio.co.id/ourServices",
   },
   openGraph: {
     title: "Sense Isle Studio - Our Services",
     description:
       "Architecture Services, Interior Design, Home & Office Renovation, and Custom-Built Furniture. Discover how Sense Isle Studio brings timeless design to life.",
-    url: "https://sensestudio.co.id/ourServices",
+    url: "https://www.sensestudio.co.id/ourServices",
     siteName: "Sense Isle Studio",
     locale: "en_US",
     type: "website",
