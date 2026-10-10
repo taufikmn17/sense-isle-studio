@@ -103,7 +103,7 @@ export default function Hero() {
           </div>
         ))}
         {/* Overlay Gelap Tipis */}
-        <div className="absolute inset-0 bg-black/20 z-20" />
+        <div className="absolute inset-0 bg-black/40 z-20" />
       </div>
 
       {/* Konten Utama */}
@@ -111,7 +111,8 @@ export default function Hero() {
         {/* Sisi Kiri: Judul dan Keterangan */}
         <div className="flex flex-col justify-start lg:justify-between text-left max-w-2xl transition-all duration-500 ease-in-out w-full lg:flex-1 min-w-0 gap-6 lg:gap-0">
           <div>
-            <span className="text-[10px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.25em] uppercase text-zinc-300 mb-2 sm:mb-3 drop-shadow whitespace-normal block">
+            {/* Perubahan ada di sini: font tetap font-light, tapi warna diubah dari text-zinc-300 menjadi text-white */}
+            <span className="text-[10px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.25em] uppercase text-white mb-2 sm:mb-3 drop-shadow whitespace-normal block">
               {currentSlide.category}
             </span>
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-[0.05em] sm:tracking-[0.1em] uppercase text-white drop-shadow-lg mb-2 sm:mb-4 leading-tight w-full">

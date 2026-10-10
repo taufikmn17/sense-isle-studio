@@ -138,18 +138,18 @@ export default function ServicesClient() {
                       }`}
                     />
 
-                    {/* Dark Gradient Overlay */}
-                    <div className="absolute inset-0 bg-black/20" />
+                    {/* Dark Gradient Overlay (diperbarui menjadi bg-black/40 sama seperti di Hero) */}
+                    <div className="absolute inset-0 bg-black/40 z-20" />
 
-                    <div className="relative z-10 flex items-start justify-between">
+                    <div className="relative z-30 flex items-start justify-between">
                       <span className="text-5xl md:text-6xl font-extralight tracking-widest text-white/90">
                         {service.id}
                       </span>
                       <div className="text-white">{service.icon}</div>
                     </div>
 
-                    <div className="relative z-10 mt-12">
-                      <span className="block text-[10px] uppercase tracking-[0.25em] text-white/80 font-light mb-2">
+                    <div className="relative z-30 mt-12">
+                      <span className="block text-[10px] uppercase tracking-[0.25em] text-white font-light mb-2">
                         {service.subtitle}
                       </span>
                       <h2 className="text-2xl md:text-4xl font-light tracking-[0.05em] text-white leading-snug">
