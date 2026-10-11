@@ -97,7 +97,7 @@ export default function ContactClient() {
                       >
                         <span className="w-1 h-1 bg-zinc-500 rounded-full group-hover:bg-white transition-colors" />
                         <span>Call</span>
-                        <span className="text-zinc-400">·</span>
+                        <span className="text-zinc-400">:</span>
                         <span>+62 897-0587-487</span>
                       </a>
 
@@ -110,7 +110,7 @@ export default function ContactClient() {
                       >
                         <span className="w-1 h-1 bg-zinc-500 rounded-full group-hover:bg-white transition-colors" />
                         <span>WhatsApp</span>
-                        <span className="text-zinc-400">·</span>
+                        <span className="text-zinc-400">:</span>
                         <span>+62 897-0587-487</span>
                       </a>
                     </div>
