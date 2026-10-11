@@ -85,12 +85,10 @@ export default function ContactClient() {
                   </div>
                   <div>
                     <h3 className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-light mb-1">
-                      Phone Line / WhatsApp
+                      Phone Line
                     </h3>
                     <a
-                      href="https://wa.me/628970587487"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="tel:+628970587487"
                       className="text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 block"
                     >
                       +62 897-0587-487
