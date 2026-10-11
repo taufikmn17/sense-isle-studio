@@ -24,16 +24,13 @@ export const metadata: Metadata = {
     description:
       "Browse our completed projects — timeless architecture, refined interiors, and custom-crafted spaces by Sense Isle Studio.",
     url: "https://www.sensestudio.co.id/portfolio",
-    siteName: "Sense Isle Studio",
-    locale: "en_US",
-    type: "website",
   },
 };
 
 export default async function PortfolioPage() {
   const { data, overflow } = await getPortfolioData();
 
-  // ✅ Jika ada data yang melampaui MAX → tampilkan 404
+  // ✅ Jika ada data yang melampaui MAX
   if (overflow) {
     notFound();
   }

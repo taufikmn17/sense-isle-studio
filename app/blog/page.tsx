@@ -24,16 +24,13 @@ export const metadata: Metadata = {
     description:
       "Insights, tips, and inspiration on architecture, interior design, renovation, and custom furniture from Sense Isle Studio.",
     url: "https://www.sensestudio.co.id/blog",
-    siteName: "Sense Isle Studio",
-    locale: "en_US",
-    type: "website",
   },
 };
 
 export default async function BlogPage() {
   const { data, overflow } = await getBlogData();
 
-  // ✅ Jika ada data yang melampaui MAX → tampilkan 404
+  // ✅ Jika ada data yang melampaui MAX
   if (overflow) {
     notFound();
   }

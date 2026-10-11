@@ -21,9 +21,6 @@ export const metadata: Metadata = {
     description:
       "Discover the story, philosophy, and team behind Sense Isle Studio — creating sophisticated, timeless spaces through thoughtful design.",
     url: "https://www.sensestudio.co.id/about",
-    siteName: "Sense Isle Studio",
-    locale: "en_US",
-    type: "website",
   },
 };
 

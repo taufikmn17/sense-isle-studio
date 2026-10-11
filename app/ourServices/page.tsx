@@ -23,9 +23,6 @@ export const metadata: Metadata = {
     description:
       "Architecture Services, Interior Design, Home & Office Renovation, and Custom-Built Furniture. Discover how Sense Isle Studio brings timeless design to life.",
     url: "https://www.sensestudio.co.id/ourServices",
-    siteName: "Sense Isle Studio",
-    locale: "en_US",
-    type: "website",
   },
 };
 

@@ -23,9 +23,6 @@ export const metadata: Metadata = {
     description:
       "Reach out to Sense Isle Studio for architecture, interior design, renovation, and custom furniture consultations. Let's create something timeless together.",
     url: "https://www.sensestudio.co.id/contact",
-    siteName: "Sense Isle Studio",
-    locale: "en_US",
-    type: "website",
   },
 };
 
