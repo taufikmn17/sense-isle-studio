@@ -191,7 +191,17 @@ export default function ContactClient() {
                       "Contact Page Google Maps Link"
                     )
                   }
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-white transition-colors duration-200 border border-white/20 px-4 py-2"
+                  className="
+    inline-flex items-center gap-2 
+    px-4 py-2 
+    border border-white/40 
+    bg-black/20 
+    hover:bg-white hover:text-black 
+    active:bg-white active:text-black 
+    text-white text-xs uppercase tracking-[0.2em] 
+    backdrop-blur-md transition-all duration-300 
+    whitespace-nowrap
+  "
                 >
                   <span>Open Maps</span>
                   <ExternalLink size={14} strokeWidth={1.5} />
