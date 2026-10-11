@@ -78,21 +78,42 @@ export default function ContactClient() {
                   </div>
                 </div>
 
-                {/* Phone / WhatsApp (Clickable) */}
+                {/* Phone / WhatsApp (Clickable — user bisa pilih) */}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full bg-zinc-900 border border-white/15 flex items-center justify-center text-white shrink-0 mt-1">
                     <Phone size={18} strokeWidth={1.5} />
                   </div>
                   <div>
                     <h3 className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-light mb-1">
-                      Phone Line
+                      Phone Line / WhatsApp
                     </h3>
-                    <a
-                      href="tel:+628970587487"
-                      className="text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 block"
-                    >
-                      +62 897-0587-487
-                    </a>
+
+                    {/* ✅ Dua link — user bisa pilih */}
+                    <div className="flex flex-col gap-1.5 mt-2">
+                      {/* Opsi 1: Telepon */}
+                      <a
+                        href="tel:+628970587487"
+                        className="inline-flex items-center gap-2 text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 group"
+                      >
+                        <span className="w-1 h-1 bg-zinc-500 rounded-full group-hover:bg-white transition-colors" />
+                        <span>Call</span>
+                        <span className="text-zinc-400">·</span>
+                        <span>+62 897-0587-487</span>
+                      </a>
+
+                      {/* Opsi 2: WhatsApp */}
+                      <a
+                        href="https://wa.me/628970587487"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 group"
+                      >
+                        <span className="w-1 h-1 bg-zinc-500 rounded-full group-hover:bg-white transition-colors" />
+                        <span>WhatsApp</span>
+                        <span className="text-zinc-400">·</span>
+                        <span>+62 897-0587-487</span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
