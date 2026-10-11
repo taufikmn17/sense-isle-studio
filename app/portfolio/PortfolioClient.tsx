@@ -118,15 +118,12 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-zinc-400 text-sm tracking-[0.15em] uppercase font-light mb-4">
-              Failed to load.
+            <p className="text-white text-sm tracking-[0.15em] uppercase font-medium mb-2">
+              No projects available at the moment.
             </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 rounded-lg hover:bg-white hover:text-black transition-colors"
-            >
-              Reload Page
-            </button>
+            <p className="text-zinc-400 text-xs tracking-wider">
+              Please check back later.
+            </p>
           </div>
         )}
       </div>

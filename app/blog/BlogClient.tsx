@@ -139,15 +139,12 @@ export default function BlogClients({ data }: BlogClientsProps) {
       {hasNoData && (
         <section className="w-full bg-black py-20">
           <div className="text-center">
-            <p className="text-zinc-400 text-sm tracking-[0.15em] uppercase font-light mb-4">
-              No articles available.
+            <p className="text-white text-sm tracking-[0.15em] uppercase font-medium mb-2">
+              No articles available at the moment.
             </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 text-xs uppercase tracking-[0.2em] border border-white/40 hover:bg-white hover:text-black transition-colors"
-            >
-              Reload Page
-            </button>
+            <p className="text-zinc-400 text-xs tracking-wider">
+              Please check back later.
+            </p>
           </div>
         </section>
       )}

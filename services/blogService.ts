@@ -25,7 +25,7 @@ const BlogPostSchema = z.object({
     .transform((val) => String(val).trim())
     .default(""),
 
-  description: z.string().max(10000).default(""),
+  description: z.string().max(15000).default(""),
 });
 
 const BlogArraySchema = z.array(BlogPostSchema).max(500);
