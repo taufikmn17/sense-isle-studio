@@ -116,7 +116,7 @@ export default function ContactClient() {
                     </h3>
 
                     <div className="flex flex-col gap-1.5 mt-2">
-                      {/* Call */}
+                      {/* Call (✅ Tracked) */}
                       <a
                         href="tel:+628970587487"
                         onClick={() =>
@@ -133,7 +133,7 @@ export default function ContactClient() {
                         <span>+62 897-0587-487</span>
                       </a>
 
-                      {/* WhatsApp */}
+                      {/* WhatsApp (✅ Tracked) */}
                       <a
                         href="https://wa.me/628970587487"
                         target="_blank"
@@ -180,10 +180,17 @@ export default function ContactClient() {
                     Find Us on Map
                   </h2>
                 </div>
+                {/* Open Maps (✅ Tracked) */}
                 <a
                   href="https://maps.google.com/?q=Jl.+Manyar+Tirtoyoso+Utara+III+No.6,+Klampis+Ngasem,+Kec.+Sukolilo,+Surabaya,+Jawa+Timur+60117"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() =>
+                    handleContactClick(
+                      "click_maps",
+                      "Contact Page Google Maps Link"
+                    )
+                  }
                   className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-zinc-400 hover:text-white transition-colors duration-200 border border-white/20 px-4 py-2"
                 >
                   <span>Open Maps</span>
