@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
   // Template: nama studio di DEPAN, judul halaman di BELAKANG
   title: {
-    default: "Sense Isle Studio - Interior & Architecture",
+    default: "Sense Isle Studio - Architect, Interior Design & Build",
     template: "Sense Isle Studio - %s",
   },
   description:

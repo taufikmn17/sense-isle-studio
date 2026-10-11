@@ -36,7 +36,7 @@ export async function generateMetadata({
     .slice(0, 160);
 
   return {
-    title: `${post.title}`,
+    title: post.title,
     description,
     openGraph: {
       title: post.title,
