@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import BlogClients from "./BlogClient";
 import { getBlogData } from "@/services/blogService";
 
@@ -30,11 +31,16 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-  const posts = await getBlogData();
+  const { data, overflow } = await getBlogData();
+
+  // ✅ Jika ada data yang melampaui MAX → tampilkan 404
+  if (overflow) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <BlogClients data={posts} />
+      <BlogClients data={data} />
     </div>
   );
 }

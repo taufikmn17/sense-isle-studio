@@ -13,7 +13,23 @@ function safeImageSrc(item: PortfolioItem): string {
 }
 
 export default async function HomePortfolio() {
-  const data = await getPortfolioData();
+  const { data, overflow } = await getPortfolioData();
+
+  // ✅ Jika data overflow → tampilkan pesan, bukan sembunyikan section
+  if (overflow) {
+    return (
+      <section className="py-16 w-full bg-black text-white">
+        <div className="w-full max-w-7xl mx-auto px-4 text-center py-20">
+          <p className="text-white text-sm tracking-[0.15em] uppercase font-medium mb-2">
+            Portfolio temporarily unavailable.
+          </p>
+          <p className="text-zinc-400 text-xs tracking-wider">
+            Please check back later.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   // Urutkan dari yang terbaru (ID terbesar / Tahun terbaru)
   const sortedData = [...data].sort((a, b) => {
@@ -55,10 +71,10 @@ export default async function HomePortfolio() {
         {residentialProjects.length > 0 && (
           <div className="mb-16">
             <div className="mb-6 border-l-2 border-zinc-500 pl-4">
-              <h3 className="text-xl md:text-2xl font-light uppercase tracking-[0.2em] text-white">
+              <h3 className="text-xl md:text-2xl font-light tracking-[0.2em] text-white">
                 Residential
               </h3>
-              <p className="text-xs text-zinc-300 uppercase tracking-[0.15em] font-light mt-1">
+              <p className="text-xs text-zinc-300 tracking-[0.15em] font-light mt-1">
                 Private living spaces & retreats
               </p>
             </div>
@@ -78,10 +94,12 @@ export default async function HomePortfolio() {
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
+                    {/* ✅ Kategori — tanpa uppercase, tampil sesuai input Sheets */}
+                    <span className="text-[11px] tracking-[0.2em] text-zinc-300 font-light block mb-1">
                       {project.category}
                     </span>
-                    <h4 className="text-base md:text-lg font-light uppercase tracking-[0.15em] text-white">
+                    {/* ✅ Judul — tanpa uppercase, tampil sesuai input Sheets */}
+                    <h4 className="text-base md:text-lg font-light tracking-[0.15em] text-white">
                       {project.title}
                     </h4>
                   </div>
@@ -95,10 +113,10 @@ export default async function HomePortfolio() {
         {commercialProjects.length > 0 && (
           <div className="mb-16">
             <div className="mb-6 border-l-2 border-zinc-500 pl-4">
-              <h3 className="text-xl md:text-2xl font-light uppercase tracking-[0.2em] text-white">
+              <h3 className="text-xl md:text-2xl font-light tracking-[0.2em] text-white">
                 Commercial
               </h3>
-              <p className="text-xs text-zinc-300 uppercase tracking-[0.15em] font-light mt-1">
+              <p className="text-xs text-zinc-300 tracking-[0.15em] font-light mt-1">
                 Public spaces, retail & offices
               </p>
             </div>
@@ -118,10 +136,10 @@ export default async function HomePortfolio() {
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
+                    <span className="text-[11px] tracking-[0.2em] text-zinc-300 font-light block mb-1">
                       {project.category}
                     </span>
-                    <h4 className="text-base md:text-lg font-light uppercase tracking-[0.15em] text-white">
+                    <h4 className="text-base md:text-lg font-light tracking-[0.15em] text-white">
                       {project.title}
                     </h4>
                   </div>
@@ -135,10 +153,10 @@ export default async function HomePortfolio() {
         {hospitalityProjects.length > 0 && (
           <div className="mb-12">
             <div className="mb-6 border-l-2 border-zinc-500 pl-4">
-              <h3 className="text-xl md:text-2xl font-light uppercase tracking-[0.2em] text-white">
+              <h3 className="text-xl md:text-2xl font-light tracking-[0.2em] text-white">
                 Hospitality
               </h3>
-              <p className="text-xs text-zinc-300 uppercase tracking-[0.15em] font-light mt-1">
+              <p className="text-xs text-zinc-300 tracking-[0.15em] font-light mt-1">
                 Hotels, resorts & leisure spaces
               </p>
             </div>
@@ -158,10 +176,10 @@ export default async function HomePortfolio() {
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
+                    <span className="text-[11px] tracking-[0.2em] text-zinc-300 font-light block mb-1">
                       {project.category}
                     </span>
-                    <h4 className="text-base md:text-lg font-light uppercase tracking-[0.15em] text-white">
+                    <h4 className="text-base md:text-lg font-light tracking-[0.15em] text-white">
                       {project.title}
                     </h4>
                   </div>

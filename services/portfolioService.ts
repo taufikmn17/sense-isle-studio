@@ -2,15 +2,23 @@ import { z } from "zod";
 import { unstable_cache } from "next/cache";
 
 // =====================================================================
-// SCHEMA VALIDASI (mitigasi: Insecure Deserialization, Type Confusion,
-// data cacat yang bisa merusak render / memicu DoS sisi klien)
+// SCHEMA VALIDASI (per-item, bukan per-array)
 // =====================================================================
 const PortfolioItemSchema = z.object({
-  id: z.union([z.string(), z.number()]),
+  // ✅ id: wajib string/number, max 50 karakter, tidak boleh kosong
+  id: z
+    .union([z.string(), z.number()])
+    .transform((val) => String(val).trim())
+    .pipe(
+      z
+        .string()
+        .min(1, "ID is required")
+        .max(50, "ID is too long (max 50 characters)")
+    ),
+
   title: z.string().max(200).default(""),
   category: z.string().max(100).default(""),
 
-  // Jika input berupa teks random / bukan https yang valid, ubah otomatis menjadi string kosong ("")
   image: z
     .any()
     .transform((val) => {
@@ -36,20 +44,68 @@ const PortfolioItemSchema = z.object({
     .default(""),
 
   location: z.string().max(200).default(""),
-  year: z.union([z.string(), z.number()]),
+
+  year: z
+    .union([z.string(), z.number()])
+    .transform((val) => String(val).trim())
+    .pipe(z.string().max(10))
+    .default(""),
+
   description: z.string().max(5000).default(""),
   purpose: z.string().max(200).default(""),
 });
 
-// Batasi ukuran array untuk mencegah payload raksasa membebani SSR (DoS)
-const PortfolioArraySchema = z.array(PortfolioItemSchema).max(500);
-
 export type PortfolioItem = z.infer<typeof PortfolioItemSchema>;
+
+// Batas maksimum array (mencegah payload raksasa / DoS)
+const MAX_ARRAY_SIZE = 500;
+
+// =====================================================================
+// HASIL VALIDASI: bedakan antara "kosong" vs "over-limit"
+// =====================================================================
+export interface PortfolioValidationResult {
+  data: PortfolioItem[];
+  overflow: boolean; // true jika ADA item yang melampaui MAX
+}
+
+function validatePortfolioPayload(rawData: unknown): PortfolioValidationResult {
+  if (!Array.isArray(rawData)) {
+    return { data: [], overflow: false };
+  }
+
+  // Jika JUMLAH item melampaui MAX_ARRAY_SIZE → overflow
+  if (rawData.length > MAX_ARRAY_SIZE) {
+    return { data: [], overflow: true };
+  }
+
+  const validItems: PortfolioItem[] = [];
+  let hasOverflow = false;
+
+  for (const item of rawData) {
+    // ✅ Baris tanpa ID / bukan object → skip, JANGAN tandai overflow
+    if (
+      !item ||
+      typeof item !== "object" ||
+      !("id" in item) ||
+      String((item as Record<string, unknown>).id ?? "").trim() === ""
+    ) {
+      continue;
+    }
+
+    const parsed = PortfolioItemSchema.safeParse(item);
+    if (parsed.success) {
+      validItems.push(parsed.data);
+    } else {
+      // ✅ Baris dengan ID valid tapi ada field over-limit → overflow (404)
+      hasOverflow = true;
+    }
+  }
+
+  return { data: validItems, overflow: hasOverflow };
+}
 
 // =====================================================================
 // SAFE LOGGER
-// Tidak pernah mencetak payload mentah / detail internal ke log produksi.
-// Di production, hanya pesan generik + metadata ringkas yang dicatat.
 // =====================================================================
 function safeLog(message: string, meta?: Record<string, unknown>) {
   if (process.env.NODE_ENV !== "production") {
@@ -58,52 +114,38 @@ function safeLog(message: string, meta?: Record<string, unknown>) {
   } else {
     // eslint-disable-next-line no-console
     console.error(`[portfolioService] ${message}`);
-    // TODO: kirim ke logging service (Sentry/Datadog) dengan meta yang sudah
-    // disaring (jangan sertakan payload/URL mentah).
   }
 }
 
-// Membatasi panjang string yang boleh masuk ke log (mitigasi log injection /
-// log flooding lewat parameter seperti `id`)
 function sanitizeForLog(value: unknown): string {
   return String(value)
     .replace(/[\r\n]/g, " ")
     .slice(0, 100);
 }
 
-const FETCH_TIMEOUT_MS = 12000; // dinaikkan dari 8000 - Apps Script kadang cold start
-const MAX_RETRIES = 2; // total percobaan = 1 awal + 2 retry = 3x
+const FETCH_TIMEOUT_MS = 12000;
+const MAX_RETRIES = 2;
 const RETRY_DELAY_MS = 700;
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// =====================================================================
-// FALLBACK MEMORY CACHE
-// Menyimpan data valid TERAKHIR yang berhasil didapat, dalam variabel
-// module-level. Ini bertahan selama instance server function masih "warm"
-// (tidak reset tiap request, tapi bisa reset saat cold start baru di Vercel).
-// Tujuannya: kalau semua percobaan fetch gagal, kita tampilkan data lama
-// yang masih valid daripada array kosong / UI "Failed to load".
-// =====================================================================
 let lastGoodData: PortfolioItem[] | null = null;
 
 // =====================================================================
-// Satu kali percobaan fetch + validasi. TIDAK pakai Next fetch-cache
-// (cache: "no-store") supaya setiap retry benar-benar hit jaringan,
-// bukan kena cache dari percobaan sebelumnya.
+// Satu kali percobaan fetch + validasi per-item
 // =====================================================================
-async function fetchOnce(url: string): Promise<PortfolioItem[] | null> {
+async function fetchOnce(
+  url: string
+): Promise<PortfolioValidationResult | null> {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
 
   try {
     const res = await fetch(url, {
       cache: "no-store",
-      headers: {
-        Accept: "application/json",
-      },
+      headers: { Accept: "application/json" },
       signal: controller.signal,
     });
 
@@ -119,17 +161,7 @@ async function fetchOnce(url: string): Promise<PortfolioItem[] | null> {
     }
 
     const rawData = await res.json();
-
-    const parsed = PortfolioArraySchema.safeParse(rawData);
-
-    if (!parsed.success) {
-      safeLog("Data source payload failed schema validation", {
-        issueCount: parsed.error.issues.length,
-      });
-      return null;
-    }
-
-    return parsed.data;
+    return validatePortfolioPayload(rawData);
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
       safeLog("Data source request timed out");
@@ -143,89 +175,95 @@ async function fetchOnce(url: string): Promise<PortfolioItem[] | null> {
 }
 
 // =====================================================================
-// Fetch dengan retry. Mencoba beberapa kali sebelum benar-benar menyerah -
-// mengatasi kegagalan sesaat (cold start Apps Script, limit eksekusi
-// simultan, dsb) yang sifatnya sementara.
+// Fetch dengan retry
 // =====================================================================
-async function fetchWithRetry(url: string): Promise<PortfolioItem[] | null> {
+async function fetchWithRetry(
+  url: string
+): Promise<PortfolioValidationResult | null> {
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     const result = await fetchOnce(url);
-    if (result !== null) {
-      return result;
-    }
+    if (result !== null) return result;
     if (attempt < MAX_RETRIES) {
-      await delay(RETRY_DELAY_MS * (attempt + 1)); // backoff bertahap
+      await delay(RETRY_DELAY_MS * (attempt + 1));
     }
   }
   return null;
 }
 
 // =====================================================================
-// Fungsi inti yang di-cache oleh Next.js (unstable_cache) - BUKAN fetch
-// mentahnya. Ini memastikan yang tersimpan di cache bersama (dipakai semua
-// user) adalah HASIL YANG SUDAH TERVALIDASI, bukan respons mentah yang bisa
-// jadi HTML error ber-status 200 dari Apps Script.
+// Fungsi inti yang di-cache Next.js
 // =====================================================================
 const getCachedPortfolioData = unstable_cache(
-  async (url: string): Promise<PortfolioItem[]> => {
-    const data = await fetchWithRetry(url);
+  async (url: string): Promise<PortfolioValidationResult> => {
+    const result = await fetchWithRetry(url);
 
-    if (data !== null) {
-      lastGoodData = data; // simpan sebagai fallback untuk kegagalan berikutnya
-      return data;
+    if (result !== null) {
+      // Jika overflow, JANGAN simpan sebagai lastGoodData (data tidak layak)
+      if (!result.overflow) {
+        lastGoodData = result.data;
+      }
+      return result;
     }
 
-    // Semua percobaan gagal - pakai data valid terakhir kalau ada,
-    // daripada langsung mengembalikan array kosong ke semua user.
+    // Semua percobaan gagal - pakai data valid terakhir kalau ada
     if (lastGoodData !== null) {
       safeLog("Using last known good data after all retries failed");
-      return lastGoodData;
+      return { data: lastGoodData, overflow: false };
     }
 
-    // PENTING: tidak ada fallback sama sekali (misal baru cold start dan
-    // Apps Script juga lagi bermasalah). Lempar error di sini, JANGAN
-    // "return []" - kalau return [], unstable_cache akan menyimpan array
-    // kosong itu sebagai "hasil sukses" selama 30 menit penuh. Dengan
-    // melempar error, Next.js TIDAK menyimpan hasil ini ke cache, sehingga
-    // request berikutnya akan langsung mencoba fetch ulang dari awal,
-    // bukan menunggu jadwal revalidate berikutnya.
+    // Tidak ada fallback → lempar error agar TIDAK tersimpan ke cache
     throw new Error("Portfolio data unavailable and no fallback exists");
   },
   ["portfolio-data"],
   {
-    revalidate: 3600, // 1 jam - ini cuma JARING PENGAMAN kalau on-demand revalidation gagal terpicu
-    tags: ["portfolio"], // dipakai revalidateTag() di /api/revalidate untuk update instan
+    revalidate: 3600,
+    tags: ["portfolio"],
   }
 );
 
-export async function getPortfolioData(): Promise<PortfolioItem[]> {
+export async function getPortfolioData(): Promise<PortfolioValidationResult> {
   const WEB_APP_URL = process.env.APPS_SCRIPT_URL;
 
   if (!WEB_APP_URL) {
     safeLog("Data source URL is not configured");
-    return lastGoodData ?? [];
+    return { data: lastGoodData ?? [], overflow: false };
   }
 
   try {
     return await getCachedPortfolioData(WEB_APP_URL);
-  } catch (error) {
+  } catch {
     safeLog("Unexpected error while retrieving cached portfolio data");
-    return lastGoodData ?? [];
+    return { data: lastGoodData ?? [], overflow: false };
   }
+}
+
+// =====================================================================
+// GET PORTFOLIO BY ID — return { item, overflow } agar bisa deteksi over-limit
+// =====================================================================
+export interface PortfolioByIdResult {
+  item: PortfolioItem | null;
+  overflow: boolean;
 }
 
 export async function getPortfolioById(
   id: string | number
-): Promise<PortfolioItem | null> {
+): Promise<PortfolioByIdResult> {
   try {
-    const data = await getPortfolioData();
-    if (!data || data.length === 0) return null;
+    const { data, overflow } = await getPortfolioData();
 
-    const item = data.find((p) => String(p.id) === String(id));
-    return item || null;
+    // ✅ Kalau ada data over-limit → return overflow = true
+    if (overflow) {
+      return { item: null, overflow: true };
+    }
+
+    if (!data || data.length === 0) {
+      return { item: null, overflow: false };
+    }
+
+    const item = data.find((p) => String(p.id) === String(id)) || null;
+    return { item, overflow: false };
   } catch {
-    // `id` disaring dulu sebelum masuk log (mitigasi log injection)
     safeLog("Failed to look up portfolio by id", { id: sanitizeForLog(id) });
-    return null;
+    return { item: null, overflow: false };
   }
 }

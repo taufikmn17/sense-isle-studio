@@ -186,7 +186,8 @@ export default function BlogClients({ data }: BlogClientsProps) {
               <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
                 <div>
                   <div className="flex items-center gap-4 text-xs font-light text-zinc-400 tracking-wider mb-3">
-                    <span className="flex items-center gap-1.5 uppercase text-[10px] tracking-[0.2em] bg-white/10 px-2.5 py-1 text-white">
+                    {/* ✅ Kategori — tanpa uppercase, tampil sesuai input Sheets */}
+                    <span className="flex items-center gap-1.5 text-[10px] tracking-[0.2em] bg-white/10 px-2.5 py-1 text-white">
                       <Tag size={12} /> {featuredPost.category}
                     </span>
                     <span className="flex items-center gap-1.5">
@@ -285,7 +286,8 @@ export default function BlogClients({ data }: BlogClientsProps) {
                         />
                         {/* Overlay dikunci tetap bg-black/20 tanpa efek hover */}
                         <div className="absolute inset-0 bg-black/20" />
-                        <span className="absolute top-4 left-4 z-10 text-[10px] uppercase tracking-[0.2em] bg-black/60 backdrop-blur-md px-2.5 py-1 text-white border border-white/10">
+                        {/* ✅ Kategori card — tanpa uppercase */}
+                        <span className="absolute top-4 left-4 z-10 text-[10px] tracking-[0.2em] bg-black/60 backdrop-blur-md px-2.5 py-1 text-white border border-white/10">
                           {post.category}
                         </span>
                       </div>

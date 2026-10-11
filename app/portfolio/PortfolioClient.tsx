@@ -105,10 +105,12 @@ export default function PortfolioClient({ data }: PortfolioClientProps) {
                   />
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
                   <div className="absolute bottom-0 left-0 w-full p-6 z-10">
-                    <span className="text-[11px] uppercase tracking-[0.2em] text-zinc-300 font-light block mb-1">
+                    {/* ✅ Kategori — tanpa uppercase */}
+                    <span className="text-[11px] tracking-[0.2em] text-zinc-300 font-light block mb-1">
                       {project.category}
                     </span>
-                    <h4 className="text-base md:text-lg font-light uppercase tracking-[0.15em] text-white">
+                    {/* ✅ Judul — tanpa uppercase */}
+                    <h4 className="text-base md:text-lg font-light tracking-[0.15em] text-white">
                       {project.title}
                     </h4>
                   </div>

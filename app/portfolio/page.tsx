@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import PortfolioClient from "./PortfolioClient";
 import { getPortfolioData } from "@/services/portfolioService";
 
@@ -30,11 +31,16 @@ export const metadata: Metadata = {
 };
 
 export default async function PortfolioPage() {
-  const portfolioData = await getPortfolioData();
+  const { data, overflow } = await getPortfolioData();
+
+  // ✅ Jika ada data yang melampaui MAX → tampilkan 404
+  if (overflow) {
+    notFound();
+  }
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
-      <PortfolioClient data={portfolioData} />
+      <PortfolioClient data={data} />
     </div>
   );
 }
