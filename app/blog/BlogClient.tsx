@@ -27,6 +27,14 @@ function makeExcerpt(text: string, max = 160): string {
   return clean.length > max ? clean.slice(0, max).trimEnd() + "..." : clean;
 }
 
+/**
+ * Sanitasi aman: Hanya membuang karakter HTML/script berbahaya (< dan >)
+ * agar spasi dan karakter normal lainnya tetap berjalan bebas tanpa terpotong.
+ */
+function sanitizeSearchQuery(input: string): string {
+  return input.replace(/[<>]/g, "");
+}
+
 export default function BlogClients({ data }: BlogClientsProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -58,6 +66,7 @@ export default function BlogClients({ data }: BlogClientsProps) {
   }, [data]);
 
   const filteredPosts = useMemo(() => {
+    // Trim hanya dilakukan di sini saat pencarian diproses, bukan pada state input langsung
     const query = searchQuery.toLowerCase().trim();
     if (!query) return sortedPosts;
 
@@ -81,10 +90,12 @@ export default function BlogClients({ data }: BlogClientsProps) {
   const hasNoData = !data || data.length === 0;
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value.length <= 100) {
+    const rawValue = e.target.value;
+
+    if (rawValue.length <= 60) {
+      const sanitizedValue = sanitizeSearchQuery(rawValue);
       startTransition(() => {
-        setSearchQuery(value);
+        setSearchQuery(sanitizedValue);
       });
     }
   };
@@ -119,7 +130,9 @@ export default function BlogClients({ data }: BlogClientsProps) {
                 onChange={handleSearchChange}
                 placeholder="Search articles, topics..."
                 aria-label="Search articles"
-                maxLength={100}
+                maxLength={60}
+                autoComplete="off"
+                spellCheck="false"
                 className="w-full bg-zinc-900 border border-white/15 rounded-none py-3 pl-10 pr-10 text-xs md:text-sm text-white placeholder-zinc-500 font-light tracking-wider focus:outline-none focus:border-white transition-colors"
               />
               {searchQuery && (
@@ -179,14 +192,12 @@ export default function BlogClients({ data }: BlogClientsProps) {
                     isFeaturedActive ? "scale-105" : "group-hover:scale-105"
                   }`}
                 />
-                {/* Overlay dikunci tetap bg-black/20 tanpa efek hover */}
                 <div className="absolute inset-0 bg-black/20" />
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
                 <div>
                   <div className="flex items-center gap-4 text-xs font-light text-zinc-400 tracking-wider mb-3">
-                    {/* ✅ Kategori — tanpa uppercase, tampil sesuai input Sheets */}
                     <span className="flex items-center gap-1.5 text-[10px] tracking-[0.2em] bg-white/10 px-2.5 py-1 text-white">
                       <Tag size={12} /> {featuredPost.category}
                     </span>
@@ -284,9 +295,7 @@ export default function BlogClients({ data }: BlogClientsProps) {
                             isActive ? "scale-105" : "group-hover:scale-105"
                           }`}
                         />
-                        {/* Overlay dikunci tetap bg-black/20 tanpa efek hover */}
                         <div className="absolute inset-0 bg-black/20" />
-                        {/* ✅ Kategori card — tanpa uppercase */}
                         <span className="absolute top-4 left-4 z-10 text-[10px] tracking-[0.2em] bg-black/60 backdrop-blur-md px-2.5 py-1 text-white border border-white/10">
                           {post.category}
                         </span>

@@ -1,7 +1,30 @@
+"use client";
+
 import Link from "next/link";
+
+// Deklarasi global agar TypeScript mengenali gtag
+declare global {
+  interface Window {
+    gtag?: (
+      command: string,
+      action: string,
+      params?: Record<string, unknown>
+    ) => void;
+  }
+}
 
 export default function WhatsAppFloat() {
   const whatsappUrl = "https://wa.me/628970587487";
+
+  // Fungsi untuk mencatat event klik ke Google Analytics
+  const handleWhatsAppClick = () => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", "click_whatsapp", {
+        event_category: "Contact",
+        event_label: "Floating WhatsApp Button",
+      });
+    }
+  };
 
   return (
     <Link
@@ -9,6 +32,7 @@ export default function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat WhatsApp"
+      onClick={handleWhatsAppClick}
       className="
         fixed bottom-6 z-50
         w-14 h-14 sm:w-16 sm:h-16
@@ -18,7 +42,6 @@ export default function WhatsAppFloat() {
         shadow-lg
         transition-all duration-300
         hover:scale-110
-        /* Mengatur posisi horizontal agar sejajar dengan container max-w-7xl ber-padding responsif */
         right-4 sm:right-6 lg:right-[max(1rem,calc((100vw-80rem)/2+1.5rem))]
       "
     >

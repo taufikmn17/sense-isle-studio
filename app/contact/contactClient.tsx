@@ -2,7 +2,28 @@
 
 import { Mail, MapPin, Phone, ExternalLink } from "lucide-react";
 
+// Deklarasi global untuk gtag
+declare global {
+  interface Window {
+    gtag?: (
+      command: string,
+      action: string,
+      params?: Record<string, unknown>
+    ) => void;
+  }
+}
+
 export default function ContactClient() {
+  // Fungsi pelacakan klik kontak
+  const handleContactClick = (actionName: string, label: string) => {
+    if (typeof window !== "undefined" && window.gtag) {
+      window.gtag("event", actionName, {
+        event_category: "Contact",
+        event_label: label,
+      });
+    }
+  };
+
   return (
     <main className="w-full text-white min-h-screen bg-black">
       {/* Header Section (Black Background) */}
@@ -23,7 +44,7 @@ export default function ContactClient() {
         </div>
       </div>
 
-      {/* Main Content Section (Zinc Background matching reference) */}
+      {/* Main Content Section */}
       <section className="w-full bg-zinc-900 border-t border-white/10 py-16 md:py-24">
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -60,7 +81,7 @@ export default function ContactClient() {
                   </div>
                 </div>
 
-                {/* Email (Standard mailto) */}
+                {/* Email (Tracked) */}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full bg-zinc-900 border border-white/15 flex items-center justify-center text-white shrink-0 mt-1">
                     <Mail size={18} strokeWidth={1.5} />
@@ -71,6 +92,12 @@ export default function ContactClient() {
                     </h3>
                     <a
                       href="mailto:sensestudio.id@gmail.com"
+                      onClick={() =>
+                        handleContactClick(
+                          "click_email",
+                          "Contact Page Email Link"
+                        )
+                      }
                       className="text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 block"
                     >
                       sensestudio.id@gmail.com
@@ -78,7 +105,7 @@ export default function ContactClient() {
                   </div>
                 </div>
 
-                {/* Phone / WhatsApp (Clickable — user bisa pilih) */}
+                {/* Phone / WhatsApp (Tracked) */}
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-full bg-zinc-900 border border-white/15 flex items-center justify-center text-white shrink-0 mt-1">
                     <Phone size={18} strokeWidth={1.5} />
@@ -88,11 +115,16 @@ export default function ContactClient() {
                       Phone Line / WhatsApp
                     </h3>
 
-                    {/* ✅ Dua link — user bisa pilih */}
                     <div className="flex flex-col gap-1.5 mt-2">
-                      {/* Opsi 1: Telepon */}
+                      {/* Call */}
                       <a
                         href="tel:+628970587487"
+                        onClick={() =>
+                          handleContactClick(
+                            "click_phone",
+                            "Contact Page Phone Link"
+                          )
+                        }
                         className="inline-flex items-center gap-2 text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 group"
                       >
                         <span className="w-1 h-1 bg-zinc-500 rounded-full group-hover:bg-white transition-colors" />
@@ -101,11 +133,17 @@ export default function ContactClient() {
                         <span>+62 897-0587-487</span>
                       </a>
 
-                      {/* Opsi 2: WhatsApp */}
+                      {/* WhatsApp */}
                       <a
                         href="https://wa.me/628970587487"
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() =>
+                          handleContactClick(
+                            "click_whatsapp",
+                            "Contact Page WhatsApp Link"
+                          )
+                        }
                         className="inline-flex items-center gap-2 text-sm font-light text-zinc-200 hover:text-white hover:underline transition-colors duration-200 group"
                       >
                         <span className="w-1 h-1 bg-zinc-500 rounded-full group-hover:bg-white transition-colors" />
@@ -153,10 +191,10 @@ export default function ContactClient() {
                 </a>
               </div>
 
-              {/* Responsive Google Maps Iframe with border thickness */}
+              {/* Responsive Google Maps Iframe */}
               <div className="w-full h-[400px] md:h-[480px] border-[10px] border-black relative overflow-hidden bg-black shadow-inner">
                 <iframe
-                  title="Aethelgard Studio Location"
+                  title="Sense Isle Studio Location"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.6585147576517!2d112.7634676!3d-7.2796123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7f95147820bb1%3A0x1d4715978f6974e!2sJl.%20Manyar%20Tirtoyoso%20Utara%20III%20No.6%2C%20Klampis%20Ngasem%2C%20Kec.%20Sukolilo%2C%20Kota%20SBY%2C+Jawa%20Timur%2060117!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
                   width="100%"
                   height="100%"
