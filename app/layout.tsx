@@ -54,7 +54,6 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico",
   },
 
-  // ✅ OPEN GRAPH — Preview share (WhatsApp, Facebook, Twitter, LinkedIn)
   openGraph: {
     title: "Sense Isle Studio - Interior & Architecture",
     description:
@@ -85,12 +84,12 @@ export default function RootLayout({
       className={`${montserrat.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        {/* Google Analytics Script */}
+        {/* Google Analytics Script - Diubah ke lazyOnload agar performa mobile meningkat drastis */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-Y44EZSNHKC"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
