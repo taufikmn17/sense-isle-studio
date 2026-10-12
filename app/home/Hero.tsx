@@ -98,6 +98,8 @@ export default function Hero() {
               alt={slide.alt}
               fill
               priority={index === 0}
+              fetchPriority="high" // <-- Tambahkan baris ini untuk mendongkrak performa LCP
+              sizes="100vw" // <-- Pastikan ukuran viewport terdefinisi dengan baik
               className="object-cover object-center w-full h-full brightness-90"
             />
           </div>
