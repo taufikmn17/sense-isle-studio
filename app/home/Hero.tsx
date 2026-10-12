@@ -84,34 +84,24 @@ export default function Hero() {
 
   return (
     <header className="relative w-full h-auto min-h-[650px] lg:min-h-[calc(100vh-theme(spacing.16))] flex flex-col justify-center py-12 overflow-hidden">
-      {/* Background Images Slider - Dioptimalkan agar hanya slide aktif/utama yang diprioritaskan */}
-      <div className="absolute inset-0 z-0 overflow-hidden bg-zinc-900">
-        {slides.map((slide, index) => {
-          const isActive = index === currentIndex;
-          // Hanya render gambar aktif atau slide pertama di awal untuk meringankan beban LCP
-          if (!isActive && index !== 0) return null;
-
-          return (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                isActive
-                  ? "opacity-100 z-10"
-                  : "opacity-0 z-0 pointer-events-none"
-              }`}
-            >
-              <Image
-                src={slide.image}
-                alt={slide.alt}
-                fill
-                priority={index === 0}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                sizes="100vw"
-                className="object-cover object-center w-full h-full brightness-90"
-              />
-            </div>
-          );
-        })}
+      {/* Background Images Sliderrr */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          >
+            <Image
+              src={slide.image}
+              alt={slide.alt}
+              fill
+              priority={index === 0}
+              className="object-cover object-center w-full h-full brightness-90"
+            />
+          </div>
+        ))}
         {/* Overlay Gelap Tipis */}
         <div className="absolute inset-0 bg-black/40 z-20" />
       </div>
@@ -121,6 +111,7 @@ export default function Hero() {
         {/* Sisi Kiri: Judul dan Keterangan */}
         <div className="flex flex-col justify-start lg:justify-between text-left max-w-2xl transition-all duration-500 ease-in-out w-full lg:flex-1 min-w-0 gap-6 lg:gap-0">
           <div>
+            {/* Perubahan ada di sini: font tetap font-light, tapi warna diubah dari text-zinc-300 menjadi text-white */}
             <span className="text-[10px] sm:text-xs md:text-sm font-light tracking-[0.1em] sm:tracking-[0.25em] uppercase text-white mb-2 sm:mb-3 drop-shadow whitespace-normal block">
               {currentSlide.category}
             </span>
@@ -143,7 +134,7 @@ export default function Hero() {
 
         {/* Sisi Kanan: Judul Our Services & Kategori Vertikal */}
         <div className="flex flex-col justify-start lg:justify-between items-start lg:items-end shrink-0 w-full lg:w-[280px] gap-3 lg:gap-0">
-          <h3 className="text-xs sm:text-sm md:text-base font-light uppercase tracking-[0.15em] sm:text-right text-white mb-2 lg:mb-1 text-left w-full">
+          <h3 className="text-xs sm:text-sm md:text-base font-light uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white mb-2 lg:mb-1 text-left lg:text-right w-full">
             Our Services
           </h3>
 
@@ -161,7 +152,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Bagian Bawah Tengah: Tombol Navigasi Slider */}
+      {/* Bagian Bawah Tengah: Tombol Geser Kiri, Indikator Progress, & Tombol Geser Kanan */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-4 sm:gap-6 text-white">
         <button
           onClick={prevSlide}
